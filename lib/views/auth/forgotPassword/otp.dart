@@ -154,7 +154,7 @@ OtpFieldController otpController = OtpFieldController();
                           ),
                       ButtonWithFuction(text: "Continue", onPressed: () {
                           Navigator.of(context)
-                              .pushReplacementNamed(AppRoutes.changePassword);
+                              .pushNamed(AppRoutes.changePassword);
                       }),
                     ],
                   ),

@@ -204,7 +204,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 32.0, vertical: 16),
                   child: ButtonWithFuction(text: 'Submit', onPressed: () {
-                     Navigator.of(context).pushReplacementNamed(AppRoutes.loginScreen);
+                     Navigator.of(context).pushNamed(AppRoutes.loginScreen);
                   }),
                 ),
              

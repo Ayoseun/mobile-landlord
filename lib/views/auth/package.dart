@@ -36,7 +36,7 @@ class _PackageState extends State<Package> {
                   Positioned(
                       left: _getSize.width * 0.05,
                       bottom: _getSize.height * 0.15,
-                      child: Image.asset(AppImages.back)),
+                      child: Image.asset(AppImages.back,width: 36,)),
                 ],
               ),
               SizedBox(

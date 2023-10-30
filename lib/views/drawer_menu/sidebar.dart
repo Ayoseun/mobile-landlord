@@ -147,7 +147,7 @@ class SideBar extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Image.asset(AppImages.help),
+                          Image.asset(AppImages.help,width: 24,),
                           SizedBox(
                             width: _getSize.width * 0.02,
                           ),
@@ -186,7 +186,7 @@ class SideBar extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Image.asset(AppImages.tc),
+                          Image.asset(AppImages.tc,width: 24,),
                           SizedBox(
                             width: _getSize.width * 0.02,
                           ),
@@ -213,7 +213,7 @@ class SideBar extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Image.asset(AppImages.logout),
+                      Image.asset(AppImages.logout,width: 24,),
                       SizedBox(
                         width: _getSize.width * 0.02,
                       ),
@@ -244,7 +244,7 @@ class items extends StatelessWidget {
       children: [
         Row(
           children: [
-            Image.asset(img),
+            Image.asset(img,width: 24,),
             SizedBox(
               width: 12,
             ),

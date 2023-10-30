@@ -210,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: _getSize.height * 0.01),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pushReplacementNamed(AppRoutes.forgotPassword);
+                Navigator.of(context).pushNamed(AppRoutes.forgotPassword);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -238,7 +238,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       horizontal: 32.0, vertical: 16),
                   child: ButtonWithFuction(text: 'Login', onPressed: () {
                         Navigator.of(context)
-                              .pushNamed(AppRoutes.loadHome);
+                              .pushReplacementNamed(AppRoutes.loadHome);
                   }),
                 ),
                 SizedBox(height: _getSize.height * 0.01),

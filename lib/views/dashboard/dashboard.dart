@@ -307,9 +307,12 @@ class _DashboardState extends State<Dashboard> {
                                       );
                                     }
                                   },
-                                  child: const Padding(
+                                  child: Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Icon(Icons.search),
+                                    child: Image.asset(
+                                      AppImages.search,
+                                      width: 24,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -336,12 +339,9 @@ class _DashboardState extends State<Dashboard> {
                         height: _getSize.height * 0.01,
                       ),
                       properties(getSize: _getSize),
-                      SizedBox(
-                        height: _getSize.height * 0.025,
-                      ),
                       middle(getSize: _getSize),
                       SizedBox(
-                        height: _getSize.height * 0.025,
+                        height: _getSize.height * 0.035,
                       ),
                       bottom(getSize: _getSize)
                     ],
@@ -368,139 +368,151 @@ class properties extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         width: _getSize.width,
-        
-        height: _getSize.height*0.41,
+        height: _getSize.height * 0.41,
         child: ListView.builder(
             itemCount: 5,
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return Padding(
-                padding:  EdgeInsets.only(right:_getSize.width*0.1),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Stack(
-                      children: [
-                        Image.asset(
-                          AppImages.condo1,
-                          fit: BoxFit.contain,
-                          width: _getSize.width * 0.5,
-                        ),
-                        Positioned(
-                          left: _getSize.width * 0.03,
-                          bottom: _getSize.height * 0.11,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color.fromARGB(47, 101, 105, 100),
-                                    blurRadius: 11,
-                                    spreadRadius: 1,
-                                    offset: Offset(0, 5),
-                                  )
-                                ],
-                                border:
-                                    Border.all(width: 0.3, color: Pallete.fade),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(3))),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 16),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "7",
-                                    style: AppFonts.body1.copyWith(
-                                        color: Pallete.primaryColor,
-                                        fontSize: 16),
-                                  ),
-                                  SizedBox(width: _getSize.width * 0.01),
-                                  Text("Rentals",
+              return GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(AppRoutes.propDetails);
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(right: _getSize.width * 0.02),
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Image.asset(
+                            AppImages.condo1,
+                            fit: BoxFit.contain,
+                            width: _getSize.width * 0.5,
+                          ),
+                          Positioned(
+                            left: _getSize.width * 0.03,
+                            bottom: _getSize.height * 0.11,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color.fromARGB(47, 101, 105, 100),
+                                      blurRadius: 11,
+                                      spreadRadius: 1,
+                                      offset: Offset(0, 5),
+                                    )
+                                  ],
+                                  border: Border.all(
+                                      width: 0.3, color: Pallete.fade),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(3))),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 16),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "7",
                                       style: AppFonts.body1.copyWith(
                                           color: Pallete.primaryColor,
-                                          fontSize: 16))
-                                ],
+                                          fontSize: 16),
+                                    ),
+                                    SizedBox(width: _getSize.width * 0.01),
+                                    Text("Rentals",
+                                        style: AppFonts.body1.copyWith(
+                                            color: Pallete.primaryColor,
+                                            fontSize: 16))
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: _getSize.height * 0.01,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "The Spring Lounge",
-                          style: AppFonts.boldText.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w900,
-                              color: Color(0xFF333436)),
-                        ),
-                        SizedBox(
-                          height: _getSize.height * 0.005,
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(AppImages.estate),
-                            SizedBox(
-                              width: _getSize.width * 0.008,
-                            ),
-                            Text(
-                              "Condo Apartment",
-                              style: AppFonts.body1
-                                  .copyWith(color: Pallete.fade, fontSize: 14),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: _getSize.height * 0.015,
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(AppImages.location),
-                            SizedBox(
-                              width: _getSize.width * 0.008,
-                            ),
-                            Text(
-                              "24 commercial avenue Kampal",
-                              style: AppFonts.body1
-                                  .copyWith(color: Pallete.fade, fontSize: 14),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: _getSize.height * 0.015,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Description",
+                        ],
+                      ),
+                      SizedBox(
+                        height: _getSize.height * 0.01,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "The Spring Lounge",
                             style: AppFonts.boldText.copyWith(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w900,
-                                color: Color(0xFF333436))),
-                        SizedBox(
-                          height: _getSize.height * 0.005,
-                        ),
-                        SizedBox(
-                            width: _getSize.width * 0.5,
-                          child: Text(
-                            "Bright, spacious 2-bedroom apartment in a quiet neighborhood. Close to shops, restaurants, and public transportation.",
-                            style: AppFonts.body1.copyWith(fontSize: 14),
+                                color: Color(0xFF333436)),
                           ),
+                          SizedBox(
+                            height: _getSize.height * 0.005,
+                          ),
+                          Row(
+                            children: [
+                              Image.asset(
+                                AppImages.estate,
+                                width: 20,
+                              ),
+                              SizedBox(
+                                width: _getSize.width * 0.008,
+                              ),
+                              Text(
+                                "Condo Apartment",
+                                style: AppFonts.body1.copyWith(
+                                    color: Pallete.fade, fontSize: 14),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: _getSize.height * 0.01,
+                          ),
+                          Row(
+                            children: [
+                              Image.asset(AppImages.location, width: 14),
+                              SizedBox(
+                                width: _getSize.width * 0.008,
+                              ),
+                              Text(
+                                "24 commercial avenue Kampal",
+                                overflow: TextOverflow.ellipsis,
+                                style: AppFonts.body1.copyWith(
+                                    color: Pallete.fade, fontSize: 14),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: _getSize.height * 0.01,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Description",
+                                style: AppFonts.boldText.copyWith(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w900,
+                                    color: Color(0xFF333436))),
+                            SizedBox(
+                              height: _getSize.height * 0.0025,
+                            ),
+                            SizedBox(
+                              width: _getSize.width * 0.5,
+                              child: Text(
+                                "Bright, spacious 2-bedroom apartment in a quiet neighborhood. Close to shops, restaurants, and public transportation.",
+                                maxLines: 4,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppFonts.body1.copyWith(fontSize: 12),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               );
             }));
@@ -527,7 +539,7 @@ class middle extends StatelessWidget {
               color: Color.fromARGB(97, 29, 89, 103),
               boxShadow: [
                 BoxShadow(
-         color: Color.fromARGB(68, 85, 80, 80),
+                  color: Color.fromARGB(68, 85, 80, 80),
                   blurRadius: 11,
                   spreadRadius: 1,
                   offset: Offset(0, 5),
@@ -549,7 +561,11 @@ class middle extends StatelessWidget {
                           fontSize: 16,
                           color: Color(0xFF1D5A67),
                         )),
-                    Image.asset(AppImages.estate),
+                    Image.asset(
+                      AppImages.estate,
+                      width: 24,
+                      color: Color(0xFF1D5A67),
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -588,7 +604,7 @@ class middle extends StatelessWidget {
               color: Color(0xFFFCDBB5),
               boxShadow: [
                 BoxShadow(
-               color: Color.fromARGB(68, 85, 80, 80),
+                  color: Color.fromARGB(68, 85, 80, 80),
                   blurRadius: 11,
                   spreadRadius: 1,
                   offset: Offset(0, 5),
@@ -717,66 +733,61 @@ class bottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: _getSize.height * 0.25,
-      width: _getSize.width,
-      decoration: BoxDecoration(
-          color: Pallete.whiteColor,
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xACE7E7E7),
-              blurRadius: 11,
-              spreadRadius: 1,
-              offset: Offset(0, 5),
-            )
-          ],
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: _getSize.width,
-            height: _getSize.height * 0.13,
-            decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 88, 108, 84),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0xACE7E7E7),
-                    blurRadius: 11,
-                    spreadRadius: 1,
-                    offset: Offset(0, 5),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: _getSize.height * 0.25,
+        width: _getSize.width,
+        decoration: BoxDecoration(
+            color: Pallete.whiteColor,
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromARGB(89, 113, 109, 109),
+                blurRadius: 7,
+                spreadRadius: 1,
+                offset: Offset(1, 2),
+              )
+            ],
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              width: _getSize.width,
+              height: _getSize.height * 0.13,
+              decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 88, 108, 84),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      topLeft: Radius.circular(10))),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Explore our different plans for ",
+                    style: AppFonts.body1
+                        .copyWith(fontSize: 20, color: Pallete.whiteColor),
+                  ),
+                  Text(
+                    "advanced features and benefits!",
+                    style: AppFonts.body1
+                        .copyWith(fontSize: 20, color: Pallete.whiteColor),
                   )
                 ],
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    topLeft: Radius.circular(10))),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Explore our different plans for ",
-                  style: AppFonts.body1
-                      .copyWith(fontSize: 20, color: Pallete.whiteColor),
-                ),
-                Text(
-                  "advanced features and benefits!",
-                  style: AppFonts.body1
-                      .copyWith(fontSize: 20, color: Pallete.whiteColor),
-                )
-              ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Abja",
-              style: AppFonts.boldText.copyWith(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(49, 40, 54, 36)),
-            ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Abja",
+                style: AppFonts.boldText.copyWith(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(49, 40, 54, 36)),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

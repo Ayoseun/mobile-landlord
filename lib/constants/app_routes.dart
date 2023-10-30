@@ -4,6 +4,7 @@ import 'package:abjalandlord/views/auth/package.dart';
 import 'package:abjalandlord/views/auth/register/register.dart';
 import 'package:abjalandlord/views/dashboard/dashboard.dart';
 import 'package:abjalandlord/views/drawer_menu/sidebar.dart';
+import 'package:abjalandlord/views/property/details/property-details.dart';
 import 'package:flutter/widgets.dart';
 
 import '../views/auth/forgotPassword/change_password.dart';
@@ -14,7 +15,7 @@ import '../views/navbar/nav.dart';
 
 class AppRoutes {
   static const dashboardScreen = '/dashboardScreen';
-  static const storeScreen = '/storeScreen';
+  static const propDetails = '/propDetails';
   static const welcomeScreen = '/welcomeScreen';
   static const chat = '/chatScreen';
   static const speakWithDoc = './speakWithDoc';
@@ -57,6 +58,7 @@ class AppRoutes {
         AppRoutes.package: (context) =>Package(),
          AppRoutes.dashboardScreen: (context) =>Dashboard(),
               AppRoutes.navbar: (context) =>NavBar(),
+                   AppRoutes.propDetails: (context) =>PropertyDetails(),
     };
   }
 }

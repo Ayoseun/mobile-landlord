@@ -112,7 +112,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 32.0, vertical: 16),
                   child: ButtonWithFuction(text: 'Get OTP', onPressed: () {
-                     Navigator.of(context).pushReplacementNamed(AppRoutes.resetOTPScreen);
+                     Navigator.of(context).pushNamed(AppRoutes.resetOTPScreen);
                   }),
                 ),
              
