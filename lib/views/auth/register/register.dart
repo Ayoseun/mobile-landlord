@@ -350,7 +350,7 @@ class _SignUpState extends State<SignUp> {
                         text: 'Sign Up',
                         onPressed: () {
                           Navigator.of(context)
-                              .pushReplacementNamed(AppRoutes.registerOTPScreen);
+                              .pushNamed(AppRoutes.registerOTPScreen);
                         }),
                   ),
                   SizedBox(height: _getSize.height * 0.01),

@@ -114,7 +114,7 @@ class AppFonts {
     ),
   );
 
-    static TextStyle body1 = GoogleFonts.nunito(
+    static TextStyle body1 = GoogleFonts.nunitoSans(
     textStyle: const TextStyle(
       fontSize: 12,
       color: Color.fromARGB(255, 146, 146, 146),

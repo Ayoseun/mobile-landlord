@@ -507,7 +507,7 @@ class _RandomSearchItemState extends State<RandomSearchItem> {
                                                                     child: Image
                                                                         .asset(
                                                                       AppImages
-                                                                          .findProduct,
+                                                                          .boy,
                                                                       width: 48,
                                                                       color: Pallete
                                                                           .secondaryColor,

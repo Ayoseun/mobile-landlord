@@ -9,10 +9,10 @@ import '../../../../constants/app_routes.dart';
 import '../../../../utils/app_utils.dart';
 import '../../utils/local_storage.dart';
 
-
-class NavBar extends StatelessWidget {
+class SideBar extends StatelessWidget {
   String email = 'your email';
   String fullname = '';
+
   var photo;
   inituser() async {
     var close = await clear();
@@ -20,129 +20,246 @@ class NavBar extends StatelessWidget {
     close;
   }
 
-  NavBar(
-      {Key? key, required this.email, required this.fullname, required this.photo,})
-      : super(key: key);
+  SideBar({
+    Key? key,
+    required this.email,
+    required this.fullname,
+    required this.photo,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _getSize = MediaQuery.of(context).size;
     return Drawer(
       child: Container(
-        color: Pallete.whiteColor,
-        child: ListView(
-          // Remove padding
-          padding: EdgeInsets.zero,
-          children: [
-            UserAccountsDrawerHeader(
-              accountName: Text(fullname,
-                  style: AppFonts.body1
-                      .copyWith(color: Colors.black, fontSize: 12)),
-              accountEmail: Text(email,
-                  style: AppFonts.body1
-                      .copyWith(color: Colors.black, fontSize: 12)),
-              currentAccountPicture: CircleAvatar(
-                child: SizedBox(
-                  height: 75,
-                  child: ClipOval(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(100))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                            placeholder: (context, url) => const Center(
-                              child: SpinKitCircle(
-                                size: 25,
-                                color: Pallete.primaryColor,
-                              ),
-                            ),
-                            imageUrl: photo,
-                          ),
-                        ),
+          color: Pallete.whiteColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                  ClipOval(child: Image.network(photo,width: _getSize.width*0.12,)),
+                      SizedBox(
+                        width: _getSize.width * 0.01,
                       ),
-                    ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(fullname, style: AppFonts.body1.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                                color: Color(0xFF382D18)),),
+                          Text(
+                            email,
+                            style: AppFonts.body1.copyWith(
+                                fontWeight: FontWeight.w300,
+                                fontSize: 12,
+                                color: Color(0xFF382D18)),
+                          )
+                        ],
+                      ),
+                    ],
                   ),
-                ),
-              ),
-              decoration: const BoxDecoration(
-                color: Pallete.secondaryColor,
+                  SizedBox(
+                    height: _getSize.height * 0.02,
+                  ),
+                  Container(
+                    width: _getSize.width,
+                    height: _getSize.height * 0.0007,
+                    color: Pallete.fade,
+                  ),
+                  SizedBox(
+                    height: _getSize.height * 0.02,
+                  ),
+                  Column(
+                    children: [
+                      items(
+                        text: "Profile",
+                        img: AppImages.profile,
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      items(
+                        text: "My Properties",
+                        img: AppImages.estate,
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      items(
+                        text: "My Tenants",
+                        img: AppImages.tenant,
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      items(
+                        text: "Requests",
+                        img: AppImages.request,
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      items(
+                        text: "Services",
+                        img: AppImages.services,
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      items(
+                        text: "My Cards",
+                        img: AppImages.card,
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      items(
+                        text: "Settings",
+                        img: AppImages.settings,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: _getSize.height * 0.02,
+                  ),
+                  Container(
+                    width: _getSize.width,
+                    height: _getSize.height * 0.0007,
+                    color: Pallete.fade,
+                  ),
+                  SizedBox(
+                    height: _getSize.height * 0.02,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "General",
+                        style: AppFonts.body1.copyWith(
+                            fontWeight: FontWeight.w900,
+                            color: Pallete.primaryColor),
+                      ),
+                      SizedBox(
+                        height: _getSize.height * 0.005,
+                      ),
+                      Row(
+                        children: [
+                          Image.asset(AppImages.help),
+                          SizedBox(
+                            width: _getSize.width * 0.02,
+                          ),
+                          Text(
+                            "Help and Support",
+                            style: AppFonts.body1.copyWith(
+                                fontWeight: FontWeight.w900,
+                                color: Pallete.primaryColor),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: _getSize.height * 0.02,
+                  ),
+                  Container(
+                    width: _getSize.width,
+                    height: _getSize.height * 0.0007,
+                    color: Pallete.fade,
+                  ),
+                  SizedBox(
+                    height: _getSize.height * 0.02,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Legal",
+                        style: AppFonts.body1.copyWith(
+                            fontWeight: FontWeight.w900,
+                            color: Pallete.primaryColor),
+                      ),
+                      SizedBox(
+                        height: _getSize.height * 0.005,
+                      ),
+                      Row(
+                        children: [
+                          Image.asset(AppImages.tc),
+                          SizedBox(
+                            width: _getSize.width * 0.02,
+                          ),
+                          Text(
+                            "Terms and Conditions",
+                            style: AppFonts.body1.copyWith(
+                                fontWeight: FontWeight.w900,
+                                color: Pallete.primaryColor),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: _getSize.height * 0.02,
+                  ),
+                  Container(
+                    width: _getSize.width,
+                    height: _getSize.height * 0.0007,
+                    color: Pallete.fade,
+                  ),
+                  SizedBox(
+                    height: _getSize.height * 0.02,
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(AppImages.logout),
+                      SizedBox(
+                        width: _getSize.width * 0.02,
+                      ),
+                      Text(
+                        "Log Out",
+                        style: AppFonts.body1.copyWith(
+                            fontWeight: FontWeight.w900,
+                            color: Pallete.primaryColor),
+                      ),
+                    ],
+                  )
+                ],
               ),
             ),
-            ListTile(
-              leading: const Icon(
-          Icons.person,
-                color: Pallete.black,
-              ),
-              title: Text('Profile',
-                  style: AppFonts.body1
-                      .copyWith(color: Colors.black, fontSize: 14)),
-              onTap: () => Navigator.of(context).pushNamed(AppRoutes.profile),
+          )),
+    );
+  }
+}
+
+class items extends StatelessWidget {
+  const items({super.key, required this.text, required this.img});
+  final String text;
+  final String img;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            Image.asset(img),
+            SizedBox(
+              width: 12,
             ),
-            ListTile(
-                leading: const Icon(
-                   Icons.payment_rounded,
-                 
-                  color: Pallete.black,
-                ),
-                title: Text('Orders',
-                    style: AppFonts.body1
-                        .copyWith(color: Colors.black, fontSize: 14)),
-                onTap: () =>
-                    Navigator.of(context).pushNamed(AppRoutes.ordersScreen)),
-            ListTile(
-              leading: const Icon(
-                Icons.share,
-                color: Pallete.black,
-              ),
-              title: Text('Share',
-                  style: AppFonts.body1
-                      .copyWith(color: Colors.black, fontSize: 14)),
-              onTap: () => {
-                Share.share('Download Pharmplug app and get drugs at your convenience')
-              },
-            ),
-            const Divider(),
-            ListTile(
-                leading: const Icon(
-                  Icons.chat_bubble,
-                  color: Pallete.black,
-                ),
-                title: Text('Support',
-                    style: AppFonts.body1
-                        .copyWith(color: Colors.black, fontSize: 14)),
-                onTap: () =>
-                    Navigator.of(context).pushNamed(AppRoutes.support)),
-            ListTile(
-                leading: const Icon(
-                  Icons.error_outline,
-                  color: Pallete.black,
-                ),
-                title: Text('About',
-                    style: AppFonts.body1
-                        .copyWith(color: Colors.black, fontSize: 14)),
-                onTap: () => Navigator.of(context).pushNamed(AppRoutes.about)),
-            const Divider(
-              color: Pallete.text,
-            ),
-            ListTile(
-                title: Text('Exit',
-                    style: AppFonts.body1
-                        .copyWith(color: Colors.black, fontSize: 14)),
-                leading: const Icon(
-                  Icons.exit_to_app,
-                  color: Pallete.hintColor,
-                ),
-                onTap: () {
-                  AppUtils.showAlertDialog(context, 'Are you sure?',
-                      'You wil be logged out', 'Logout', 'cancel', () {
-                    inituser();
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        AppRoutes.loginScreen, (route) => false);
-                  });
-                }),
+            Text(
+              text,
+              style: AppFonts.body1.copyWith(
+                  fontWeight: FontWeight.w900, color: Pallete.primaryColor),
+            )
           ],
         ),
-      ),
+        Icon(
+          Icons.chevron_right,
+          color: Color(0xFF47893F),
+        )
+      ],
     );
   }
 }

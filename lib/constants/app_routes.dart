@@ -1,11 +1,16 @@
+import 'package:abjalandlord/views/auth/loading.dart';
 import 'package:abjalandlord/views/auth/login/login.dart';
+import 'package:abjalandlord/views/auth/package.dart';
 import 'package:abjalandlord/views/auth/register/register.dart';
+import 'package:abjalandlord/views/dashboard/dashboard.dart';
+import 'package:abjalandlord/views/drawer_menu/sidebar.dart';
 import 'package:flutter/widgets.dart';
 
 import '../views/auth/forgotPassword/change_password.dart';
 import '../views/auth/forgotPassword/forgotPassword.dart';
 import '../views/auth/forgotPassword/otp.dart';
 import '../views/auth/register/register_otp.dart';
+import '../views/navbar/nav.dart';
 
 class AppRoutes {
   static const dashboardScreen = '/dashboardScreen';
@@ -31,9 +36,9 @@ class AppRoutes {
   static const ordersScreen = '/ordersScreen';
   static const drugOrdersScreen = '/drugOrdersScreen';
   static const diag = '/diag';
-  static const summary = '/summary';
-  static const cart = '/cart';
-  static const support = '/support';
+  static const package = '/package';
+  static const navbar = '/navbar';
+  static const loadHome = '/loadHome';
   static const privacy = '/privacy';
   static const terms = '/terms';
   static const registerOTPScreen = '/registerOTPScreen';
@@ -46,7 +51,12 @@ class AppRoutes {
       AppRoutes.changePassword: (context) => NewPasswordScreen(),
       AppRoutes.registerOTPScreen: (context) => RegisterOTPScreen(),
       AppRoutes.resetOTPScreen: (context) => ResetOTPScreen(),
-      AppRoutes.loginScreen: (context) => LoginScreen(),AppRoutes.registerScreen: (context) => SignUp(),
+      AppRoutes.loginScreen: (context) => LoginScreen(),
+      AppRoutes.registerScreen: (context) => SignUp(),
+        AppRoutes.loadHome: (context) => LoadingHomeScreen(),
+        AppRoutes.package: (context) =>Package(),
+         AppRoutes.dashboardScreen: (context) =>Dashboard(),
+              AppRoutes.navbar: (context) =>NavBar(),
     };
   }
 }

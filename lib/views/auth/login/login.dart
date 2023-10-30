@@ -236,7 +236,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 32.0, vertical: 16),
-                  child: ButtonWithFuction(text: 'Login', onPressed: () {}),
+                  child: ButtonWithFuction(text: 'Login', onPressed: () {
+                        Navigator.of(context)
+                              .pushNamed(AppRoutes.loadHome);
+                  }),
                 ),
                 SizedBox(height: _getSize.height * 0.01),
                 const LoginNavigation(

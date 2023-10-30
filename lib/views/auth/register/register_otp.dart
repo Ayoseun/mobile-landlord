@@ -154,7 +154,8 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
                             height: _getSize.height * 0.4,
                           ),
                       ButtonWithFuction(text: "Continue", onPressed: () {
-                        
+                          Navigator.of(context)
+                              .pushNamed(AppRoutes.loginScreen);
                       }),
                     ],
                   ),

@@ -7,6 +7,7 @@ import '../../../constants/app_colors.dart';
 import '../../../constants/app_fonts.dart';
 import '../../../constants/app_images.dart';
 
+import '../../../constants/app_routes.dart';
 import '../../../utils/auth_utils/change_password_util.dart';
 import '../../../utils/validator.dart';
 import '../login/validation_text_row.dart';
@@ -58,112 +59,160 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
     });
   }
 
+  bool isSpecialAdded = false;
+
+  String confirmPassword = '';
+  final _registerFormKey = GlobalKey<FormState>();
+  bool value = false;
+  bool passwordVisible = false;
+  String? selectedValue;
   @override
   Widget build(BuildContext context) {
-      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent, // transparent status bar
         statusBarIconBrightness: Brightness.dark // dark text for status bar
         ));
-    final size = MediaQuery.of(context).size;
-    final token = ModalRoute.of(context)!.settings.arguments as int;
-  
+    final _getSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        iconTheme: const IconThemeData(color: Pallete.black),
-      ),
-      body: SafeArea(
-        child: Container(
-          height: size.height,
-          width: size.width,
-          padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        body: Container(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
               children: [
-                SizedBox(
-                  height: size.height * 0.06,
-                ),
-                Text(
-                  // 'Wobia, let’s create a new \npassword',
-                  'Let’s create a new \npassword',
-                  style: AppFonts.coloredHeading,
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                Text(
-                  'Try not to misplace it this time.😉',
-                  style: AppFonts.body1,
-                ),
-                SizedBox(
-                  height: size.height * 0.08,
-                ),
-                Form(
+                Image.asset(AppImages.banner),
+                Positioned(
+                  left: _getSize.width * 0.1,
+                  bottom: _getSize.height * 0.13,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomInput(
-                        obsecure: obsecure,
-                        hint: 'Enter password',
-                        onChanged: (value) {
-                          _checkPasswordStrength(value!);
-                          if (enabled) {
-                            _resetPasswordData['password'] = value;
-                          }
-                        },
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              obsecure = !obsecure;
-                            });
-                          },
-                          child: Image.asset(
-                            obsecure ? AppImages.eyesOn : AppImages.eyesOff,
-                            scale: 4,
-                          ),
-                        ),
-                        onSaved: (value) {},
+                      Text(
+                        'Reset Password',
+                        style: AppFonts.bodyText.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Pallete.primaryColor,
+                            fontSize: 20),
                       ),
                       SizedBox(
-                        height: size.height * 0.02,
+                        height: _getSize.height * 0.005,
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Enter new password',
+                            style: AppFonts.bodyText.copyWith(
+                              color: Pallete.whiteColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          
+                        ],
+                      ),
+                   
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                  ValidationTextRow(
-                  text: 'Add a Capital Letter',
-                  passed: isLetterAdded,
-                ),
-                ValidationTextRow(
-                  text: 'Add a number',
-                  passed: isNumAdded,
-                ),
-                ValidationTextRow(
-                  text: 'Contain more than 8 characters',
-                  passed: isAboveEight,
-                ),
-                SizedBox(
-                  height: size.height * 0.06,
-                ),
-                CustomButton(
-                  text: 'Next',
-                  enabled: enabled,
-                  onpressed: enabled
-                      ? () =>
-                    
-                         ResetPasswordUtil .resetPassword(context, _resetPasswordData):
-                       () {},
-                ),
               ],
             ),
-          ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24),
+              child: Column(
+                children: [
+                 
+                          CustomInput3(
+                            validator: Validators.passwordValidator,
+                            obsecure: !passwordVisible,
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  //call set state so that the UI is rebuilt on click
+                                  setState(() {
+                                    //loop through either state when clicked
+                                    passwordVisible = !passwordVisible;
+                                  });
+                                },
+                                icon: Icon(
+                                  // if password visibilty is default false set icon to visible icon or else set to hide icon
+                                  passwordVisible
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off,
+                                  color: Pallete.fade, size: 18,
+                                )),
+                            label: 'Password',
+                            hint: 'New Password',
+                            onChanged: (String? value) {
+                              confirmPassword = value!;
+                            },
+                            onSaved: (value) {
+                              _resetPasswordData['password'] = value;
+                            },
+                          ),
+                          SizedBox(
+                            height: _getSize.height * 0.05,
+                          ),
+                          CustomInput3(
+                            obsecure: !passwordVisible,
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  //call set state so that the UI is rebuilt on click
+                                  setState(() {
+                                    //loop through either state when clicked
+                                    passwordVisible = !passwordVisible;
+                                  });
+                                },
+                                icon: Icon(
+                                  // if password visibilty is default false set icon to visible icon or else set to hide icon
+                                  passwordVisible
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off,
+                                  color: Pallete.fade, size: 18,
+                                )),
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
+                                return 'Confirm password cannot be empty';
+                              }
+                              if (value != confirmPassword) {
+                                return 'Password does not match';
+                              }
+                              return null;
+                            },
+                            label: 'Confirm Password',
+                            hint: 'Confirm Password',
+                            onSaved: (value) {
+                              //_registerData['password'] = value;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                ],
+              ),
+            ),
+            SizedBox(height: _getSize.height * 0.01),
+
+            SizedBox(height: _getSize.height * 0.15),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32.0, vertical: 16),
+                  child: ButtonWithFuction(text: 'Submit', onPressed: () {
+                     Navigator.of(context).pushReplacementNamed(AppRoutes.loginScreen);
+                  }),
+                ),
+             
+              ],
+            ),
+          ],
         ),
       ),
-    );
+    ));
   }
 }
-

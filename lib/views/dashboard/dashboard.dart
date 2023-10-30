@@ -6,7 +6,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_fonts.dart';
@@ -80,7 +80,10 @@ class _DashboardState extends State<Dashboard> {
       'text': 'Order for a lab test'
     },
     {'image': "assets/images/icons/upload.png", 'text': 'Upload Prescription'},
-    {'image': "assets/images/images/support_doc.jpeg", 'text': 'Ask Pharm Josy'},
+    {
+      'image': "assets/images/images/support_doc.jpeg",
+      'text': 'Ask Pharm Josy'
+    },
   ];
   List<Map> med = [
     {
@@ -129,7 +132,7 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     getName();
     getData();
-     
+
     super.initState();
   }
 
@@ -147,67 +150,22 @@ class _DashboardState extends State<Dashboard> {
     final Size = MediaQuery.of(context).size;
     final walkThroughItem = PharmItems.loadItems();
     List<Widget> items = [];
-    for (var item in _sliderItem) {
-      items.add(SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: _getSize.height * 0.21,
-              child: ClipRRect(
-                child: Image.asset(
-                  item.image,
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.fitHeight,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: _getSize.height * 0.005,
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                      text: 'Get',
-                      style: AppFonts.body1.copyWith(
-                        color: Pallete.black,
-                        fontSize: _getSize.height * 0.015,
-                      )),
-                  TextSpan(
-                      text: ' prescribed medications',
-                      style: AppFonts.body1.copyWith(
-                          color: Pallete.black,
-                          fontSize: _getSize.height * 0.02,
-                          fontWeight: FontWeight.bold)),
-                  TextSpan(
-                      text: ' catered for you',
-                      style: AppFonts.body1.copyWith(
-                        color: Pallete.black,
-                        fontSize: _getSize.height * 0.015,
-                      )),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ));
-    }
 
     return Scaffold(
       key: _scaffoldKey,
-      drawer: NavBar(
-        email: email,
-        fullname: fullname,
+      drawer: SideBar(
+        email: "ayoseunsolomon@gmai.com",
+        fullname: "ayo solomon",
         photo: photo,
       ),
       backgroundColor: Pallete.backgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: SingleChildScrollView(
             child: Container(
+              width: _getSize.width,
+              height: _getSize.height,
               child: Column(
                 children: [
                   Column(
@@ -254,22 +212,16 @@ class _DashboardState extends State<Dashboard> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Hi ',
-                                              style: AppFonts.boldTextPrimary
-                                                  .copyWith(
-                                                      color: Pallete.black,
-                                                      fontSize: 18),
+                                              'Hello ',
+                                              style: AppFonts.bodyText.copyWith(
+                                                  color: Pallete.primaryColor,
+                                                  fontSize: 18),
                                             ),
                                             Text(
-                                              name,
-                                              style: AppFonts.boldTextPrimary
-                                                  .copyWith(
-                                                      color: Pallete.black,
-                                                      fontSize: 18),
-                                            ),
-                                            Image.asset(
-                                              AppImages.waver,
-                                              height: 25,
+                                              "Daniel",
+                                              style: AppFonts.bodyText.copyWith(
+                                                  color: Pallete.primaryColor,
+                                                  fontSize: 18),
                                             ),
                                           ],
                                         ),
@@ -297,44 +249,19 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                               GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(AppRoutes.ordersScreen);
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 0.5,
-                                      color: Color.fromARGB(255, 212, 216, 211),
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(50)),
-                                  ),
+                                  onTap: () {},
                                   child: Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Image.asset(
-                                            AppImages.order,
-                                            width: 16,
-                                            height: 16,
-                                            color: Pallete.primaryColor,
-                                          ),
-                                          Text(
-                                            'Orders',
-                                            style: AppFonts.bodyThinColoured
-                                                .copyWith(
-                                                    fontSize: 8,
-                                                    color: Pallete.black),
-                                          )
-                                        ],
-                                      )),
-                                ),
-                              )
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Image.asset(
+                                      AppImages.boy,
+                                      width: 56,
+                                      height: 56,
+                                    ),
+                                  ))
                             ],
                           ),
                           SizedBox(
-                            height: _getSize.height * 0.03,
+                            height: _getSize.height * 0.003,
                           ),
                           Container(
                             height: _getSize.height * 0.055,
@@ -356,7 +283,7 @@ class _DashboardState extends State<Dashboard> {
                                     child: TextField(
                                       onChanged: (value) => _runFilter(value),
                                       decoration: const InputDecoration(
-                                        hintText: 'Search for any drugs',
+                                        hintText: 'Search',
                                         border: InputBorder.none,
                                       ),
                                       style:
@@ -380,267 +307,43 @@ class _DashboardState extends State<Dashboard> {
                                       );
                                     }
                                   },
-                                  child: Container(
-                                    height: 50,
-                                    decoration: const BoxDecoration(
-                                      color: Pallete.secondaryColor,
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(10),
-                                        bottomRight: Radius.circular(10),
-                                      ),
-                                    ),
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(Icons.search),
-                                    ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(Icons.search),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: _getSize.height * 0.025,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: _getSize.height * 0.25,
-                            width: Size.width,
-                            child: CarouselSlider(
-                              carouselController: carouselController,
-                              items: items,
-                              //Slider Container properties
-                              options: CarouselOptions(
-                                reverse: true,
-                                autoPlay: true,
-                                height: _getSize.height * 0.3,
-                                viewportFraction: 1,
-                                enlargeCenterPage: true,
-                                enableInfiniteScroll: true,
-                                onPageChanged: (index, reason) {
-                                  setState(() {
-                                    _sliderIndex = index;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: _getSize.height * 0.02,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 15, left: 16),
-                            child: SizedBox(
-                              height: 8,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: _sliderItemLength,
-                                itemBuilder: (BuildContext context, int i) {
-                                  return Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 5, left: 5),
-                                      child: Container(
-                                        width: _sliderIndex == i ? 50 : 8,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: _sliderIndex == i
-                                                ? Pallete.text
-                                                : Color(0xFFC2C2C2)),
-                                      ));
-                                },
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ],
                   ),
                   SizedBox(
-                    height: _getSize.height * 0.045,
+                    height: _getSize.height * 0.02,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'What do you need today?',
-                          style: AppFonts.boldText.copyWith(
-                              fontSize: _getSize.height * 0.02,
-                              fontWeight: FontWeight.w600,
-                              color: Pallete.black),
-                        ),
+                      Text(
+                        'Your Properties',
+                        style: AppFonts.boldText.copyWith(
+                            fontSize: _getSize.height * 0.018,
+                            fontWeight: FontWeight.w300,
+                            color: Pallete.text),
                       ),
                       SizedBox(
-                          height: _getSize.height * 0.15,
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: ListItem.length,
-                              itemBuilder: (BuildContext context, int i) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: InkWell(
-                                    onTap: () {
-                                      if (i == 0) {
-                                        Navigator.of(context)
-                                            .pushNamed(AppRoutes.storeScreen);
-                                      } else if (i == 1) {
-                                        Navigator.of(context)
-                                            .pushNamed(AppRoutes.bookATest);
-                                      } else if (i == 2) {
-                                       // openWhatsAppChatPrescription();
-                                      } else if (i == 3) {
-                                        Navigator.of(context)
-                                            .pushNamed(AppRoutes.speakWithDoc);
-                                      }
-                                    },
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          height: _getSize.height * 0.12,
-                                          width: _getSize.width * 0.27,
-                                          decoration: const BoxDecoration(
-                                              color: Pallete.whiteColor,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Color(0xACE7E7E7),
-                                                  blurRadius: 11,
-                                                  spreadRadius: 1,
-                                                  offset: Offset(0, 5),
-                                                )
-                                              ],
-                                              borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(10),
-                                                  bottomRight:
-                                                      Radius.circular(10))),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 8.0, left: 8, right: 8),
-                                            child: Column(
-                                              children: [
-                                                Image.asset(
-                                                  ListItem[i]['image'],
-                                                  height:
-                                                      _getSize.height * 0.04,
-                                                ),
-                                                SizedBox(
-                                                  height:
-                                                      _getSize.height * 0.007,
-                                                ),
-                                                SizedBox(
-                                                    width:
-                                                        _getSize.width * 0.17,
-                                                    child: Text(
-                                                      ListItem[i]['text'],
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: AppFonts.bodyText
-                                                          .copyWith(
-                                                              fontSize: _getSize
-                                                                      .height *
-                                                                  0.011),
-                                                    ))
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              })),
-                    ],
-                  ),
-                  SizedBox(
-                    height: _getSize.height * 0.025,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(AppRoutes.refer);
-                    },
-                    child: Image.asset(
-                      AppImages.refer,
-                      width: _getSize.width,
-                      height: _getSize.height * 0.15,
-                    ),
-                  ),
-                  SizedBox(
-                    height: _getSize.height * 0.025,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                        height: _getSize.height * 0.01,
+                      ),
+                      properties(getSize: _getSize),
                       SizedBox(
-                          height: _getSize.height * 0.2,
-                          child: ListView.builder(
-                              itemCount: med.length,
-                              physics: BouncingScrollPhysics(),
-                              itemBuilder: (context, i) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                children: [
-                                                  Image.asset(
-                                                    med[i]['image'],
-                                                    height: 40,
-                                                  ),
-                                                  SizedBox(
-                                                    child: Text(
-                                                      med[i]['header'],
-                                                      style: AppFonts.bodyText
-                                                          .copyWith(
-                                                              color: Pallete
-                                                                  .primaryColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w900),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 4,
-                                              ),
-                                              SizedBox(
-                                                  width: _getSize.width * 0.35,
-                                                  child: Text(
-                                                    med[i]['text'],
-                                                    textAlign: TextAlign.start,
-                                                    style: AppFonts.bodyText
-                                                        .copyWith(fontSize: 10),
-                                                  ))
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              })),
+                        height: _getSize.height * 0.025,
+                      ),
+                      middle(getSize: _getSize),
+                      SizedBox(
+                        height: _getSize.height * 0.025,
+                      ),
+                      bottom(getSize: _getSize)
                     ],
                   ),
                 ],
@@ -648,6 +351,432 @@ class _DashboardState extends State<Dashboard> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class properties extends StatelessWidget {
+  const properties({
+    super.key,
+    required Size getSize,
+  }) : _getSize = getSize;
+
+  final Size _getSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: _getSize.width,
+        
+        height: _getSize.height*0.41,
+        child: ListView.builder(
+            itemCount: 5,
+            physics: BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding:  EdgeInsets.only(right:_getSize.width*0.1),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Stack(
+                      children: [
+                        Image.asset(
+                          AppImages.condo1,
+                          fit: BoxFit.contain,
+                          width: _getSize.width * 0.5,
+                        ),
+                        Positioned(
+                          left: _getSize.width * 0.03,
+                          bottom: _getSize.height * 0.11,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color.fromARGB(47, 101, 105, 100),
+                                    blurRadius: 11,
+                                    spreadRadius: 1,
+                                    offset: Offset(0, 5),
+                                  )
+                                ],
+                                border:
+                                    Border.all(width: 0.3, color: Pallete.fade),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(3))),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 16),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "7",
+                                    style: AppFonts.body1.copyWith(
+                                        color: Pallete.primaryColor,
+                                        fontSize: 16),
+                                  ),
+                                  SizedBox(width: _getSize.width * 0.01),
+                                  Text("Rentals",
+                                      style: AppFonts.body1.copyWith(
+                                          color: Pallete.primaryColor,
+                                          fontSize: 16))
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: _getSize.height * 0.01,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "The Spring Lounge",
+                          style: AppFonts.boldText.copyWith(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF333436)),
+                        ),
+                        SizedBox(
+                          height: _getSize.height * 0.005,
+                        ),
+                        Row(
+                          children: [
+                            Image.asset(AppImages.estate),
+                            SizedBox(
+                              width: _getSize.width * 0.008,
+                            ),
+                            Text(
+                              "Condo Apartment",
+                              style: AppFonts.body1
+                                  .copyWith(color: Pallete.fade, fontSize: 14),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: _getSize.height * 0.015,
+                        ),
+                        Row(
+                          children: [
+                            Image.asset(AppImages.location),
+                            SizedBox(
+                              width: _getSize.width * 0.008,
+                            ),
+                            Text(
+                              "24 commercial avenue Kampal",
+                              style: AppFonts.body1
+                                  .copyWith(color: Pallete.fade, fontSize: 14),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: _getSize.height * 0.015,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Description",
+                            style: AppFonts.boldText.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF333436))),
+                        SizedBox(
+                          height: _getSize.height * 0.005,
+                        ),
+                        SizedBox(
+                            width: _getSize.width * 0.5,
+                          child: Text(
+                            "Bright, spacious 2-bedroom apartment in a quiet neighborhood. Close to shops, restaurants, and public transportation.",
+                            style: AppFonts.body1.copyWith(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              );
+            }));
+  }
+}
+
+class middle extends StatelessWidget {
+  const middle({
+    super.key,
+    required Size getSize,
+  }) : _getSize = getSize;
+
+  final Size _getSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          height: _getSize.height * 0.07,
+          width: _getSize.width * 0.28,
+          decoration: BoxDecoration(
+              color: Color.fromARGB(97, 29, 89, 103),
+              boxShadow: [
+                BoxShadow(
+         color: Color.fromARGB(68, 85, 80, 80),
+                  blurRadius: 11,
+                  spreadRadius: 1,
+                  offset: Offset(0, 5),
+                )
+              ],
+              borderRadius: BorderRadius.all(Radius.circular(12))),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text("05",
+                        style: AppFonts.boldText.copyWith(
+                          fontSize: 16,
+                          color: Color(0xFF1D5A67),
+                        )),
+                    Image.asset(AppImages.estate),
+                  ],
+                ),
+                SizedBox(
+                  width: _getSize.width * 0.04,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Total",
+                      style: AppFonts.body1.copyWith(
+                          color: Color(0xFF1D5A67),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      "Property",
+                      style: AppFonts.body1.copyWith(
+                          color: Color(
+                            0xFF1D5A67,
+                          ),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: _getSize.height * 0.07,
+          width: _getSize.width * 0.28,
+          decoration: BoxDecoration(
+              color: Color(0xFFFCDBB5),
+              boxShadow: [
+                BoxShadow(
+               color: Color.fromARGB(68, 85, 80, 80),
+                  blurRadius: 11,
+                  spreadRadius: 1,
+                  offset: Offset(0, 5),
+                )
+              ],
+              borderRadius: BorderRadius.all(Radius.circular(12))),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text("02",
+                        style: AppFonts.boldText
+                            .copyWith(fontSize: 18, color: Color(0xFFF58807))),
+                    Image.asset(
+                      AppImages.house,
+                      color: Color(0xFFF58807),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: _getSize.width * 0.04,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Vacant",
+                      style: AppFonts.body1.copyWith(
+                          color: Color(0xFFF58807),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      "Property",
+                      style: AppFonts.body1.copyWith(
+                          color: Color(
+                            0xFFF58807,
+                          ),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: _getSize.height * 0.07,
+          width: _getSize.width * 0.28,
+          decoration: BoxDecoration(
+              color: Color(0xFFD6B5DE),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(68, 85, 80, 80),
+                  blurRadius: 11,
+                  spreadRadius: 1,
+                  offset: Offset(0, 5),
+                )
+              ],
+              borderRadius: BorderRadius.all(Radius.circular(12))),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      AppImages.rent,
+                      color: Color(0xFF750790),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: _getSize.width * 0.04,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Add",
+                      style: AppFonts.body1.copyWith(
+                          color: Color(0xFF750790),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      "Tenant",
+                      style: AppFonts.body1.copyWith(
+                          color: Color(
+                            0xFF750790,
+                          ),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class bottom extends StatelessWidget {
+  const bottom({
+    super.key,
+    required Size getSize,
+  }) : _getSize = getSize;
+
+  final Size _getSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: _getSize.height * 0.25,
+      width: _getSize.width,
+      decoration: BoxDecoration(
+          color: Pallete.whiteColor,
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xACE7E7E7),
+              blurRadius: 11,
+              spreadRadius: 1,
+              offset: Offset(0, 5),
+            )
+          ],
+          borderRadius: BorderRadius.all(Radius.circular(10))),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: _getSize.width,
+            height: _getSize.height * 0.13,
+            decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 88, 108, 84),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xACE7E7E7),
+                    blurRadius: 11,
+                    spreadRadius: 1,
+                    offset: Offset(0, 5),
+                  )
+                ],
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    topLeft: Radius.circular(10))),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Explore our different plans for ",
+                  style: AppFonts.body1
+                      .copyWith(fontSize: 20, color: Pallete.whiteColor),
+                ),
+                Text(
+                  "advanced features and benefits!",
+                  style: AppFonts.body1
+                      .copyWith(fontSize: 20, color: Pallete.whiteColor),
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Abja",
+              style: AppFonts.boldText.copyWith(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(49, 40, 54, 36)),
+            ),
+          )
+        ],
       ),
     );
   }

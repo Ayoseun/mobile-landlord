@@ -153,7 +153,8 @@ OtpFieldController otpController = OtpFieldController();
                             height: _getSize.height * 0.4,
                           ),
                       ButtonWithFuction(text: "Continue", onPressed: () {
-                        
+                          Navigator.of(context)
+                              .pushReplacementNamed(AppRoutes.changePassword);
                       }),
                     ],
                   ),
