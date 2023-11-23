@@ -414,7 +414,7 @@ class CustomInput3 extends StatelessWidget {
             borderSide: BorderSide(width: 0.5, color: Pallete.primaryColor)),
         enabledBorder: UnderlineInputBorder( borderRadius: BorderRadius.circular(8.0),
             borderSide: BorderSide(width: 0.5, color: Pallete.primaryColor)),
-        labelText: hint,
+        labelText: label,
         suffixIcon: suffixIcon,
         //errorMaxLines: 1,
         errorText: error,

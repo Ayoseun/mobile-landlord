@@ -21,10 +21,10 @@ class Loader extends StatelessWidget {
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 229, 229, 229),
                     borderRadius: BorderRadius.all(Radius.circular(10))),
-            height: 175,width: 275,
+            height: 125,width: 235,
             child:Column(mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SpinKitChasingDots(color: Pallete.primaryColor,),
+                SpinKitRing(color: Pallete.primaryColor,lineWidth: 4.0,),
                
               ],
             )),]

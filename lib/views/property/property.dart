@@ -30,10 +30,7 @@ class _PropertyState extends State<Property> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                Text(""),
-                  Icon(Icons.filter_list)
-                ],
+                children: [Text(""), Icon(Icons.filter_list)],
               ),
               SizedBox(
                 height: _getSize.height * 0.035,
@@ -79,7 +76,7 @@ class _PropertyState extends State<Property> {
                           );
                         }
                       },
-                      child:  Padding(
+                      child: Padding(
                         padding: EdgeInsets.all(12.0),
                         child: Image.asset(AppImages.search),
                       ),
@@ -91,46 +88,59 @@ class _PropertyState extends State<Property> {
                 height: _getSize.height * 0.02,
               ),
               SizedBox(
-                  height: _getSize.height * 0.63,
-                  child: DefaultTabController(
-                    length: 2,
-                    child: Column(
-                      children: [
-                        TabNavBar(
-                          tabIndex: _tabIndex,
-                          tabTextList: const [
-                            'Leased (5)',
-                            'Vacant (2)',
+                   height: _getSize.height * 0.7412,
+                child: Stack(children: [
+                    
+                  SizedBox(
+                      height: _getSize.height*0.9,
+                      child: DefaultTabController(
+                        length: 2,
+                        child: Column(
+                          children: [
+                            TabNavBar(
+                              tabIndex: _tabIndex,
+                              tabTextList: const [
+                                'Leased (5)',
+                                'Vacant (2)',
+                              ],
+                              onTap: (index) {
+                                setState(() {
+                                  _tabIndex = index;
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              height: _getSize.height * 0.6781,
+                              child: TabBarView(
+                                // physics: const NeverScrollableScrollPhysics(),
+                                children: <Widget>[
+                                  tabContent(
+                                    getSize: _getSize,
+                                    items: 5,
+                                  ),
+                                  tabContent(
+                                    getSize: _getSize,
+                                    items: 2,
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
-                          onTap: (index) {
-                            setState(() {
-                              _tabIndex = index;
-                            });
-                          },
                         ),
-                        SizedBox(
-                          height: _getSize.height * 0.55,
-                          child: TabBarView(
-                            // physics: const NeverScrollableScrollPhysics(),
-                            children: <Widget>[
-                              tabContent(
-                                getSize: _getSize,
-                                items: 5,
-                              ),
-                              tabContent(
-                                getSize: _getSize,
-                                items: 2,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  )),
+                      )),
+                           Positioned(
+                    bottom: 60,
+                    child: ButtonWithFuction(
+                      text: 'Add Property',
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(AppRoutes.addProperty);
+                      }),
+                  ) , ]),
+              ),
               SizedBox(
                 height: _getSize.height * 0.02,
               ),
-              ButtonWithFuction(text: 'Add Property', onPressed: () {})
+           
             ],
           ),
         ),
@@ -162,9 +172,13 @@ class tabContent extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () =>    Navigator.of(context)
-                                      .pushNamed(AppRoutes.propDetails),
+
+              if (items==items) {
+                
+              } else {
+                   return GestureDetector(
+                onTap: () =>
+                    Navigator.of(context).pushNamed(AppRoutes.propDetails),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Row(
@@ -191,8 +205,8 @@ class tabContent extends StatelessWidget {
                                       offset: Offset(0, 5),
                                     )
                                   ],
-                                  border:
-                                      Border.all(width: 0.3, color: Pallete.fade),
+                                  border: Border.all(
+                                      width: 0.3, color: Pallete.fade),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(3))),
                               child: Padding(
@@ -313,6 +327,8 @@ class tabContent extends StatelessWidget {
                   ),
                 ),
               );
+           
+              }
             }));
   }
 }

@@ -33,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  buttons_tabbar:
+    dependency: "direct main"
+    description:
+      name: buttons_tabbar
+      sha256: "3f0969c26574ef15c0c9ff1dee42c3c4b0d3563d2c8607804372490fb8b76896"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.8"
   cache_manager:
     dependency: "direct main"
     description:
@@ -121,6 +129,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  dotted_border:
+    dependency: "direct main"
+    description:
+      name: dotted_border
+      sha256: "108837e11848ca776c53b30bc870086f84b62ed6e01c503ed976e8f8c7df9c04"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   email_validator:
     dependency: "direct main"
     description:
@@ -344,6 +360,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  image_stack:
+    dependency: "direct main"
+    description:
+      name: image_stack
+      sha256: a41c2b14779d0c70652eade36eb7353b7bdcd14ca6657177ee83673398b1bef0
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   intl:
     dependency: "direct main"
     description:
@@ -456,6 +480,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.2"
+  path_drawing:
+    dependency: transitive
+    description:
+      name: path_drawing
+      sha256: bbb1934c0cbb03091af082a6389ca2080345291ef07a5fa6d6e078ba8682f977
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   path_parsing:
     dependency: transitive
     description:

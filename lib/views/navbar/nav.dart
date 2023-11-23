@@ -1,5 +1,7 @@
 import 'package:abjalandlord/views/dashboard/dashboard.dart';
+import 'package:abjalandlord/views/notification/notification.dart';
 import 'package:abjalandlord/views/property/property.dart';
+import 'package:abjalandlord/views/search/search.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
@@ -100,7 +102,7 @@ class _NavBarState extends State<NavBar> {
                           minWidth: 40,
                           onPressed: () {
                             setState(() {
-                              currentScreen = Dashboard();
+                              currentScreen = Search();
                               currentTab = 1;
                             });
                           },
@@ -176,7 +178,7 @@ class _NavBarState extends State<NavBar> {
                           minWidth: 40,
                           onPressed: () {
                             setState(() {
-                              currentScreen = Dashboard();
+                              currentScreen = NotificationScreen();
                               currentTab = 2;
                             });
                           },

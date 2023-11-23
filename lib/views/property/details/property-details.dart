@@ -5,6 +5,7 @@ import 'package:abjalandlord/constants/app_images.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:image_stack/image_stack.dart';
 
 class PropertyDetails extends StatefulWidget {
   const PropertyDetails({Key? key}) : super(key: key);
@@ -28,6 +29,26 @@ class _PropertyDetailsState extends State<PropertyDetails> {
     print(formattedDate);
   }
 
+  List<String> images = <String>[
+    "https://images.unsplash.com/photo-1458071103673-6a6e4c4a3413?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+    "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80",
+    "https://images.unsplash.com/photo-1470406852800-b97e5d92e2aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+    "https://images.unsplash.com/photo-1473700216830-7e08d47f858e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+  ];
+  List<Map<String, dynamic>> features = [
+    {"icon": AppImages.football, "text": "Football"},
+    {"icon": AppImages.swim, "text": "Pool"},
+    {"icon": AppImages.wifi, "text": "Wifi"},
+    {"icon": AppImages.flower, "text": "Garden"},
+    {"icon": AppImages.laundry, "text": "Laundry"}
+  ];
+  List<Map<String, dynamic>> features2 = [
+    {"icon": AppImages.weightlifting, "text": "Fitness"},
+    {"icon": AppImages.power, "text": "24 hrs Power"},
+    {"icon": AppImages.wifi, "text": "Wifi"},
+    {"icon": AppImages.flower, "text": "Garden"},
+    {"icon": AppImages.laundry, "text": "Laundry"}
+  ];
   String formatDate(DateTime dateTime) {
     return DateFormat('dd MMMM, y').format(dateTime);
   }
@@ -46,7 +67,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
         child: SingleChildScrollView(
           child: Container(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal:16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 children: [
                   Row(
@@ -137,7 +158,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                             width: _getSize.width * 0.08,
                             height: _getSize.height * 0.037,
                             decoration: BoxDecoration(
-                              border: Border.all(width: 0.2, color: Pallete.fade),
+                              border:
+                                  Border.all(width: 0.2, color: Pallete.fade),
                               borderRadius: BorderRadius.circular(2),
                               color: Colors.white,
                             ),
@@ -164,7 +186,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                             width: _getSize.width * 0.08,
                             height: _getSize.height * 0.037,
                             decoration: BoxDecoration(
-                              border: Border.all(width: 0.2, color: Pallete.fade),
+                              border:
+                                  Border.all(width: 0.2, color: Pallete.fade),
                               borderRadius: BorderRadius.circular(2),
                               color: Colors.white,
                             ),
@@ -256,7 +279,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                 Row(
                                   children: [
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -286,7 +310,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                       width: _getSize.width * 0.05,
                                     ),
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -316,7 +341,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                       width: _getSize.width * 0.05,
                                     ),
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -346,7 +372,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                       width: _getSize.width * 0.05,
                                     ),
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -478,61 +505,86 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                       ],
                                     )
                                   ],
-                                )
-                             
-                              ,SizedBox(
-                                  height: _getSize.height * 0.015,
-                                )
-                             ,Column(children: [
-
-                             ],),
-  SizedBox(
+                                ),
+                                SizedBox(
                                   height: _getSize.height * 0.015,
                                 ),
-
-                             Column(crossAxisAlignment: CrossAxisAlignment.start,
-                               children: [
-                                 Text(
+                                Column(
+                                  children: [],
+                                ),
+                                SizedBox(
+                                  height: _getSize.height * 0.015,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
                                       "Tenants",
                                       style: AppFonts.boldText.copyWith(
                                           fontWeight: FontWeight.bold,
                                           color: Pallete.text,
                                           fontSize: 14),
-                                    ), SizedBox(
+                                    ),
+                                    SizedBox(
                                       height: _getSize.height * 0.005,
                                     ),
-                                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                  Row(
-                                    children: [
-                                      Image.asset(AppImages.tenants,width: 36,),  SizedBox(
-                                 width: _getSize.width * 0.015,
-                                ),Text("Susan Okello"),
-                                    ],
-                                  ),Text("20 June, 2023",style: AppFonts.body1,)
-                                 ],),
-                               ],
-                             )
-                             
-                             ,SizedBox(
+                                    
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ImageStack(
+                                          imageList: images,
+                                          backgroundColor:
+                                              Color.fromARGB(49, 209, 209, 209),
+                                          extraCountTextStyle: AppFonts.body1
+                                              .copyWith(
+                                                  color: Pallete.primaryColor,
+                                                  fontWeight: FontWeight.w600),
+                                          totalCount: images
+                                              .length, // If larger than images.length, will show extra empty circle
+                                          imageRadius:
+                                              45, // Radius of each images
+                                          imageCount:
+                                              3, // Maximum number of images to be shown in stack
+                                          imageBorderWidth:
+                                              0.6, // Border width around the images
+                                        ),
+                                        Text(
+                                          "See More",
+                                          style: AppFonts.body1.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: Pallete.secondaryColor),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
                                   height: _getSize.height * 0.015,
-                                ),Column(children: [
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                 Text(
-                                      "Total Repairs",
-                                      style: AppFonts.boldText.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: Pallete.text,
-                                          fontSize: 14),
-                                    ), 
-
-                                    Text("view details", style: AppFonts.body1.copyWith(color: Pallete.secondaryColor),)
-                              ],)
-
-                             ],)
+                                ),
+                                Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Total Repairs",
+                                          style: AppFonts.boldText.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              color: Pallete.text,
+                                              fontSize: 14),
+                                        ),
+                                        Text(
+                                          "view details",
+                                          style: AppFonts.body1.copyWith(
+                                              color: Pallete.secondaryColor),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )
                               ],
                             ),
                           ],

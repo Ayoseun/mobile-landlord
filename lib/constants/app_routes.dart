@@ -4,6 +4,9 @@ import 'package:abjalandlord/views/auth/package.dart';
 import 'package:abjalandlord/views/auth/register/register.dart';
 import 'package:abjalandlord/views/dashboard/dashboard.dart';
 import 'package:abjalandlord/views/drawer_menu/sidebar.dart';
+import 'package:abjalandlord/views/profile/edit_profile.dart';
+import 'package:abjalandlord/views/profile/profile.dart';
+import 'package:abjalandlord/views/property/add/add-property.dart';
 import 'package:abjalandlord/views/property/details/property-details.dart';
 import 'package:flutter/widgets.dart';
 
@@ -12,6 +15,7 @@ import '../views/auth/forgotPassword/forgotPassword.dart';
 import '../views/auth/forgotPassword/otp.dart';
 import '../views/auth/register/register_otp.dart';
 import '../views/navbar/nav.dart';
+import '../views/property/add/add-unit.dart';
 
 class AppRoutes {
   static const dashboardScreen = '/dashboardScreen';
@@ -46,19 +50,27 @@ class AppRoutes {
   static const changePassword = '/changePassword';
   static const registerScreen = '/registerScreen';
   static const resetOTPScreen = '/resetOTPScreen';
+  static const addProperty = '/addProperty';
+   static const addUnit = '/addUnit';
+  static const makeRequest = '/makeRequest';
   static Map<String, WidgetBuilder> routes() {
     return <String, WidgetBuilder>{
       AppRoutes.forgotPassword: ((context) => PasswordResetScreen()),
+      AppRoutes.editProfile: ((context) => EditProfile()),
+      AppRoutes.addProperty: ((context) => AddProperty()),
+       AppRoutes.addUnit: ((context) => AddUnit()),
+      AppRoutes.makeRequest: ((context) => AddProperty()),
       AppRoutes.changePassword: (context) => NewPasswordScreen(),
       AppRoutes.registerOTPScreen: (context) => RegisterOTPScreen(),
       AppRoutes.resetOTPScreen: (context) => ResetOTPScreen(),
       AppRoutes.loginScreen: (context) => LoginScreen(),
       AppRoutes.registerScreen: (context) => SignUp(),
-        AppRoutes.loadHome: (context) => LoadingHomeScreen(),
-        AppRoutes.package: (context) =>Package(),
-         AppRoutes.dashboardScreen: (context) =>Dashboard(),
-              AppRoutes.navbar: (context) =>NavBar(),
-                   AppRoutes.propDetails: (context) =>PropertyDetails(),
+      AppRoutes.loadHome: (context) => LoadingHomeScreen(),
+      AppRoutes.package: (context) => Package(),
+      AppRoutes.profile: (context) => Profile(),
+      AppRoutes.dashboardScreen: (context) => Dashboard(),
+      AppRoutes.navbar: (context) => NavBar(),
+      AppRoutes.propDetails: (context) => PropertyDetails(),
     };
   }
 }
