@@ -14,11 +14,6 @@ class SideBar extends StatelessWidget {
   String fullname = '';
 
   var photo;
-  inituser() async {
-    var close = await clear();
-
-    close;
-  }
 
   SideBar({
     Key? key,
@@ -39,17 +34,26 @@ class SideBar extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                  ClipOval(child: Image.network(photo,width: _getSize.width*0.12,)),
+                      ClipOval(
+                          child: Image.network(
+                        photo,
+                        width: _getSize.width * 0.105,
+                        height: _getSize.height * 0.05,
+                        fit: BoxFit.cover,
+                      )),
                       SizedBox(
                         width: _getSize.width * 0.01,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(fullname, style: AppFonts.body1.copyWith(
+                          Text(
+                            fullname,
+                            style: AppFonts.body1.copyWith(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 16,
-                                color: Color(0xFF382D18)),),
+                                color: Color(0xFF382D18)),
+                          ),
                           Text(
                             email,
                             style: AppFonts.body1.copyWith(
@@ -77,7 +81,7 @@ class SideBar extends StatelessWidget {
                       items(
                         text: "Profile",
                         img: AppImages.profile,
-                           route: AppRoutes.profile,
+                        route: AppRoutes.profile,
                       ),
                       SizedBox(
                         height: 16,
@@ -85,6 +89,7 @@ class SideBar extends StatelessWidget {
                       items(
                         text: "My Properties",
                         img: AppImages.estate,
+                        route: AppRoutes.propDetails,
                       ),
                       SizedBox(
                         height: 16,
@@ -92,6 +97,7 @@ class SideBar extends StatelessWidget {
                       items(
                         text: "My Tenants",
                         img: AppImages.tenant,
+                        route: AppRoutes.tenants,
                       ),
                       SizedBox(
                         height: 16,
@@ -119,6 +125,7 @@ class SideBar extends StatelessWidget {
                       ),
                       items(
                         text: "Settings",
+                        route: AppRoutes.settings,
                         img: AppImages.settings,
                       ),
                     ],
@@ -148,7 +155,10 @@ class SideBar extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Image.asset(AppImages.help,width: 24,),
+                          Image.asset(
+                            AppImages.help,
+                            width: 24,
+                          ),
                           SizedBox(
                             width: _getSize.width * 0.02,
                           ),
@@ -187,7 +197,10 @@ class SideBar extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Image.asset(AppImages.tc,width: 24,),
+                          Image.asset(
+                            AppImages.tc,
+                            width: 24,
+                          ),
                           SizedBox(
                             width: _getSize.width * 0.02,
                           ),
@@ -212,19 +225,33 @@ class SideBar extends StatelessWidget {
                   SizedBox(
                     height: _getSize.height * 0.02,
                   ),
-                  Row(
-                    children: [
-                      Image.asset(AppImages.logout,width: 24,),
-                      SizedBox(
-                        width: _getSize.width * 0.02,
+                  InkWell(
+                    onTap: () {
+                      clear();
+                      Navigator.of(context)
+                          .popAndPushNamed(AppRoutes.loginScreen);
+                    },
+                    child: Container(
+                      width:
+                          _getSize.width, // Expands to fill the available space
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            AppImages.logout,
+                            width: 24,
+                          ),
+                          SizedBox(
+                            width: _getSize.width * 0.02,
+                          ),
+                          Text(
+                            "Log Out",
+                            style: AppFonts.body1.copyWith(
+                                fontWeight: FontWeight.w900,
+                                color: Pallete.primaryColor),
+                          ),
+                        ],
                       ),
-                      Text(
-                        "Log Out",
-                        style: AppFonts.body1.copyWith(
-                            fontWeight: FontWeight.w900,
-                            color: Pallete.primaryColor),
-                      ),
-                    ],
+                    ),
                   )
                 ],
               ),

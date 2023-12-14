@@ -28,21 +28,12 @@ class _NavBarState extends State<NavBar> {
   Widget currentScreen = Dashboard();
   @override
   Widget build(BuildContext context) {
+    final _getSize = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Pallete.backgroundColor,
         body:
             //this page storage bucket helps to store each page state in memory
             PageStorage(bucket: Bucket, child: currentScreen),
-        // floatingActionButton: FloatingActionButton(
-        //   backgroundColor: Color(0xFF0095ff),
-        //   child: Icon(Icons.telegram_rounded),
-        //   onPressed: () {
-        //     Navigator.of(context).pushNamed(AppRoutes.dashboard);
-        //   },
-        // ),
-        // //floating action button placed at the center of he navbar
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
         //set bottomnavbar
         bottomNavigationBar: BottomAppBar(
             //asign shape to navabr
@@ -51,7 +42,8 @@ class _NavBarState extends State<NavBar> {
             //set shape to 10px round
             notchMargin: 2,
             child: Container(
-              height: 60,
+              height: _getSize.height * 0.085,
+              width: _getSize.width,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
@@ -59,7 +51,7 @@ class _NavBarState extends State<NavBar> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         MaterialButton(
-                          minWidth: 40,
+                          minWidth: _getSize.width * 0.10,
                           onPressed: () {
                             setState(() {
                               currentScreen = Dashboard();
@@ -73,21 +65,19 @@ class _NavBarState extends State<NavBar> {
                                   ? Image.asset(
                                       AppImages.homefilled,
                                       color: Pallete.primaryColor,
-                                      width: 25,
-                                      height: 25,
+                                      width: _getSize.width * 0.065,
                                     )
                                   : Image.asset(
                                       AppImages.home,
                                       color: Pallete.fade,
-                                      width: 20,
-                                      height: 20,
+                                      width: _getSize.width * 0.06,
                                     ),
                               SizedBox(
                                 height: 4,
                               ),
                               Text('Home',
                                   style: TextStyle(
-                                    fontSize: 11,
+                                    fontSize: _getSize.height * 0.012,
                                     fontWeight: currentTab == 0
                                         ? FontWeight.bold
                                         : null,
@@ -99,7 +89,7 @@ class _NavBarState extends State<NavBar> {
                           ),
                         ),
                         MaterialButton(
-                          minWidth: 40,
+                          minWidth: _getSize.width * 0.10,
                           onPressed: () {
                             setState(() {
                               currentScreen = Search();
@@ -109,20 +99,23 @@ class _NavBarState extends State<NavBar> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(
-                                AppImages.search,
-                                color: currentTab == 1
-                                    ? Color(0xC7171A1C)
-                                    : Pallete.fade,
-                                width: 20,
-                                height: 20,
-                              ),
+                              currentTab == 1
+                                  ? Image.asset(
+                                      AppImages.search,
+                                      color: Pallete.primaryColor,
+                                      width: _getSize.width * 0.065,
+                                    )
+                                  : Image.asset(
+                                      AppImages.search,
+                                      color: Pallete.fade,
+                                      width: _getSize.width * 0.06,
+                                    ),
                               SizedBox(
                                 height: 4,
                               ),
                               Text('Search',
                                   style: TextStyle(
-                                    fontSize: 11,
+                                    fontSize: _getSize.height * 0.012,
                                     fontWeight: currentTab == 1
                                         ? FontWeight.bold
                                         : null,
@@ -136,7 +129,7 @@ class _NavBarState extends State<NavBar> {
                       ],
                     ),
                     MaterialButton(
-                      minWidth: 40,
+                      minWidth: _getSize.width * 0.10,
                       onPressed: () {
                         setState(() {
                           currentScreen = Property();
@@ -149,19 +142,19 @@ class _NavBarState extends State<NavBar> {
                           currentTab == 5
                               ? Image.asset(
                                   AppImages.estatefilled,
-                                  height: 25,
+                                  width: _getSize.width * 0.065,
                                 )
                               : Image.asset(
                                   AppImages.estate,
                                   color: Pallete.fade,
-                                  height: 20,
+                                  width: _getSize.width * 0.06,
                                 ),
                           SizedBox(
                             height: 4,
                           ),
                           Text('Property',
                               style: TextStyle(
-                                fontSize: 11,
+                                fontSize: _getSize.height * 0.012,
                                 fontWeight:
                                     currentTab == 5 ? FontWeight.bold : null,
                                 color: currentTab == 5
@@ -175,7 +168,7 @@ class _NavBarState extends State<NavBar> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         MaterialButton(
-                          minWidth: 40,
+                          minWidth: _getSize.width * 0.10,
                           onPressed: () {
                             setState(() {
                               currentScreen = NotificationScreen();
@@ -185,24 +178,22 @@ class _NavBarState extends State<NavBar> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              // Icon(Icons.speaker_phone_rounded, color: currentTab == 2
-                              //        ? Colors.white
-                              //       : Color(0xFF848586),
-                              //   size: 20,
-                              //   ),
-                              Image.asset(
-                                AppImages.notification,
-                                color: currentTab == 2
-                                    ? Color(0xC7171A1C)
-                                    : Pallete.fade,
-                                height: 20,
-                              ),
+                              currentTab == 2
+                                  ? Image.asset(
+                                      AppImages.notifyfilled,
+                                      width: _getSize.width * 0.075,
+                                    )
+                                  : Image.asset(
+                                      AppImages.notification,
+                                      color: Pallete.fade,
+                                      width: _getSize.width * 0.045,
+                                    ),
                               SizedBox(
                                 height: 4,
                               ),
                               Text('Notification',
                                   style: TextStyle(
-                                    fontSize: 11,
+                                    fontSize: _getSize.height * 0.012,
                                     fontWeight: currentTab == 2
                                         ? FontWeight.bold
                                         : null,
@@ -214,7 +205,7 @@ class _NavBarState extends State<NavBar> {
                           ),
                         ),
                         MaterialButton(
-                          minWidth: 40,
+                          minWidth: _getSize.width * 0.10,
                           onPressed: () {
                             setState(() {
                               currentScreen = Dashboard();
@@ -237,7 +228,7 @@ class _NavBarState extends State<NavBar> {
                               ),
                               Text('Inbox',
                                   style: TextStyle(
-                                    fontSize: 11,
+                                    fontSize: _getSize.height * 0.012,
                                     fontWeight: currentTab == 4
                                         ? FontWeight.bold
                                         : null,

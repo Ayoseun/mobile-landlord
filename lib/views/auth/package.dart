@@ -230,7 +230,7 @@ class plan extends StatelessWidget {
           color: color,
           border: Border.all(color: bColor, width: 0.7)),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
         child: Column(
           children: [
             Text(

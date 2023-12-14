@@ -4,16 +4,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences s_prefs;
 
-saveRef(token) async {
+saveAbout(about) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setString("token", token);
+  s_prefs.setString("about", about);
 }
 
-saveCartItem(cartItems) async {
+savePropertyItem(cartItems) async {
   print(cartItems);
   s_prefs = await SharedPreferences.getInstance();
   String jsonString = jsonEncode(cartItems);
-  s_prefs.setString("cartItem", jsonString);
+  s_prefs.setString("propItem", jsonString);
 }
 
 saveName(name) async {
@@ -41,9 +41,27 @@ saveCity(city) async {
   s_prefs.setString("city", city);
 }
 
+showSelfie() async {
+  s_prefs = await SharedPreferences.getInstance();
+
+  String? temp = s_prefs.getString("selfie");
+
+  return temp;
+}
+
+saveSelfie(ustate) async {
+  s_prefs = await SharedPreferences.getInstance();
+  s_prefs.setString("selfie", ustate);
+}
+
 saveEmail(email) async {
   s_prefs = await SharedPreferences.getInstance();
   s_prefs.setString("email", email);
+}
+
+saveToken(tk) async {
+  s_prefs = await SharedPreferences.getInstance();
+  s_prefs.setString("token", tk);
 }
 
 setSecured(secured) async {
@@ -56,14 +74,54 @@ saveId(id) async {
   s_prefs.setString("id", id);
 }
 
-showCartItem() async {
+
+
+//SHOW SAVE DATA
+showUsername() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("cartItem");
+  String? temp = s_prefs.getString("username");
 
   return temp;
 }
 
+showRef() async {
+  s_prefs = await SharedPreferences.getInstance();
+
+  String? temp = s_prefs.getString("token");
+
+  return temp;
+}
+
+showEmail() async {
+  s_prefs = await SharedPreferences.getInstance();
+
+  String? temp = s_prefs.getString("email");
+
+  return temp;
+}
+
+showId() async {
+  s_prefs = await SharedPreferences.getInstance();
+
+  String? temp = s_prefs.getString("id");
+
+  return temp;
+}
+showPropertyItem() async {
+  s_prefs = await SharedPreferences.getInstance();
+
+  String? temp = s_prefs.getString("propItem");
+
+  return temp;
+}
+showToken() async {
+  s_prefs = await SharedPreferences.getInstance();
+
+  String? temp = s_prefs.getString("token");
+
+  return temp;
+}
 showName() async {
   s_prefs = await SharedPreferences.getInstance();
 
@@ -71,7 +129,13 @@ showName() async {
 
   return temp;
 }
+showAbout() async {
+  s_prefs = await SharedPreferences.getInstance();
 
+  String? temp = s_prefs.getString("about");
+
+  return temp;
+}
 showPhone() async {
   s_prefs = await SharedPreferences.getInstance();
 
@@ -112,37 +176,7 @@ isSecured() async {
   return temp;
 }
 
-showUsername() async {
-  s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("username");
-
-  return temp;
-}
-
-showRef() async {
-  s_prefs = await SharedPreferences.getInstance();
-
-  String? temp = s_prefs.getString("token");
-
-  return temp;
-}
-
-showEmail() async {
-  s_prefs = await SharedPreferences.getInstance();
-
-  String? temp = s_prefs.getString("email");
-
-  return temp;
-}
-
-showId() async {
-  s_prefs = await SharedPreferences.getInstance();
-
-  String? temp = s_prefs.getString("id");
-
-  return temp;
-}
 
 clear() async {
   s_prefs = await SharedPreferences.getInstance();
@@ -179,6 +213,7 @@ showOnce() async {
   print(temp);
   return temp;
 }
+
 showWssConnect() async {
   s_prefs = await SharedPreferences.getInstance();
 
@@ -188,6 +223,7 @@ showWssConnect() async {
   print(temp);
   return temp;
 }
+
 showNotify() async {
   s_prefs = await SharedPreferences.getInstance();
 

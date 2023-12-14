@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'package:abjalandlord/constants/resources.dart';
+import 'package:abjalandlord/network/property.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart';
@@ -19,6 +22,7 @@ import '../../utils/local_storage.dart';
 import '../../utils/location.dart';
 import '../../utils/permissions.dart';
 
+import '../../utils/proprty_util/add_property_utils.dart';
 import '../drawer_menu/sidebar.dart';
 
 class Dashboard extends StatefulWidget {
@@ -35,7 +39,7 @@ class _DashboardState extends State<Dashboard> {
   final _sliderItemLength = DashItems.loadItems().length;
   final _sliderItem = DashItems.loadItems();
   // final Size = MediaQuery.of(context).size;
-  var photo = 'https://picsum.photos/200';
+  var photo = photoHolder;
 
   bool loaded = false;
 
@@ -85,28 +89,45 @@ class _DashboardState extends State<Dashboard> {
       'text': 'Ask Pharm Josy'
     },
   ];
-  List<Map> med = [
-    {
-      'image': "assets/images/images/pharmplug_icon_row3.png",
-      'header': "Instant Home Deliveries",
-      'text': 'Enjoy Home deliveries on products and prescriptions '
-    },
-    {
-      'image': "assets/images/images/pharmplug_icon_row4.png",
-      'header': "24/7 Customer support",
-      'text': "Call, chat or reach a pharmacist anytime anyday"
-    },
-    {
-      'image': "assets/images/images/pharmplug_icon_row1.png",
-      'header': "PharmPlug Special",
-      'text': 'Special programs and services are available from time to time.'
-    },
-    {
-      'image': "assets/images/images/pharmplug_icon_row2.png",
-      'header': 'Instant Discounts',
-      'text': 'Instant discounts are available on products and prescriptions'
-    },
-  ];
+  bool isLoadingProperty = true;
+  List property = [];
+  getAllProperties() async {
+    await Future.delayed(Duration(seconds: 1));
+    var res = await PropertyAPI.getAllProperty();
+   
+    var gotproperties = res['data'];
+    await savePropertyItem(gotproperties);
+    if (gotproperties.isNotEmpty) {
+      setState(() {
+        property = gotproperties;
+        isLoadingProperty = false;
+      });
+    } else {
+      setState(() {
+        isLoadingProperty = false;
+        property.length = 0;
+      });
+    }
+  }
+
+  getPropertyItems() async {
+    isLoadingProperty = true;
+    var propertyString = await showPropertyItem();
+  
+    var getproperty =
+        List<Map<String, dynamic>>.from(jsonDecode(propertyString));
+    if (getproperty.isEmpty) {
+      getAllProperties();
+    } else {
+      
+      setState(() {
+        property = getproperty;
+    
+        isLoadingProperty = false;
+      });
+    }
+  }
+
   var fullname = "";
   var name = "";
   var surname = "";
@@ -114,10 +135,11 @@ class _DashboardState extends State<Dashboard> {
   getName() async {
     name = await showName();
     surname = await showSurname();
-
+    photo = await showSelfie();
     setState(() {
       name;
       surname;
+      photo;
       fullname = "$name $surname";
     });
   }
@@ -132,10 +154,12 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     getName();
     getData();
-
+    getPropertyItems();
+    getAllProperties();
     super.initState();
   }
 
+  int many = 0;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -154,8 +178,8 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: SideBar(
-        email: "ayoseunsolomon@gmai.com",
-        fullname: "ayo solomon",
+        email: email,
+        fullname: fullname,
         photo: photo,
       ),
       backgroundColor: Pallete.backgroundColor,
@@ -218,7 +242,7 @@ class _DashboardState extends State<Dashboard> {
                                                   fontSize: 18),
                                             ),
                                             Text(
-                                              "Daniel",
+                                              name,
                                               style: AppFonts.bodyText.copyWith(
                                                   color: Pallete.primaryColor,
                                                   fontSize: 18),
@@ -249,13 +273,18 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                               GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    print(photo);
+                                  },
                                   child: Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Image.asset(
-                                      AppImages.boy,
-                                      width: 56,
-                                      height: 56,
+                                    child: ClipOval(
+                                      child: Image.network(
+                                        photo,
+                                        width: 46,
+                                        height: 48,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ))
                             ],
@@ -331,14 +360,113 @@ class _DashboardState extends State<Dashboard> {
                       Text(
                         'Your Properties',
                         style: AppFonts.boldText.copyWith(
-                            fontSize: _getSize.height * 0.018,
+                            fontSize: _getSize.height * 0.015,
                             fontWeight: FontWeight.w300,
                             color: Pallete.text),
                       ),
                       SizedBox(
                         height: _getSize.height * 0.01,
                       ),
-                      properties(getSize: _getSize),
+                      isLoadingProperty
+                          ? Container(
+                              margin: EdgeInsets.only(bottom: 8),
+                              decoration: BoxDecoration(
+                                  color: Color(0xFFF6F9F5),
+                                  borderRadius: BorderRadius.circular(10)),
+                              width: _getSize.width,
+                              height: _getSize.height * 0.38,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SpinKitRing(
+                                      size: 30,
+                                      color: Pallete.primaryColor,
+                                      lineWidth: 2.0,
+                                    ),
+                                    Text(
+                                      "Looking for your property Listing",
+                                      style: AppFonts.body1,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ) // Widget to show when many is 0
+                          : Column(
+                              children: [
+                                property.isEmpty
+                                    ? Container(
+                                        margin: EdgeInsets.only(bottom: 8),
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFFF6F9F5),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        width: _getSize.width,
+                                        height: _getSize.height * 0.38,
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Image.asset(
+                                                AppImages.no_prop,
+                                                width: _getSize.width * 0.6,
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    "You currently have no added property",
+                                                    style: AppFonts.body1,
+                                                  ),
+                                                  SizedBox(
+                                                    height:
+                                                        _getSize.height * 0.01,
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.of(context)
+                                                          .pushNamed(AppRoutes
+                                                              .addProperty);
+                                                    },
+                                                    child: Container(
+                                                      width:
+                                                          _getSize.width * 0.4,
+                                                      height: _getSize.height *
+                                                          0.045,
+                                                      decoration: BoxDecoration(
+                                                          color: Pallete
+                                                              .primaryColor,
+                                                          border: Border.all(
+                                                              width: 0.5,
+                                                              color: Pallete
+                                                                  .primaryColor),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5)),
+                                                      child: Center(
+                                                        child: Text(
+                                                          "Add Property",
+                                                          style: AppFonts
+                                                              .smallWhiteBold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: _getSize.height * 0.01,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ) // Widget to show when many is 0
+                                    : properties(
+                                        getSize: _getSize, howMany: property),
+                              ],
+                            ), //
+
                       middle(getSize: _getSize),
                       SizedBox(
                         height: _getSize.height * 0.035,
@@ -357,12 +485,11 @@ class _DashboardState extends State<Dashboard> {
 }
 
 class properties extends StatelessWidget {
-  const properties({
-    super.key,
-    required Size getSize,
-  }) : _getSize = getSize;
+  const properties({super.key, required Size getSize, required this.howMany})
+      : _getSize = getSize;
 
   final Size _getSize;
+  final List howMany;
 
   @override
   Widget build(BuildContext context) {
@@ -370,13 +497,19 @@ class properties extends StatelessWidget {
         width: _getSize.width,
         height: _getSize.height * 0.41,
         child: ListView.builder(
-            itemCount: 5,
+            itemCount: howMany.length,
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed(AppRoutes.propDetails);
+                
+                  Navigator.of(context).pushNamed(
+                    AppRoutes.propDetails,
+                    arguments: {
+                      'id': howMany[index]['propertyID'],
+                    },
+                  );
                 },
                 child: Padding(
                   padding: EdgeInsets.only(right: _getSize.width * 0.02),
@@ -384,9 +517,10 @@ class properties extends StatelessWidget {
                     children: [
                       Stack(
                         children: [
-                          Image.asset(
-                            AppImages.condo1,
-                            fit: BoxFit.contain,
+                          Image.network(
+                            howMany[index]['photo'],
+                            fit: BoxFit.fitWidth,
+                            height: _getSize.height * 0.18,
                             width: _getSize.width * 0.5,
                           ),
                           Positioned(
@@ -394,10 +528,10 @@ class properties extends StatelessWidget {
                             bottom: _getSize.height * 0.11,
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.transparent,
+                                  color: Color.fromARGB(137, 246, 249, 245),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Color.fromARGB(47, 101, 105, 100),
+                                      color: Color.fromARGB(113, 246, 249, 245),
                                       blurRadius: 11,
                                       spreadRadius: 1,
                                       offset: Offset(0, 5),
@@ -408,21 +542,25 @@ class properties extends StatelessWidget {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(3))),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 16),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 8.0,
+                                    horizontal: _getSize.height * 0.018),
                                 child: Row(
                                   children: [
                                     Text(
-                                      "7",
+                                      howMany[index]['unit'],
                                       style: AppFonts.body1.copyWith(
-                                          color: Pallete.primaryColor,
-                                          fontSize: 16),
+                                        color: Pallete.primaryColor,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: _getSize.height * 0.018,
+                                      ),
                                     ),
                                     SizedBox(width: _getSize.width * 0.01),
-                                    Text("Rentals",
+                                    Text("Unit",
                                         style: AppFonts.body1.copyWith(
+                                            fontWeight: FontWeight.w600,
                                             color: Pallete.primaryColor,
-                                            fontSize: 16))
+                                            fontSize: _getSize.height * 0.018))
                                   ],
                                 ),
                               ),
@@ -438,9 +576,9 @@ class properties extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "The Spring Lounge",
+                            howMany[index]['name'],
                             style: AppFonts.boldText.copyWith(
-                                fontSize: 14,
+                                fontSize: _getSize.height * 0.016,
                                 fontWeight: FontWeight.w900,
                                 color: Color(0xFF333436)),
                           ),
@@ -449,68 +587,64 @@ class properties extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Image.asset(
-                                AppImages.estate,
-                                width: 20,
-                              ),
+                              Image.asset(AppImages.estate,
+                                  width: _getSize.width * 0.04),
                               SizedBox(
                                 width: _getSize.width * 0.008,
                               ),
                               Text(
-                                "Condo Apartment",
+                                howMany[index]['type'],
                                 style: AppFonts.body1.copyWith(
-                                    color: Pallete.fade, fontSize: 14),
+                                    color: Pallete.fade,
+                                    fontSize: _getSize.height * 0.016),
                               )
                             ],
                           ),
                           SizedBox(
-                            height: _getSize.height * 0.01,
+                            height: _getSize.height * 0.008,
                           ),
                           Row(
                             children: [
-                              Image.asset(AppImages.location, width: 14),
+                              Image.asset(AppImages.location,
+                                  width: _getSize.width * 0.037),
                               SizedBox(
                                 width: _getSize.width * 0.008,
                               ),
                               Text(
-                                "24 commercial avenue Kampal",
+                                howMany[index]['location'],
                                 overflow: TextOverflow.ellipsis,
                                 style: AppFonts.body1.copyWith(
-                                    color: Pallete.fade, fontSize: 14),
+                                    color: Pallete.fade,
+                                    fontSize: _getSize.height * 0.016),
                               )
                             ],
-                          )
+                          ),
+                          SizedBox(
+                            height: _getSize.height * 0.008,
+                          ),
+                          Text("Description",
+                              style: AppFonts.boldText.copyWith(
+                                  fontSize: _getSize.height * 0.016,
+                                  fontWeight: FontWeight.w900,
+                                  color: Color(0xFF333436))),
+                          SizedBox(
+                            height: _getSize.height * 0.0025,
+                          ),
+                          SizedBox(
+                            width: _getSize.width * 0.5,
+                            child: Text(
+                              howMany[index]["description"],
+                              maxLines: 4,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppFonts.body1
+                                  .copyWith(fontSize: _getSize.height * 0.015),
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(
                         height: _getSize.height * 0.01,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Description",
-                                style: AppFonts.boldText.copyWith(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w900,
-                                    color: Color(0xFF333436))),
-                            SizedBox(
-                              height: _getSize.height * 0.0025,
-                            ),
-                            SizedBox(
-                              width: _getSize.width * 0.5,
-                              child: Text(
-                                "Bright, spacious 2-bedroom apartment in a quiet neighborhood. Close to shops, restaurants, and public transportation.",
-                                maxLines: 4,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppFonts.body1.copyWith(fontSize: 12),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
                     ],
                   ),
                 ),
@@ -532,192 +666,214 @@ class middle extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          height: _getSize.height * 0.07,
-          width: _getSize.width * 0.28,
-          decoration: BoxDecoration(
-              color: Color.fromARGB(97, 29, 89, 103),
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromARGB(68, 85, 80, 80),
-                  blurRadius: 11,
-                  spreadRadius: 1,
-                  offset: Offset(0, 5),
-                )
-              ],
-              borderRadius: BorderRadius.all(Radius.circular(12))),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text("05",
-                        style: AppFonts.boldText.copyWith(
-                          fontSize: 16,
-                          color: Color(0xFF1D5A67),
-                        )),
-                    Image.asset(
-                      AppImages.estate,
-                      width: 24,
-                      color: Color(0xFF1D5A67),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: _getSize.width * 0.04,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Total",
-                      style: AppFonts.body1.copyWith(
-                          color: Color(0xFF1D5A67),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      "Property",
-                      style: AppFonts.body1.copyWith(
-                          color: Color(
-                            0xFF1D5A67,
-                          ),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                )
-              ],
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed(AppRoutes.propDetails);
+          },
+          child: Container(
+            height: _getSize.height * 0.073,
+            width: _getSize.width * 0.28,
+            decoration: BoxDecoration(
+                color: Color.fromARGB(97, 29, 89, 103),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(68, 85, 80, 80),
+                    blurRadius: 11,
+                    spreadRadius: 1,
+                    offset: Offset(0, 5),
+                  )
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(12))),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("05",
+                          style: AppFonts.boldText.copyWith(
+                            fontSize: _getSize.height * 0.02,
+                            color: Color(0xFF1D5A67),
+                          )),
+                      Image.asset(
+                        AppImages.estate,
+                        width: 24,
+                        height: _getSize.height * 0.02,
+                        color: Color(0xFF1D5A67),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: _getSize.width * 0.04,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Total",
+                        style: AppFonts.body1.copyWith(
+                            color: Color(0xFF1D5A67),
+                            fontSize: _getSize.height * 0.015,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        "Property",
+                        style: AppFonts.body1.copyWith(
+                            color: Color(
+                              0xFF1D5A67,
+                            ),
+                            fontSize: _getSize.height * 0.015,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
-        Container(
-          height: _getSize.height * 0.07,
-          width: _getSize.width * 0.28,
-          decoration: BoxDecoration(
-              color: Color(0xFFFCDBB5),
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromARGB(68, 85, 80, 80),
-                  blurRadius: 11,
-                  spreadRadius: 1,
-                  offset: Offset(0, 5),
-                )
-              ],
-              borderRadius: BorderRadius.all(Radius.circular(12))),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text("02",
-                        style: AppFonts.boldText
-                            .copyWith(fontSize: 18, color: Color(0xFFF58807))),
-                    Image.asset(
-                      AppImages.house,
-                      color: Color(0xFFF58807),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: _getSize.width * 0.04,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Vacant",
-                      style: AppFonts.body1.copyWith(
-                          color: Color(0xFFF58807),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      "Property",
-                      style: AppFonts.body1.copyWith(
-                          color: Color(
-                            0xFFF58807,
-                          ),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                )
-              ],
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed(AppRoutes.propDetails);
+          },
+          child: Container(
+            height: _getSize.height * 0.073,
+            width: _getSize.width * 0.28,
+            decoration: BoxDecoration(
+                color: Color(0xFFFCDBB5),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(68, 85, 80, 80),
+                    blurRadius: 11,
+                    spreadRadius: 1,
+                    offset: Offset(0, 5),
+                  )
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(12))),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("02",
+                          style: AppFonts.boldText.copyWith(
+                              fontSize: _getSize.height * 0.02,
+                              color: Color(0xFFF58807))),
+                      Image.asset(
+                        AppImages.house,
+                        height: _getSize.height * 0.02,
+                        color: Color(0xFFF58807),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: _getSize.width * 0.04,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Vacant",
+                        style: AppFonts.body1.copyWith(
+                            color: Color(0xFFF58807),
+                            fontSize: _getSize.height * 0.015,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        "Property",
+                        style: AppFonts.body1.copyWith(
+                            color: Color(
+                              0xFFF58807,
+                            ),
+                            fontSize: _getSize.height * 0.015,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
-        Container(
-          height: _getSize.height * 0.07,
-          width: _getSize.width * 0.28,
-          decoration: BoxDecoration(
-              color: Color(0xFFD6B5DE),
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromARGB(68, 85, 80, 80),
-                  blurRadius: 11,
-                  spreadRadius: 1,
-                  offset: Offset(0, 5),
-                )
-              ],
-              borderRadius: BorderRadius.all(Radius.circular(12))),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      AppImages.rent,
-                      color: Color(0xFF750790),
-                    ),
+        GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(AppRoutes.tenants);
+            },
+            child: Container(
+              height: _getSize.height * 0.073,
+              width: _getSize.width * 0.28,
+              decoration: BoxDecoration(
+                  color: Color(0xFFD6B5DE),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(68, 85, 80, 80),
+                      blurRadius: 11,
+                      spreadRadius: 1,
+                      offset: Offset(0, 5),
+                    )
                   ],
-                ),
-                SizedBox(
-                  width: _getSize.width * 0.04,
-                ),
-                Column(
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      "Add",
-                      style: AppFonts.body1.copyWith(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("02",
+                            style: AppFonts.boldText.copyWith(
+                                fontSize: _getSize.height * 0.02,
+                                color: Color(0xFF750790))),
+                        Image.asset(
+                          AppImages.rent,
+                          height: _getSize.height * 0.02,
                           color: Color(0xFF750790),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
+                        ),
+                      ],
                     ),
-                    Text(
-                      "Tenant",
-                      style: AppFonts.body1.copyWith(
-                          color: Color(
-                            0xFF750790,
-                          ),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
+                    SizedBox(
+                      width: _getSize.width * 0.04,
                     ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Total",
+                          style: AppFonts.body1.copyWith(
+                              color: Color(0xFF750790),
+                              fontSize: _getSize.height * 0.017,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          "Tenant",
+                          style: AppFonts.body1.copyWith(
+                              color: Color(
+                                0xFF750790,
+                              ),
+                              fontSize: _getSize.height * 0.017,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    )
                   ],
-                )
-              ],
-            ),
-          ),
-        )
+                ),
+              ),
+            ))
       ],
     );
   }

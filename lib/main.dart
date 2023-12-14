@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:abjalandlord/views/auth/welcome/welcome.dart';
+import 'package:abjalandlord/views/navbar/nav.dart';
+import 'package:abjalandlord/views/onboarding/entrance.dart';
+import 'package:abjalandlord/views/onboarding/onboarding.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -92,13 +95,14 @@ class MyApp extends StatelessWidget {
 
                     switch (data) {
                       case 0:
-                        return Welcome();
+                        return Entrance();
+                   
                       case 1:
-                        return SignUp();
+                        return const Welcome();
                       case 2:
                         return LoginScreen();
-                      case 3:
-                        return Dashboard();
+                         case 3:
+                        return NavBar();
                     }
                     // if we got our data
                   }

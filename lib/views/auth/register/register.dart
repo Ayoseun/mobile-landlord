@@ -77,8 +77,7 @@ class _SignUpState extends State<SignUp> {
     'lastName': '',
     'email': '',
     'phone': '',
-    'password': '',
-    'referred': ''
+    'password': ''
   };
   void _checkPasswordStrength(String value) {
     dynamic password = value.trim();
@@ -112,6 +111,9 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     final _getSize = MediaQuery.of(context).size;
+    final dataFromRoute = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    _registerData['phone'] = dataFromRoute["phone"];
     return Scaffold(
       body: Container(
         child: SingleChildScrollView(
@@ -199,10 +201,32 @@ class _SignUpState extends State<SignUp> {
                         children: [
                           CustomInput3(
                             validator: Validators.nameValidator,
+                            label: 'Email',
+                            hint: 'Enter your Email',
+                            onSaved: (value) {
+                              _registerData['email'] = value;
+                            },
+                          ),
+                          SizedBox(
+                            height: _getSize.height * 0.05,
+                          ),
+                          CustomInput3(
+                            validator: Validators.nameValidator,
                             label: 'First Name',
-                            hint: 'Full Name',
+                            hint: 'First Name',
                             onSaved: (value) {
                               _registerData['firstName'] = value;
+                            },
+                          ),
+                          SizedBox(
+                            height: _getSize.height * 0.05,
+                          ),
+                          CustomInput3(
+                            validator: Validators.nameValidator,
+                            label: 'Last Name',
+                            hint: 'Last Name',
+                            onSaved: (value) {
+                              _registerData['lastName'] = value;
                             },
                           ),
                           SizedBox(
@@ -289,7 +313,7 @@ class _SignUpState extends State<SignUp> {
                     Row(
                       children: [
                         Text(
-                          'By clicking "Continue" you agree to the ',
+                          'By clicking "Sign Up" you agree to the ',
                           style: AppFonts.bodyText.copyWith(
                             color: Pallete.text,
                             fontWeight: FontWeight.w600,
@@ -338,7 +362,7 @@ class _SignUpState extends State<SignUp> {
                   ],
                 ),
               ),
-              SizedBox(height: _getSize.height * 0.15),
+              SizedBox(height: _getSize.height * 0.05),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -349,8 +373,10 @@ class _SignUpState extends State<SignUp> {
                     child: ButtonWithFuction(
                         text: 'Sign Up',
                         onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(AppRoutes.registerOTPScreen);
+                          RegisterUtil.register(
+                              _registerFormKey, context, _registerData);
+                          // Navigator.of(context)
+                          //     .pushNamed(AppRoutes.registerOTPScreen);
                         }),
                   ),
                   SizedBox(height: _getSize.height * 0.01),
@@ -361,6 +387,7 @@ class _SignUpState extends State<SignUp> {
                   )
                 ],
               ),
+              SizedBox(height: _getSize.height * 0.05),
             ],
           ),
         ),

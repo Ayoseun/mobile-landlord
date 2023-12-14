@@ -3,35 +3,15 @@ import 'package:http/http.dart' as http;
 import '../constants/resources.dart';
 
 class AuthAPI {
-//create a static promise method that ties quesry to api
-  static Future oneProduct(id) async {
-    //attach base to quesry
-
-    var allURL = '$BaseURL/get-one-product/${id}';
-
-    //return parsed api
-    var res = await http.get(Uri.parse(allURL));
-    return res;
-  }
-
-  //create a static promise method that ties quesry to api
-  static Future searchProductByID(id) async {
-    //attach base to quesry
-
-    var allURL = '$BaseURL/get-one-product/${id}';
-
-    //return parsed api
-    var res = await http.get(Uri.parse(allURL));
-    return res;
-  }
-
-  static Future OTPVerfication(id, otp) async {
-    var response = await http.put(
-      Uri.parse('$BaseURL/users/verify-otp'),
+  static Future OTPVerfication(email, token, otp) async {
+    var response = await http.post(
+      Uri.parse('$BaseURL/auth/landlord/verify_otp'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': APIKEY
       },
-      body: jsonEncode(<String, String>{"id": id, "otpData": otp}),
+      body: jsonEncode(
+          <String, String>{"email": email, "otp": otp, "token": token}),
     );
 
     var parsedResponse = jsonDecode(response.body);
@@ -40,21 +20,21 @@ class AuthAPI {
   }
 
   static Future register(
-      firstName, lastName, password, confirmPassword, email, phone,ref) async {
+      firstName, lastName, password, confirmPassword, email, phone) async {
     var payload = {
-      "firstName": firstName,
-      "lastName": lastName,
+      "name": firstName,
+      "surname": lastName,
       "email": email,
       "phone": phone,
       "password": password,
-      "confirmPassword": confirmPassword,
-      "referred":ref
+      "confirmPassword": confirmPassword
     };
     print(payload);
     var response = await http.post(
-      Uri.parse('$BaseURL/users/register'),
+      Uri.parse('$BaseURL/auth/landlord/register'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': APIKEY
       },
       body: jsonEncode(payload),
     );
@@ -67,11 +47,12 @@ class AuthAPI {
     print(data);
     print(password);
     var response = await http.post(
-      Uri.parse('$BaseURL/users/login'),
+      Uri.parse('$BaseURL/auth/landlord/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': APIKEY
       },
-      body: jsonEncode(<String, String>{"data": data.toString(), "password": password}),
+      body: jsonEncode(<String, String>{"email": data, "password": password}),
     );
 
     var parsedResponse = jsonDecode(response.body);
@@ -81,28 +62,95 @@ class AuthAPI {
 
   static Future forgotPassword(email) async {
     var response = await http.post(
-        Uri.parse('$BaseURL/users/forgot-password'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{"email": email}),
-      );
-
-      var parsedResponse = jsonDecode(response.body);
-      print(parsedResponse);
-      return parsedResponse;
-  }
-
-  static Future resetPassword(id, password) async {
-    var response = await http.patch(
-      Uri.parse('$BaseURL/users/password-reset'),
+      Uri.parse('$BaseURL/auth/landlord/forgot_password'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': APIKEY
       },
-      body: jsonEncode(<String, String>{"id": id, "password": password}),
+      body: jsonEncode(<String, String>{"email": email}),
     );
 
-    var parsedResponse = response;
+    var parsedResponse = jsonDecode(response.body);
+    print(parsedResponse);
+    return parsedResponse;
+  }
+
+  static Future resetPassword(id, token, cpassword, password) async {
+    var response = await http.post(
+      Uri.parse('$BaseURL/auth/landlord/reset_password'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': APIKEY
+      },
+      body: jsonEncode(<String, String>{
+        "id": id,
+        "token": token,
+        "password": password,
+        "confirmPassword": cpassword
+      }),
+    );
+
+    var parsedResponse = jsonDecode(response.body);
+
+    print(parsedResponse);
+
+    return parsedResponse;
+  }
+
+  static Future selfie(email, token, selfie) async {
+    print(email);
+    print(token);
+    var response = await http.put(
+      Uri.parse('$BaseURL/auth/landlord/selfie'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': APIKEY
+      },
+      body: jsonEncode(
+          <String, String>{"email": email, "token": token, "selfie": selfie}),
+    );
+
+    var parsedResponse = jsonDecode(response.body);
+
+    return parsedResponse;
+  }
+
+  static Future refresh(email) async {
+    print(email);
+    var response = await http.put(
+      Uri.parse('$BaseURL/auth/landlord/refresh_token'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': APIKEY
+      },
+      body: jsonEncode(<String, String>{"email": email}),
+    );
+    var parsedResponse = jsonDecode(response.body);
+    return parsedResponse;
+  }
+
+  static Future updateData(email, phone, password, confirmPassword, name,
+      surname, about, token) async {
+    var response = await http.put(
+      Uri.parse('$BaseURL/auth/landlord/update_landlord'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': APIKEY
+      },
+      body: jsonEncode(<String, String>{
+        "email": email,
+        "phone": phone,
+        "password": password,
+        "confirmPassword": confirmPassword,
+        "name": name,
+        "surname": surname,
+        "about": about,
+        "token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyMTc3OTAsImRhdGEiOiJheW9zZXVuc29sb21vbkBnbWFpbC5jb20kMmIkMTAkdy9vZHdFSjZ3ZVhBR081eHhrSklldS9FYnRYU2hsZ2lMcWlyMVBtT3QuZy5qTDZ4RUdKbkcyNDI1NTVBYmphV2h5U2F2ZTAwNz8iLCJpYXQiOjE3MDE4NTc3OTB9.5o0udhyxsi4Kznl4WPgk2fPAzwQTiCUzSRCF_mCk2kM"
+      }),
+    );
+
+    var parsedResponse = jsonDecode(response.body);
 
     return parsedResponse;
   }

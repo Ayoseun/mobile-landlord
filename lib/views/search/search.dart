@@ -206,22 +206,6 @@ class _SearchState extends State<Search> {
                     color: Pallete.primaryColor),
               ),
            ],),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-               Text(
-                "Recent Search",
-                style: AppFonts.body1.copyWith(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Pallete.text),
-              ),   Text(
-                "Clear",
-                style: AppFonts.body1.copyWith(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Pallete.primaryColor),
-              ),
-           ],)
            
             ],
           ),

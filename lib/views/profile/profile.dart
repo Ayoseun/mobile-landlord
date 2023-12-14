@@ -1,8 +1,9 @@
+import 'package:abjalandlord/utils/local_storage.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart' as imgpika;
 import 'package:image_stack/image_stack.dart';
-
 import '../../components/buttons.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_fonts.dart';
@@ -24,7 +25,31 @@ class _ProfileState extends State<Profile> {
     "https://images.unsplash.com/photo-1473700216830-7e08d47f858e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
   ];
   int _tabIndex = 0;
+  var name = '';
+  var surname = '';
   var photo = 'https://picsum.photos/200';
+  var about =
+      "Hi, I’m Tony Ukachukwu. A landlord and property owner within Kampala and it’s districts. I offer premium and the best qualities of luxury living spaces  within affordable rent fees.";
+  imgpika.XFile? image; //this is the state variable
+  getPhoto() async {
+    photo = await showSelfie();
+    about = await showRef();
+    name = await showName();
+    surname = await showSurname();
+    setState(() {
+      photo;
+      name;
+      surname;
+      about;
+    });
+  }
+
+  @override
+  void initState() {
+    getPhoto();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _getSize = MediaQuery.of(context).size;
@@ -32,270 +57,276 @@ class _ProfileState extends State<Profile> {
       backgroundColor: Pallete.whiteColor,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: SizedBox(
-            width: _getSize.width,
-            height: _getSize.height,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Image.asset(
-                          AppImages.back,
-                          width: 36,
-                        ),
-                      ),
-                      Text("Profile"),
-                      Text("")
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: _getSize.height * 0.04,
-                ),
-                Row(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      width: _getSize.width * 0.37,
-                      height: _getSize.height * 0.0007,
-                      color: Pallete.primaryColor,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Image.asset(
+                        AppImages.back,
+                        width: 36,
+                      ),
                     ),
-                    Stack(
-                      children: [
-                        DottedBorder(
-                          borderType: BorderType.Circle,
-                          strokeWidth: 2,
-                          color: Color(0xFF47893F),
-                          dashPattern: [10, 16],
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: ClipOval(
-                              child: Image.network(
-                                photo,
-                                width: _getSize.width * 0.24,
-                              ),
-                            ),
+                    Text("Profile"),
+                    Text("")
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: _getSize.height * 0.04,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: _getSize.width * 0.35,
+                    height: _getSize.height * 0.0007,
+                    color: Pallete.primaryColor,
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      final imgpika.ImagePicker _picker = imgpika.ImagePicker();
+                      final img = await _picker.pickImage(
+                          source: imgpika.ImageSource.gallery);
+                      setState(() {
+                        image = img;
+                      });
+                    },
+                    child: DottedBorder(
+                      borderType: BorderType.Circle,
+                      strokeWidth: 2,
+                      color: Color(0xFF47893F),
+                      dashPattern: [10, 16],
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: ClipOval(
+                          child: Image.network(
+                            photo,
+                            fit: BoxFit.cover,
+                            width: _getSize.width * 0.22,
+                            height: _getSize.height * 0.112,
                           ),
                         ),
-                        Positioned(
-                            top: 82,
-                            bottom: 1,
-                            left: 70,
-                            right: 0,
-                            child: SizedBox(
-                                width: 4,
-                                child: Image.asset(
-                                  AppImages.cam,
-                                )))
-                      ],
+                      ),
                     ),
-                    Container(
-                      width: _getSize.width * 0.37,
-                      height: _getSize.height * 0.0007,
-                      color: Pallete.primaryColor,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: _getSize.height * 0.04,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Ayo Solomon",
-                      style: AppFonts.boldText
-                          .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          AppImages.location,
-                          width: 16,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          "24, Commercial Avenue, Kampala",
-                          style: AppFonts.body1.copyWith(fontSize: 14),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          AppImages.joined,
-                          width: 24,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          "Joined: 27th January, 2023",
-                          style: AppFonts.body1
-                              .copyWith(color: Pallete.text, fontSize: 14),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: _getSize.height * 0.02,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(AppRoutes.editProfile);
-                  },
-                  child: Container(
-                    width: _getSize.width * 0.3,
-                    decoration: BoxDecoration(
-                        color: Color(0xFF382D18),
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Center(
-                        child: Text(
-                          "Edit Profile",
-                          style: AppFonts.smallWhiteBold,
-                        ),
+                  ),
+                  Container(
+                    width: _getSize.width * 0.35,
+                    height: _getSize.height * 0.0007,
+                    color: Pallete.primaryColor,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: _getSize.height * 0.04,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "$name $surname",
+                    style: AppFonts.boldText
+                        .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        AppImages.location,
+                        width: 16,
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        "24, Commercial Avenue, Kampala",
+                        style: AppFonts.body1.copyWith(fontSize: 14),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        AppImages.joined,
+                        width: 24,
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        "Joined: 27th January, 2023",
+                        style: AppFonts.body1
+                            .copyWith(color: Pallete.text, fontSize: 14),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: _getSize.height * 0.02,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(AppRoutes.editProfile);
+                },
+                child: Container(
+                  width: _getSize.width * 0.3,
+                  decoration: BoxDecoration(
+                      color: Color(0xFF382D18),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Center(
+                      child: Text(
+                        "Edit Profile",
+                        style: AppFonts.smallWhiteBold,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: _getSize.height * 0.02,
-                ),
-                Container(
-                  width: _getSize.width,
-                  height: _getSize.height * 0.0007,
-                  color: Pallete.primaryColor,
-                ),
-                SizedBox(
-                  height: _getSize.height * 0.02,
-                ),
-                middle(
-                  getSize: _getSize,
-                  img: images,
-                ),
-                SizedBox(
-                  height: _getSize.height * 0.05,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: SizedBox(
-                      height: _getSize.height * 0.32,
-                      child: DefaultTabController(
-                        length: 2,
-                        child: Column(
-                          children: [
-                            TabNavBar(
-                              tabIndex: _tabIndex,
-                              tabTextList: const [
-                                'About',
-                                'Reviews',
-                              ],
-                              onTap: (index) {
-                                setState(() {
-                                  _tabIndex = index;
-                                });
-                              },
-                            ),
-                            SizedBox(
-                              height: _getSize.height * 0.2,
-                              child: TabBarView(
-                                // physics: const NeverScrollableScrollPhysics(),
-                                children: <Widget>[
-                                  SizedBox(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "Hi, I’m Tony Ukachukwu. A landlord and property owner within Kampala and it’s districts. I offer premium and the best qualities of luxury living spaces  within affordable rent fees.",
-                                          style: AppFonts.body1
-                                              .copyWith(color: Pallete.text),
-                                        ),
-                                        SizedBox(
-                                          height: _getSize.height * 0.02,
-                                        ),
-                                        Row(
-                                          children: [
-                                            ImageStack(
-                                              imageList: images,
-                                              backgroundColor: Color.fromARGB(
-                                                  49, 209, 209, 209),
-                                              extraCountTextStyle:
-                                                  AppFonts.body1.copyWith(
-                                                      color:
-                                                          Pallete.primaryColor,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                              totalCount: images
-                                                  .length, // If larger than images.length, will show extra empty circle
-                                              imageRadius:
-                                                  45, // Radius of each images
-                                              imageCount:
-                                                  3, // Maximum number of images to be shown in stack
-                                              imageBorderWidth:
-                                                  0.6, // Border width around the images
-                                            ),SizedBox(width: 24,),
-                                            ClipOval(
-                                              child: Container(
-                                                color: Color.fromARGB(48, 142, 141, 141),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.symmetric(
-                                                     vertical: 8.0,horizontal: 14),
-                                                  child: Text(
-                                                    "+",
-                                                    style: AppFonts.body1
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: Pallete.text,
-                                                            fontSize: 16),
-                                                  ),
+              ),
+              SizedBox(
+                height: _getSize.height * 0.02,
+              ),
+              Container(
+                width: _getSize.width,
+                height: _getSize.height * 0.0007,
+                color: Pallete.primaryColor,
+              ),
+              SizedBox(
+                height: _getSize.height * 0.02,
+              ),
+              middle(
+                getSize: _getSize,
+                img: images,
+              ),
+              SizedBox(
+                height: _getSize.height * 0.05,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: SizedBox(
+                    height: _getSize.height * 0.32,
+                    child: DefaultTabController(
+                      length: 2,
+                      child: Column(
+                        children: [
+                          TabNavBar(
+                            tabIndex: _tabIndex,
+                            tabTextList: const [
+                              'About',
+                              'Reviews',
+                            ],
+                            onTap: (index) {
+                              setState(() {
+                                _tabIndex = index;
+                              });
+                            },
+                          ),
+                          SizedBox(
+                            height: _getSize.height * 0.2,
+                            child: TabBarView(
+                              // physics: const NeverScrollableScrollPhysics(),
+                              children: <Widget>[
+                                SizedBox(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        about,
+                                        style: AppFonts.body1
+                                            .copyWith(color: Pallete.text),
+                                      ),
+                                      SizedBox(
+                                        height: _getSize.height * 0.02,
+                                      ),
+                                      Row(
+                                        children: [
+                                          ImageStack(
+                                            imageList: images,
+                                            backgroundColor: Color.fromARGB(
+                                                49, 209, 209, 209),
+                                            extraCountTextStyle: AppFonts.body1
+                                                .copyWith(
+                                                    color: Pallete.primaryColor,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                            totalCount: images
+                                                .length, // If larger than images.length, will show extra empty circle
+                                            imageRadius:
+                                                45, // Radius of each images
+                                            imageCount:
+                                                3, // Maximum number of images to be shown in stack
+                                            imageBorderWidth:
+                                                0.6, // Border width around the images
+                                          ),
+                                          SizedBox(
+                                            width: 24,
+                                          ),
+                                          ClipOval(
+                                            child: Container(
+                                              color: Color.fromARGB(
+                                                  48, 142, 141, 141),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8.0,
+                                                        horizontal: 14),
+                                                child: Text(
+                                                  "+",
+                                                  style: AppFonts.body1
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Pallete.text,
+                                                          fontSize: 16),
                                                 ),
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                  bottom(getSize: _getSize)
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      )),
-                ),
-              
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 80),
-                  child: ButtonWithFuction(
-                      text: 'Logout',
-                      onPressed: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            AppRoutes.welcomeScreen, (route) => false);
-                      }),
-                )
-              ],
-            ),
+                                ),
+                                bottom(getSize: _getSize)
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    )),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 80),
+                child: ButtonWithFuction(
+                    text: 'Logout',
+                    onPressed: () {
+                    
+                      setState(() {
+                          clear();
+                      });
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          AppRoutes.welcomeScreen, (route) => false);
+                    }),
+              ),
+              SizedBox(
+                height: _getSize.height * 0.05,
+              ),
+            ],
           ),
         ),
       ),
@@ -318,7 +349,7 @@ class middle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          height: _getSize.height * 0.07,
+          height: _getSize.height * 0.075,
           width: _getSize.width * 0.28,
           decoration: BoxDecoration(
               color: Color.fromARGB(97, 29, 89, 103),
@@ -343,12 +374,12 @@ class middle extends StatelessWidget {
                   children: [
                     Text("05",
                         style: AppFonts.boldText.copyWith(
-                          fontSize: 16,
+                          fontSize: _getSize.height * 0.02,
                           color: Color(0xFF1D5A67),
                         )),
                     Image.asset(
                       AppImages.estate,
-                      width: 24,
+                      height: _getSize.height * 0.02,
                       color: Color(0xFF1D5A67),
                     ),
                   ],
@@ -364,7 +395,7 @@ class middle extends StatelessWidget {
                       "Total",
                       style: AppFonts.body1.copyWith(
                           color: Color(0xFF1D5A67),
-                          fontSize: 14,
+                          fontSize: _getSize.height * 0.017,
                           fontWeight: FontWeight.w500),
                     ),
                     Text(
@@ -373,7 +404,7 @@ class middle extends StatelessWidget {
                           color: Color(
                             0xFF1D5A67,
                           ),
-                          fontSize: 14,
+                          fontSize: _getSize.height * 0.017,
                           fontWeight: FontWeight.w500),
                     ),
                   ],
@@ -386,7 +417,7 @@ class middle extends StatelessWidget {
           width: _getSize.width * 0.04,
         ),
         Container(
-          height: _getSize.height * 0.07,
+          height: _getSize.height * 0.075,
           width: _getSize.width * 0.28,
           decoration: BoxDecoration(
               color: Color(0xFFCDF7FD),
@@ -410,8 +441,9 @@ class middle extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text("02",
-                        style: AppFonts.boldText
-                            .copyWith(fontSize: 16, color: Pallete.text)),
+                        style: AppFonts.boldText.copyWith(
+                            fontSize: _getSize.height * 0.02,
+                            color: Pallete.text)),
                     Image.asset(
                       AppImages.request,
                       width: 18,
@@ -430,7 +462,7 @@ class middle extends StatelessWidget {
                       "Request",
                       style: AppFonts.body1.copyWith(
                           color: Color(0xFF07D9F5),
-                          fontSize: 14,
+                          fontSize: _getSize.height * 0.017,
                           fontWeight: FontWeight.w500),
                     ),
                     Text(
@@ -439,7 +471,7 @@ class middle extends StatelessWidget {
                           color: Color(
                             0xFF07D9F5,
                           ),
-                          fontSize: 14,
+                          fontSize: _getSize.height * 0.017,
                           fontWeight: FontWeight.w500),
                     ),
                   ],
@@ -463,7 +495,7 @@ class bottom extends StatelessWidget {
     List<Map> services = [
       {
         'img': AppImages.fby,
-           'icon': AppImages.electrician,
+        'icon': AppImages.electrician,
         'color': Color(0xFFFCEADA),
         'color2': Color(0xFFEF9645),
         'text': 'Bryan Umar',
@@ -471,9 +503,9 @@ class bottom extends StatelessWidget {
         'desc':
             'I was very impressed with Bryan’s work. He was prompt, professional, and did a great job fixing the electrical problem in my tenant\'s apartment. I would highly recommend him to anyone who needs an electrician.'
       },
-         {
+      {
         'img': AppImages.agb,
-          'icon': AppImages.plumber,
+        'icon': AppImages.plumber,
         'color': Color(0xFFEADAFF),
         'color2': Color(0xFF9747FF),
         'text': 'Bryan Umar',
@@ -481,7 +513,6 @@ class bottom extends StatelessWidget {
         'desc':
             'I was very impressed with Bryan’s work. He was prompt, professional, and did a great job fixing the electrical problem in my tenant\'s apartment. I would highly recommend him to anyone who needs an electrician.'
       },
-      
     ];
     return SizedBox(
         width: _getSize.width * 0.9,
@@ -514,11 +545,10 @@ class bottom extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                         Image.asset(
-                                  services[index]['img'],
-                               
-                                  width: _getSize.width*0.15,
-                                ),
+                        Image.asset(
+                          services[index]['img'],
+                          width: _getSize.width * 0.15,
+                        ),
                         SizedBox(
                           width: 8,
                         ),
@@ -560,7 +590,8 @@ class bottom extends StatelessWidget {
                                   ],
                                 ),
                               ],
-                            ),  SizedBox(
+                            ),
+                            SizedBox(
                               height: _getSize.height * 0.007,
                             ),
                             Row(
@@ -576,9 +607,9 @@ class bottom extends StatelessWidget {
                                 Text(
                                   services[index]['job'],
                                   style: AppFonts.body1.copyWith(
-                                      color: Pallete.text,
-                                      fontSize: 12,
-                                      ),
+                                    color: Pallete.text,
+                                    fontSize: 12,
+                                  ),
                                 ),
                               ],
                             ),
@@ -590,10 +621,10 @@ class bottom extends StatelessWidget {
                               child: Text(
                                 services[index]['desc'],
                                 style: AppFonts.body1.copyWith(
-                                    color: Pallete.text,
-                                    fontSize: 12,
-                                    overflow: TextOverflow.ellipsis,
-                                    ),
+                                  color: Pallete.text,
+                                  fontSize: 12,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
                           ],
@@ -638,12 +669,11 @@ class _TabNavBarState extends State<TabNavBar> {
         physics: BouncingScrollPhysics(),
         onTap: widget.onTap,
         indicatorColor: Pallete.primaryColor,
-        indicatorSize: TabBarIndicatorSize.label, 
+        indicatorSize: TabBarIndicatorSize.label,
         labelColor: Pallete.text,
-        labelStyle: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),
+        labelStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
         unselectedLabelColor: Pallete.fade,
-        
-        indicatorWeight: 1, 
+        indicatorWeight: 1,
         tabs: widget.tabTextList
             .map((tabText) => TabBarItem(
                   text: tabText,

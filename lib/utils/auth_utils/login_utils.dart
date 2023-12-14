@@ -16,8 +16,7 @@ class LoginUtil {
 
     var result;
     await saveEmail(loginData['email']);
-    print(loginData['email']);
-    print(loginData['email']);
+
     if (formkey.currentState!.validate()) {
       formkey.currentState!.save();
 
@@ -34,22 +33,24 @@ class LoginUtil {
         if (value['statusCode'] == 200) {
           print("yes ${value}");
           // formkey.currentState!.reset();
-          await saveId(value['data']['customercode'].toString());
+          await saveId(value['data']['_id'].toString());
           await saveEmail(value['data']['email']);
           await saveName(value['data']['name']);
           await savePhone(value['data']['phone']);
           await saveSurname(value['data']['surname']);
-          await saveRef(value['data']['refcode']);
+          await saveSelfie(value['data']['selfie']??"https://i.ibb.co/txwfp3w/37f70b1b79e6.jpg");
+           await saveToken(value['data']['accessTken']??"");
+            await saveAbout(value['data']['about']??"");
           await saveOnce(3);
-          await setSecured(value['data']['status']);
-          Navigator.of(context).popAndPushNamed(AppRoutes.dashboardScreen);
-       
+          // await setSecured(value['data']['status']);
+          Navigator.of(context).popAndPushNamed(AppRoutes.loadHome);
+          // Navigator.of(context).popAndPushNamed(AppRoutes.dashboardScreen);
         } else {
           if (value['statusCode'] == 404) {
             AppUtils.showAlertDialog(
                 context,
                 'Oops, something isn\'t right!',
-                value['data'],
+                value['error'],
                 'Sign Up',
                 'Try again',
                 () =>
@@ -70,7 +71,7 @@ class LoginUtil {
             AppUtils.showAlertDialog(
                 context,
                 'Oops, something isn\'t right!',
-                value['data'],
+                value['error'],
                 'Contact Support',
                 'Close',
                 () =>

@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:abjalandlord/components/buttons.dart';
 import 'package:abjalandlord/constants/app_images.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/app_fonts.dart';
 import '../../constants/app_routes.dart';
 import '../../utils/app_utils.dart';
+import '../../utils/local_storage.dart';
 
 class Property extends StatefulWidget {
   const Property({Key? key}) : super(key: key);
@@ -17,20 +21,50 @@ class Property extends StatefulWidget {
 
 class _PropertyState extends State<Property> {
   int _tabIndex = 0;
+  bool loaded = false;
+  List property = [];
+  getPropertyItems() async {
+    var propertyString = await showPropertyItem();
+    print(propertyString);
+    var getproperty =
+        List<Map<String, dynamic>>.from(jsonDecode(propertyString));
+    if (getproperty.isEmpty) {
+      setState(() {
+      property = [];
+         print(property);
+
+      loaded = true;
+      });
+     
+    } else {
+     
+      setState(() {
+        property = getproperty;
+        print(property);
+        loaded = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    getPropertyItems();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _getSize = MediaQuery.of(context).size;
     return Scaffold(
         body: SafeArea(
-      child: SizedBox(
-        height: _getSize.height,
+      child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text(""), Icon(Icons.filter_list)],
+                children: const [Text(""), Icon(Icons.filter_list)],
               ),
               SizedBox(
                 height: _getSize.height * 0.035,
@@ -88,59 +122,119 @@ class _PropertyState extends State<Property> {
                 height: _getSize.height * 0.02,
               ),
               SizedBox(
-                   height: _getSize.height * 0.7412,
+                height: _getSize.height * 0.76,
                 child: Stack(children: [
-                    
-                  SizedBox(
-                      height: _getSize.height*0.9,
-                      child: DefaultTabController(
-                        length: 2,
-                        child: Column(
-                          children: [
-                            TabNavBar(
-                              tabIndex: _tabIndex,
-                              tabTextList: const [
-                                'Leased (5)',
-                                'Vacant (2)',
-                              ],
-                              onTap: (index) {
-                                setState(() {
-                                  _tabIndex = index;
-                                });
-                              },
-                            ),
-                            SizedBox(
-                              height: _getSize.height * 0.6781,
-                              child: TabBarView(
+                  DefaultTabController(
+                    length: 2,
+                    child: Column(
+                      children: [
+                        TabNavBar(
+                          tabIndex: _tabIndex,
+                          tabTextList: [
+                            'Leased (${property.length})',
+                            'Vacant (${property.length})',
+                          ],
+                          onTap: (index) {
+                            setState(() {
+                              _tabIndex = index;
+                            });
+                          },
+                        ),
+                      ! loaded
+                          ? Container(
+                              margin: EdgeInsets.only(bottom: 8),
+                              decoration: BoxDecoration(
+                                  color: Color(0xFFF6F9F5),
+                                  borderRadius: BorderRadius.circular(10)),
+                              width: _getSize.width,
+                              height: _getSize.height * 0.38,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SpinKitRing(
+                                      size: 30,
+                                      color: Pallete.primaryColor,
+                                      lineWidth: 2.0,
+                                    ),
+                                    Text(
+                                      "Looking for your property Listing",
+                                      style: AppFonts.body1,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ):  Column(
+                              children: [
+                                property.isEmpty
+                                    ? Container(
+                                        margin: EdgeInsets.only(bottom: 8),
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFFF6F9F5),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        width: _getSize.width,
+                                        height: _getSize.height * 0.38,
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Image.asset(
+                                                AppImages.no_prop,
+                                                width: _getSize.width * 0.6,
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    "You currently have no added property",
+                                                    style: AppFonts.body1,
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: _getSize.height * 0.01,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ) // Widget to show when many is 0
+                                    :
+                                SizedBox(
+                          height: _getSize.height * 0.6795,
+                          child: TabBarView(
                                 // physics: const NeverScrollableScrollPhysics(),
                                 children: <Widget>[
                                   tabContent(
+                                    propertyData: property,
                                     getSize: _getSize,
                                     items: 5,
                                   ),
                                   tabContent(
+                                    propertyData: property,
                                     getSize: _getSize,
                                     items: 2,
                                   ),
                                 ],
-                              ),
-                            )
-                          ],
+                          ),
                         ),
-                      )),
-                           Positioned(
+                              ],
+                            )
+                      ],
+                    ),
+                  ),
+                  Positioned(
                     bottom: 60,
                     child: ButtonWithFuction(
-                      text: 'Add Property',
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(AppRoutes.addProperty);
-                      }),
-                  ) , ]),
+                        text: 'Add Property',
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(AppRoutes.addProperty);
+                        }),
+                  ),
+                ]),
               ),
-              SizedBox(
-                height: _getSize.height * 0.02,
-              ),
-           
             ],
           ),
         ),
@@ -150,11 +244,16 @@ class _PropertyState extends State<Property> {
 }
 
 class tabContent extends StatelessWidget {
-  const tabContent({super.key, required Size getSize, required this.items})
+  tabContent(
+      {super.key,
+      required Size getSize,
+      required this.items,
+      required this.propertyData})
       : _getSize = getSize;
 
   final Size _getSize;
   final int items;
+  List propertyData;
 
   /**
    *     PersistentNavBarNavigator.pushNewScreen(
@@ -167,169 +266,176 @@ class tabContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+        height: _getSize.height * 0.25,
         child: ListView.builder(
-            itemCount: items,
+            itemCount: propertyData.length + 1,
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) {
-
-              if (items==items) {
-                
-              } else {
-                   return GestureDetector(
-                onTap: () =>
-                    Navigator.of(context).pushNamed(AppRoutes.propDetails),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          Image.asset(
-                            AppImages.condo1,
-                            fit: BoxFit.contain,
-                            width: _getSize.width * 0.45,
-                          ),
-                          Positioned(
-                            left: _getSize.width * 0.03,
-                            bottom: _getSize.height * 0.105,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color.fromARGB(47, 101, 105, 100),
-                                      blurRadius: 11,
-                                      spreadRadius: 1,
-                                      offset: Offset(0, 5),
-                                    )
-                                  ],
-                                  border: Border.all(
-                                      width: 0.3, color: Pallete.fade),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(3))),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 4.0, horizontal: 14),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "7",
-                                      style: AppFonts.body1.copyWith(
-                                          color: Pallete.primaryColor,
-                                          fontSize: 14),
-                                    ),
-                                    SizedBox(width: _getSize.width * 0.01),
-                                    Text("Rentals",
-                                        style: AppFonts.body1.copyWith(
-                                            color: Pallete.primaryColor,
-                                            fontSize: 14))
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: _getSize.width * 0.03,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+            itemBuilder: (context, index) => (index != propertyData.length)
+                ? GestureDetector(
+                    onTap: () =>
+                        Navigator.of(context).pushNamed(AppRoutes.propDetails),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Stack(
+                            children: [
+                              Image.network(
+                                propertyData[index]['photo'],
+                                fit: BoxFit.cover,
+                                width: _getSize.width * 0.45,
+                                height: _getSize.width * 0.35,
+                              ),
+                              Positioned(
+                                left: _getSize.width * 0.03,
+                                bottom: _getSize.height * 0.105,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Color.fromARGB(137, 246, 249, 245),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color.fromARGB(104, 246, 249, 245),
+                                          blurRadius: 11,
+                                          spreadRadius: 1,
+                                          offset: Offset(0, 5),
+                                        )
+                                      ],
+                                      border: Border.all(
+                                          width: 0.3, color: Pallete.fade),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(3))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4.0, horizontal: 14),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "7",
+                                          style: AppFonts.body1.copyWith(
+                                              color: Pallete.primaryColor,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: _getSize.height * 0.017,),
+                                        ),
+                                        SizedBox(width: _getSize.width * 0.01),
+                                        Text("Rentals",
+                                            style: AppFonts.body1.copyWith(
+                                                          fontWeight: FontWeight.w600,
+                                                color: Pallete.primaryColor,
+                                                 fontSize: _getSize.height * 0.017,))
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: _getSize.width * 0.03,
+                          ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "The Spring Lounge",
-                                style: AppFonts.boldText.copyWith(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w900,
-                                    color: Color.fromARGB(255, 12, 12, 12)),
-                              ),
-                              SizedBox(
-                                height: _getSize.height * 0.005,
-                              ),
-                              Row(
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Image.asset(
-                                    AppImages.estate,
-                                    width: 20,
+                                  Text(
+                                   propertyData[index]['name'],
+                                    style: AppFonts.boldText.copyWith(
+                                     fontSize: _getSize.height * 0.017,
+                                        fontWeight: FontWeight.w900,
+                                        color: Color.fromARGB(255, 12, 12, 12)),
                                   ),
                                   SizedBox(
-                                    width: _getSize.width * 0.008,
+                                    height: _getSize.height * 0.005,
                                   ),
-                                  Text(
-                                    "Condo Apartment",
-                                    style: AppFonts.body1.copyWith(
-                                        color: Pallete.fade, fontSize: 12),
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        AppImages.estate,
+                                        width: 
+                                                  _getSize.width * 0.04,
+                                      ),
+                                      SizedBox(
+                                        width: _getSize.width * 0.008,
+                                      ),
+                                      Text(
+                                       propertyData[index]['type'],
+                                        style: AppFonts.body1.copyWith(
+                                            color: Pallete.fade,fontSize:
+                                                  _getSize.height * 0.015),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: _getSize.height * 0.01,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        AppImages.location,
+                                        width: 
+                                                  _getSize.width * 0.04,
+                                        color: Pallete.primaryColor,
+                                      ),
+                                      SizedBox(
+                                        width: _getSize.width * 0.008,
+                                      ),
+                                      SizedBox(
+                                        width: _getSize.width * 0.38,
+                                        child: Text(
+                                          propertyData[index]['location'],
+                                          overflow: TextOverflow.ellipsis,
+                                          style: AppFonts.body1.copyWith(
+                                              color: Pallete.fade,
+                                              fontSize:
+                                                  _getSize.height * 0.015),
+                                        ),
+                                      )
+                                    ],
                                   )
                                 ],
                               ),
                               SizedBox(
                                 height: _getSize.height * 0.01,
                               ),
-                              Row(
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Image.asset(
-                                    AppImages.location,
-                                    width: 15,
-                                    color: Pallete.primaryColor,
+                                  Text("Description",
+                                      style: AppFonts.boldText.copyWith(
+                                         fontSize:
+                                                  _getSize.height * 0.017,
+                                          fontWeight: FontWeight.w900,
+                                          color: Color(0xFF333436))),
+                                  SizedBox(
+                                    height: _getSize.height * 0.0025,
                                   ),
                                   SizedBox(
-                                    width: _getSize.width * 0.008,
-                                  ),
-                                  SizedBox(
-                                    width: _getSize.width * 0.4,
+                                    width: _getSize.width * 0.38,
                                     child: Text(
-                                      "24 commercial avenue Kampal",
+                                      propertyData[index]['description'], maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
-                                      style: AppFonts.body1.copyWith(
-                                          color: Pallete.fade, fontSize: 12),
+                                      style:
+                                          AppFonts.body1.copyWith(fontSize:
+                                                  _getSize.height * 0.015),
                                     ),
-                                  )
+                                  ),
                                 ],
                               )
                             ],
                           ),
-                          SizedBox(
-                            height: _getSize.height * 0.015,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Description",
-                                  style: AppFonts.boldText.copyWith(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w900,
-                                      color: Color(0xFF333436))),
-                              SizedBox(
-                                height: _getSize.height * 0.0025,
-                              ),
-                              SizedBox(
-                                width: _getSize.width * 0.35,
-                                child: Text(
-                                  "Bright, spacious 2-bedroom apartment in a quiet neighborhood. Close to shops, restau...",
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: AppFonts.body1.copyWith(fontSize: 12),
-                                ),
-                              ),
-                            ],
-                          )
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              );
-           
-              }
-            }));
+                    ),
+                  )
+                : SizedBox(
+                    height: _getSize.height * 0.15,
+                  )));
   }
 }
 
@@ -363,7 +469,7 @@ class _TabNavBarState extends State<TabNavBar> {
         borderRadius: BorderRadius.circular(5),
       ),
       child: TabBar(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         onTap: widget.onTap,
         indicatorColor: Colors.white,
         labelColor: Colors.white,

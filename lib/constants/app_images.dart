@@ -1,9 +1,10 @@
 class AppImages {
   // WALKTHROUGH
-  static const doctor = 'assets/images/onboarding/doctor.jpeg';
-  static const others = 'assets/images/onboarding/others.jpeg';
-  static const info = 'assets/images/onboarding/info.jpeg';
-  static const medical = 'assets/images/onboarding/medical.jpeg';
+  static const entrance = 'assets/images/onboarding/entrance.png';
+  static const second = 'assets/images/onboarding/second.png';
+  static const first = 'assets/images/onboarding/first.png';
+  static const third = 'assets/images/onboarding/third.png';
+  static const fourth = 'assets/images/onboarding/fourth.png';
 
 //IMAGES
   static const drugs = 'assets/images/images/drugs.png';
@@ -21,6 +22,7 @@ class AppImages {
   static const weightlifting = 'assets/icons/tenant/lifting.png';
   static const football = 'assets/icons/tenant/football.png';
   static const swim = 'assets/icons/tenant/swim.png';
+   static const store = 'assets/icons/tenant/store.png';
   static const flower = 'assets/icons/tenant/flower.png';
   static const laundry = 'assets/icons/tenant/laundry.png';
 
@@ -79,15 +81,31 @@ class AppImages {
   static const cam = 'assets/icons/cam.png';
   static const painter = 'assets/icons/request/painter.png';
   static const chat = 'assets/icons/chat.png';
-   static const alert = 'assets/icons/request/alert.png';
+  static const alert = 'assets/icons/request/alert.png';
   static const electrician = 'assets/icons/elect.png';
   static const funmigate = 'assets/icons/request/cleaner.png';
-   static const movers = 'assets/icons/request/mover.png';
+  static const movers = 'assets/icons/request/mover.png';
+  static const cleaner = 'assets/icons/request/cleaner.png';
+  static const money = 'assets/icons/money.png';
+  static const bank = 'assets/icons/bank.png';
+  static const dwn = 'assets/icons/dwn.png';
+      static const notifyfilled = 'assets/icons/notif-f.png';
+
+  //Settings Icons
+  static const lock = 'assets/icons/settings/lock.png';
+  static const no_prop = 'assets/icons/no_prop.png';
+  static const brokenHeart = 'assets/icons/settings/broken_heart.png';
+  static const sharpdwonload = 'assets/icons/settings/sharpdwn.png';
+  static const notify = 'assets/icons/settings/notify.png';
+
+  static const wallet = 'assets/icons/settings/wallet.png';
+  static const secure = 'assets/icons/settings/secure.png';
+  static const accessibility = 'assets/icons/settings/accessibilty.png';
 
   //holder images to be deleted upon API integration
   static const condo1 = 'assets/images/condo.png';
   static const condo2 = 'assets/images/condo2.png';
-    static const fby = 'assets/images/tmp/fineboy.png';
+  static const fby = 'assets/images/tmp/fineboy.png';
   static const agb = 'assets/images/tmp/agbero.png';
   static const boy = 'assets/images/boy.png';
 }

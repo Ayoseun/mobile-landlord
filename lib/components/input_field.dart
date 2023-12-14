@@ -389,7 +389,7 @@ class CustomInput3 extends StatelessWidget {
       controller: myController,
       //maxLengthEnforced: false,
       onSaved: onSaved,
-      //enabled: enabled,
+      enabled: enabled,
       //autofocus: false,
       validator: validator,
       onChanged: onChanged,
@@ -420,9 +420,9 @@ class CustomInput3 extends StatelessWidget {
         errorText: error,
         hintText: hint,
         hintStyle: const TextStyle(
-            color: Pallete.hintColor,
+            color: Color.fromARGB(255, 161, 168, 170),
             fontSize: 12,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w300,
             decoration: TextDecoration.none),
         labelStyle: AppFonts.body1.copyWith(
           fontSize: 12,

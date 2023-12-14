@@ -230,12 +230,13 @@ class AppUtils {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  static dynamic successDialog(
+  static dynamic singleDialog(
     BuildContext context,
     String titleText,
     String contentText,
     String closeText,
     Widget Icon,
+    Widget? extraWidget,
     Function() confirmFunction,
   ) {
     // set up the buttons
@@ -269,10 +270,16 @@ class AppUtils {
     );
 
     // content
-    Widget content = Text(
-      contentText,
-      style: AppFonts.bodyText.copyWith(fontSize: 11, color: Pallete.text),
-      textAlign: TextAlign.center,
+    Widget content = Row(
+           mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          contentText,
+          style: AppFonts.bodyText.copyWith(fontSize: 11, color: Pallete.text),
+          textAlign: TextAlign.center,
+        ),
+        extraWidget!
+      ],
     );
 
     // set up the AlertDialog
@@ -399,7 +406,7 @@ class AppUtils {
   }
 
   static dynamic SuccessDialog(BuildContext context, String titleText,
-      String contentText, Widget Icon, String bottomText) {
+      String contentText, Widget Icon, String bottomText,String sroute) {
     // set up the buttons
 
     // title
@@ -423,13 +430,11 @@ class AppUtils {
             height: 8,
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width*0.35,
+            width: MediaQuery.of(context).size.width * 0.35,
             child: Text(
               contentText,
-              style: AppFonts.bodyText.copyWith(
-                fontSize: 12,
-                color: Pallete.text
-              ),
+              style:
+                  AppFonts.bodyText.copyWith(fontSize: 12, color: Pallete.text),
               textAlign: TextAlign.center,
             ),
           ),
@@ -441,13 +446,22 @@ class AppUtils {
     );
 
     // content
-    Widget content = Text(
-      bottomText,
-      style: TextStyle(
-         // decoration: TextDecoration.underline,
-          color: Pallete.secondaryColor,
-          fontSize: 12),
-      textAlign: TextAlign.center,
+    Widget content = GestureDetector(
+      onTap: () {
+     Navigator.of(context).pushNamedAndRemoveUntil(
+          sroute,
+          (route) => false,
+        );
+
+      },
+      child: Text(
+        bottomText,
+        style: TextStyle(
+            // decoration: TextDecoration.underline,
+            color: Pallete.secondaryColor,
+            fontSize: 12),
+        textAlign: TextAlign.center,
+      ),
     );
 
     // set up the AlertDialog

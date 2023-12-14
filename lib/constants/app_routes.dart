@@ -2,12 +2,17 @@ import 'package:abjalandlord/views/auth/loading.dart';
 import 'package:abjalandlord/views/auth/login/login.dart';
 import 'package:abjalandlord/views/auth/package.dart';
 import 'package:abjalandlord/views/auth/register/register.dart';
+import 'package:abjalandlord/views/auth/welcome/welcome.dart';
 import 'package:abjalandlord/views/dashboard/dashboard.dart';
 import 'package:abjalandlord/views/drawer_menu/sidebar.dart';
 import 'package:abjalandlord/views/profile/edit_profile.dart';
 import 'package:abjalandlord/views/profile/profile.dart';
 import 'package:abjalandlord/views/property/add/add-property.dart';
 import 'package:abjalandlord/views/property/details/property-details.dart';
+import 'package:abjalandlord/views/settings/content/content.dart';
+import 'package:abjalandlord/views/settings/settings.dart';
+import 'package:abjalandlord/views/tenant/add_tenant.dart';
+import 'package:abjalandlord/views/tenant/tenant_profile.dart';
 import 'package:flutter/widgets.dart';
 
 import '../views/auth/forgotPassword/change_password.dart';
@@ -15,7 +20,9 @@ import '../views/auth/forgotPassword/forgotPassword.dart';
 import '../views/auth/forgotPassword/otp.dart';
 import '../views/auth/register/register_otp.dart';
 import '../views/navbar/nav.dart';
+import '../views/onboarding/onboarding.dart';
 import '../views/property/add/add-unit.dart';
+import '../views/tenant/tenants.dart';
 
 class AppRoutes {
   static const dashboardScreen = '/dashboardScreen';
@@ -28,7 +35,7 @@ class AppRoutes {
   static const about = './history';
   static const bookATest = './bookATest';
   static const randomSearch = '/randomSearchScreen';
-  static const testScreen = '/testScreen';
+  static const addTenant = '/addTenant';
   static const viewAllCart = '/viewAllCart';
   static const drugItemScreen = '/drugItem';
   static const webviewScreen = '/webview';
@@ -51,14 +58,23 @@ class AppRoutes {
   static const registerScreen = '/registerScreen';
   static const resetOTPScreen = '/resetOTPScreen';
   static const addProperty = '/addProperty';
-   static const addUnit = '/addUnit';
+  static const addUnit = '/addUnit';
   static const makeRequest = '/makeRequest';
+  static const tenants = '/tenants';
+  static const onboarding = '/onboarding';
+  static const tenantsProfile = '/tenantsprofile';
+  static const settings = '/settings';
+  static const settingsDetails = '/settingsDetails';
   static Map<String, WidgetBuilder> routes() {
     return <String, WidgetBuilder>{
+      AppRoutes.welcomeScreen: ((context) => Welcome()),
+      AppRoutes.onboarding: (context) =>  OnboardingScreen(),
       AppRoutes.forgotPassword: ((context) => PasswordResetScreen()),
+      AppRoutes.settings: ((context) => Settings()),
+      AppRoutes.settingsDetails: ((context) => SettingsContent()),
       AppRoutes.editProfile: ((context) => EditProfile()),
       AppRoutes.addProperty: ((context) => AddProperty()),
-       AppRoutes.addUnit: ((context) => AddUnit()),
+      AppRoutes.addUnit: ((context) => AddUnit()),
       AppRoutes.makeRequest: ((context) => AddProperty()),
       AppRoutes.changePassword: (context) => NewPasswordScreen(),
       AppRoutes.registerOTPScreen: (context) => RegisterOTPScreen(),
@@ -70,6 +86,9 @@ class AppRoutes {
       AppRoutes.profile: (context) => Profile(),
       AppRoutes.dashboardScreen: (context) => Dashboard(),
       AppRoutes.navbar: (context) => NavBar(),
+      AppRoutes.addTenant: (context) => AddTenant(),
+      AppRoutes.tenants: (context) => Tenants(),
+      AppRoutes.tenantsProfile: (context) => TenantProfile(),
       AppRoutes.propDetails: (context) => PropertyDetails(),
     };
   }
