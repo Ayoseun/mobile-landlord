@@ -10,10 +10,6 @@ import '../local_storage.dart';
 class LoginUtil {
   static Future<String> login(GlobalKey<FormState> formkey,
       BuildContext context, Map<String, dynamic> loginData) async {
-    // print(loginData);
-    //var token2 = await showToken();
-    //var id2 = await showId();
-
     var result;
     await saveEmail(loginData['email']);
 
@@ -31,20 +27,19 @@ class LoginUtil {
         Navigator.of(context).pop();
 
         if (value['statusCode'] == 200) {
-          print("yes ${value}");
           // formkey.currentState!.reset();
           await saveId(value['data']['_id'].toString());
           await saveEmail(value['data']['email']);
           await saveName(value['data']['name']);
           await savePhone(value['data']['phone']);
           await saveSurname(value['data']['surname']);
-          await saveSelfie(value['data']['selfie']??"https://i.ibb.co/txwfp3w/37f70b1b79e6.jpg");
-           await saveToken(value['data']['accessTken']??"");
-            await saveAbout(value['data']['about']??"");
+          await saveSelfie(value['data']['selfie'] ??
+              "https://i.ibb.co/txwfp3w/37f70b1b79e6.jpg");
+          await saveToken(value['data']['accessTken'] ?? "");
+          await saveAbout(value['data']['about'] ?? "");
           await saveOnce(3);
-          // await setSecured(value['data']['status']);
+
           Navigator.of(context).popAndPushNamed(AppRoutes.loadHome);
-          // Navigator.of(context).popAndPushNamed(AppRoutes.dashboardScreen);
         } else {
           if (value['statusCode'] == 404) {
             AppUtils.showAlertDialog(
@@ -56,26 +51,36 @@ class LoginUtil {
                 () =>
                     Navigator.of(context).pushNamed(AppRoutes.registerScreen));
           }
-          if (value['statusCode'] == 403) {
+          if (value['statusCode'] == 400) {
             AppUtils.showAlertDialog(
                 context,
                 'Oops, something isn\'t right!',
                 value['error'],
-                'Enter OTP',
-                'Close',
-                () => Navigator.of(context)
-                    .pushNamed(AppRoutes.registerOTPScreen));
+                'Sign Up',
+                'Try again',
+                () =>
+                    Navigator.of(context).pushNamed(AppRoutes.registerScreen));
           }
 
-          if (value['statusCode'] == 302 && value['data']['status'] == false) {
+          if (value['statusCode'] == 500) {
+            AppUtils.showAlertDialog(
+                context,
+                'Oops, something isn\'t right!',
+                value['error'],
+                'Sign Up',
+                'Try again',
+                () =>
+                    Navigator.of(context).pushNamed(AppRoutes.registerScreen));
+          }
+
+          if (value['statusCode'] == 403) {
             AppUtils.showAlertDialog(
                 context,
                 'Oops, something isn\'t right!',
                 value['error'],
                 'Contact Support',
                 'Close',
-                () =>
-                    Navigator.of(context).pushNamed(AppRoutes.registerScreen));
+                () => Navigator.of(context).pop());
           }
         }
       });
