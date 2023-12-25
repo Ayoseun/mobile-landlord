@@ -73,7 +73,7 @@ class _ProfileState extends State<Profile> {
                         width: 36,
                       ),
                     ),
-                    Text("Profile"),
+                    Text("My Profile"),
                     Text("")
                   ],
                 ),
