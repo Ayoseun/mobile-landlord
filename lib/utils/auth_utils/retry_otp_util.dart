@@ -33,6 +33,7 @@ class RetryOTPUtil {
           ),
         );
       } else {
+           await saveToken(value['data']['accessTken'] ?? "");
         AppUtils.ErrorDialog(
           context,
           "Sent",

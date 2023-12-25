@@ -8,6 +8,7 @@ import 'package:abjalandlord/components/input_field.dart';
 import 'package:abjalandlord/constants/app_colors.dart';
 import 'package:abjalandlord/constants/app_fonts.dart';
 import 'package:abjalandlord/constants/app_routes.dart';
+import 'package:abjalandlord/constants/resources.dart';
 import 'package:abjalandlord/utils/app_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -17,7 +18,7 @@ import 'package:image_picker/image_picker.dart' as imgpika;
 import '../../../constants/app_images.dart';
 import '../../../network/property.dart';
 import '../../../utils/local_storage.dart';
-import '../../../utils/proprty_util/add_property_utils.dart';
+import '../../../utils/property_util/add_property_utils.dart';
 import '../../tenant/tenant_profile.dart';
 import 'add-property.dart';
 
@@ -73,7 +74,7 @@ class _AddUnitState extends State<AddUnit> {
 
   void addUnit() {
     setState(() {
-      moreUnits.add(UnitItem(false, false, "", ",", "", "", "", "", "", ""));
+      moreUnits.add(UnitItem(false, false, "", ",", "", "", "", imgHolder, "", ""));
     });
   }
 
@@ -86,7 +87,7 @@ class _AddUnitState extends State<AddUnit> {
         "bedroom": item.bedroom,
         "landlordID": landlordid,
         "propertyID": pID,
-        "id": item.id,
+        "unitID": item.id,
         "bathroom": item.bathroom,
         "lightMeter": item.light,
         "waterMeter": item.water,
@@ -98,7 +99,7 @@ class _AddUnitState extends State<AddUnit> {
         "monthlyCost": "",
         "extraWages": "",
         "tax": "",
-        "photo": item.photo,
+        "photo": item.photo
       };
     }).toList();
     // Now dataList contains all items as map objects
@@ -176,14 +177,45 @@ class _AddUnitState extends State<AddUnit> {
                         physics: BouncingScrollPhysics(),
                         scrollDirection: Axis.vertical,
                         itemBuilder: (context, index) {
+                          String userAccessCodeString =
+                              generateRandomString(5, "b");
+                          moreUnits[index].id = "$pID-00$userAccessCodeString";
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 32.0),
                             child: Column(children: [
                               ProfileData(
                                 getSize: _getSize,
                                 header: "",
-                                content:
-                                    "Enter information for unit ${index + 1}.",
+                                content: "Unit ${index + 1} Information.",
+                              ),
+                              SizedBox(
+                                height: _getSize.height * 0.003,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'ID Number: ',
+                                      style: AppFonts.smallWhite.copyWith(
+                                        color: Pallete.fade,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width: _getSize.width * 0.65,
+                                        child: Text(
+                                          moreUnits[index].id,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: AppFonts.smallWhiteBold
+                                              .copyWith(
+                                                  color: Pallete
+                                                      .primaryColorVariant,
+                                                  fontSize: 11),
+                                        )),
+                                  ],
+                                ),
                               ),
                               SizedBox(
                                 height: _getSize.height * 0.03,
@@ -191,19 +223,19 @@ class _AddUnitState extends State<AddUnit> {
                               NewWidget(
                                 data: (value) {
                                   moreUnits[index].bedroom = value!;
-                                  String userAccessCodeString =
-                                      generateRandomString(5, "b");
-                                  moreUnits[index].id =
-                                      "$pID-00$userAccessCodeString";
+                                  // String userAccessCodeString =
+                                  //     generateRandomString(5, "b");
+                                  // moreUnits[index].id =
+                                  //     "$pID-00$userAccessCodeString";
                                 },
                                 data2: (value) {},
                                 getSize: _getSize,
                                 label: "Bedroom",
                                 hint: "ex: 3 Bedrooms",
-                                label2: moreUnits[index].id,
-                                enabled: false,
-                                type: "number",
-                                hint2: "ex: 00097",
+                                label2: "store",
+                               type: "number",
+                                type2: "number",
+                                hint2: "ex: 1",
                               ),
                               SizedBox(
                                 height: _getSize.height * 0.03,
@@ -236,6 +268,8 @@ class _AddUnitState extends State<AddUnit> {
                                 getSize: _getSize,
                                 label: "Light Meter",
                                 hint: "ex: 4543433324",
+                                 type: "number",
+                                type2: "number",
                                 label2: "Water meter",
                                 hint2: "ex: 344444333",
                               ),
@@ -553,6 +587,9 @@ class _AddUnitState extends State<AddUnit> {
                         GestureDetector(
                           onTap: () {
                             addUnit();
+                            AppUtils.showSnackBarMessage(
+                                'Scroll down to fill unit information',
+                                context);
                           },
                           child: Container(
                             width: _getSize.width * 0.4,
@@ -667,7 +704,7 @@ class UnitItem {
   String store;
 
   UnitItem(this.isPowerChecked, this.isWifiChecked, this.light, this.bedroom,
-      this.bathroom, this.toilet, this.water, this.photo, this.id,this.store);
+      this.bathroom, this.toilet, this.water, this.photo, this.id, this.store);
 }
 
 String generateRandomString(int length, String a) {

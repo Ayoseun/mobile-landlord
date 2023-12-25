@@ -149,7 +149,6 @@ class PropertyAPI {
     );
 
     var parsedResponse = jsonDecode(response.body);
-    print(parsedResponse);
     return parsedResponse;
   }
 }

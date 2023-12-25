@@ -3,6 +3,7 @@ import 'package:abjalandlord/constants/app_colors.dart';
 import 'package:abjalandlord/constants/app_fonts.dart';
 import 'package:abjalandlord/constants/app_images.dart';
 import 'package:abjalandlord/constants/app_routes.dart';
+import 'package:abjalandlord/constants/resources.dart';
 import 'package:abjalandlord/views/property/details/widgets/main_page.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
 
     if (gotproperties.isNotEmpty) {
       property = gotproperties;
-      imgList.add(property['photo']);
+      imgList.add(property['photo']??imgHolder);
       propertyUnits = property['unitData'];
       for (var element in property['unitData']) {
         imgList.add(element["photo"]);
@@ -100,7 +101,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
   Widget build(BuildContext context) {
     final dataFromRoute = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    propID = dataFromRoute["id"];
+    propID = dataFromRoute["data"];
 
     final _getSize = MediaQuery.of(context).size;
     return Scaffold(
@@ -165,8 +166,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                           // Clip the image to match the border radius
                                           borderRadius:
                                               BorderRadius.circular(15),
-                                          child: Image.network(item,
-                                              fit: BoxFit.fill),
+                                          child: Image.network(item != null ? item : imgHolder, fit: BoxFit.fill),
+
                                         ),
                                       );
                                     },
@@ -350,11 +351,13 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                             ],
                           ),
                           !isUnitAvaialble
+                          //Main property view
                               ? FullPropertyContent(
                                   getSize: _getSize,
                                   property: property,
                                   images: images,
                                   service: service)
+                                  //Individual unit view
                               : UnitContent(
                                   getSize: _getSize,
                                   property: property,
@@ -489,7 +492,7 @@ class UnitContent extends StatelessWidget {
                                   onTap: () {
                                     var tenantInfo = {
                                       "propertyID": property['propertyID'],
-                                      "unitID": propertyUnits[unitCount]['id']
+                                      "unitID": propertyUnits[unitCount]['unitID']
                                     };
                                     Navigator.of(context).pushNamed(
                                       AppRoutes.addTenant,

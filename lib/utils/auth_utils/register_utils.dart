@@ -12,9 +12,7 @@ import '../local_storage.dart';
 class RegisterUtil {
   static Future<String> register(GlobalKey<FormState> formkey,
       BuildContext context, Map<String, dynamic> registerData) async {
-    // print(loginData);
-    //var token2 = await showToken();
-    //var id2 = await showId();
+
     await saveEmail(registerData['email']);
     await savePhone(registerData['phone']);
     var result;
@@ -33,7 +31,7 @@ class RegisterUtil {
               registerData['phone'].trim())
           .then((value) async {
         Navigator.of(context).pop();
-        print(value);
+     
         if (value['statusCode'] == 200) {
           formkey.currentState!.reset();
 

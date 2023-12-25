@@ -225,7 +225,7 @@ class AppUtils {
               fontFamily: "AccordAlternate", color: Colors.white),
           textAlign: TextAlign.center),
       duration: const Duration(seconds: 2),
-      backgroundColor: Colors.black54,
+      backgroundColor: Pallete.primaryColorVariant,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
@@ -271,7 +271,7 @@ class AppUtils {
 
     // content
     Widget content = Row(
-           mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           contentText,
@@ -406,7 +406,8 @@ class AppUtils {
   }
 
   static dynamic SuccessDialog(BuildContext context, String titleText,
-      String contentText, Widget Icon, String bottomText,String sroute) {
+      String contentText, Widget Icon, String bottomText, String sroute,
+      {String? routeData}) {
     // set up the buttons
 
     // title
@@ -446,13 +447,15 @@ class AppUtils {
     );
 
     // content
-    Widget content = GestureDetector(
+    Widget content = InkWell(
       onTap: () {
-     Navigator.of(context).pushNamedAndRemoveUntil(
+        Navigator.pop(context);
+        Navigator.of(context).pushNamed(
           sroute,
-          (route) => false,
+          arguments: {
+            'data': routeData,
+          },
         );
-
       },
       child: Text(
         bottomText,

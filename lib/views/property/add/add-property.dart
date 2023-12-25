@@ -9,7 +9,7 @@ import 'package:abjalandlord/constants/app_fonts.dart';
 import 'package:abjalandlord/constants/app_routes.dart';
 import 'package:abjalandlord/network/property.dart';
 import 'package:abjalandlord/utils/app_utils.dart';
-import 'package:abjalandlord/utils/proprty_util/add_property_utils.dart';
+import 'package:abjalandlord/utils/property_util/add_property_utils.dart';
 import 'package:abjalandlord/views/dashboard/dashboard.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';

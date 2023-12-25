@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:abjalandlord/constants/app_fonts.dart';
-import 'package:abjalandlord/utils/proprty_util/add_tenant_utils.dart';
+import 'package:abjalandlord/utils/property_util/add_tenant_utils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

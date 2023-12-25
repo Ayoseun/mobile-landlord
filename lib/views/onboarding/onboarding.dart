@@ -86,8 +86,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.of(context)
-                                  .pushNamed(AppRoutes.registerScreen);
+                  saveOnce(1);
+                            Navigator.of(context)
+                                .pushNamed(AppRoutes.welcomeScreen);
                             },
                             child: Text(
                               'Skip >>>',

@@ -29,14 +29,12 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
 
   String otp = '';
 
-
   bool value = false;
   bool passwordVisible = false;
 
-
   final focusNode = FocusNode();
 
-   Duration _duration = Duration(minutes: 4);
+  Duration _duration = Duration(minutes: 4);
   Timer? _timer;
 
   void startTimer() {
@@ -52,9 +50,12 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
     });
   }
 
+  bool isCountdownCompleted = false;
   void onTimerComplete() {
-    // Function to handle logic when timer completes
-   Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.loginScreen, (Route<dynamic> route) => false);
+    setState(() {
+      isCountdownCompleted = true;
+    });
+
   }
 
   @override
@@ -63,13 +64,12 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
     super.dispose();
   }
 
-
   @override
   void initState() {
-     startTimer();
+    startTimer();
     super.initState();
-    
   }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -142,7 +142,6 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
                   ],
                 ),
                 OTPTextField(
-                   
                     length: 5,
                     width: MediaQuery.of(context).size.width,
                     textFieldAlignment: MainAxisAlignment.spaceAround,
@@ -152,9 +151,8 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
                     style: TextStyle(fontSize: 17),
                     onChanged: (pin) {
                       print("Changed: " + pin);
-                       setState(() {
+                      setState(() {
                         otp = pin;
-                       
                       });
                     },
                     onCompleted: (pin) {
@@ -163,15 +161,20 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
                 SizedBox(
                   height: _getSize.height * 0.025,
                 ),
+           
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32.0),
                   child: Column(
                     children: [
-                      Column(
+                        Column(
                         children: [
-                          InkWell(
+                          isCountdownCompleted? InkWell(
                             onTap: () {
                               RetryOTPUtil.retry(context);
+                               startTimer();
+                               setState(() {
+                                 
+                               });
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -189,13 +192,13 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
                                 )
                               ],
                             ),
-                          ),
+                          ):const SizedBox(),
                           SizedBox(
                             height: _getSize.height * 0.005,
                           ),
                           Text(
-                           formatDuration(_duration),
-                            style: AppFonts.body1,
+                            formatDuration(_duration),
+                            style: AppFonts.body1.copyWith(color: Pallete.black,fontSize: 14,fontWeight: FontWeight.w600),
                           )
                         ],
                       ),
@@ -206,8 +209,8 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
                           text: "Continue",
                           onPressed: () {
                             RegisterOTPUtil.register(context, otp);
-                            // Navigator.of(context)
-                            //     .pushReplacementNamed(AppRoutes.loginScreen);
+                            
+                          
                           }),
                     ],
                   ),
@@ -219,13 +222,11 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
       ),
     );
   }
-    
-
 }
 
 String formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return "$twoDigitMinutes:$twoDigitSeconds";
-  }
+  String twoDigits(int n) => n.toString().padLeft(2, '0');
+  String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+  String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+  return "$twoDigitMinutes:$twoDigitSeconds";
+}

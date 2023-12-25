@@ -6,6 +6,7 @@ class Pallete {
   static const hintColor = Color(0xFFD8DFE2);
   static const secondaryColor = Color(0xFF0174C7);
   static const primaryColor = Color(0xFF2A4C23);
+  static const primaryColorVariant = Color(0xFF47893F);
   static const primaryColor2 = Color(0xFF1971A3);
   static const black = Color(0xFF000000);
   static const shadowcolor = Color(0xFF0000);

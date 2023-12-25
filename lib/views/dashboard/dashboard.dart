@@ -22,7 +22,7 @@ import '../../utils/local_storage.dart';
 import '../../utils/location.dart';
 import '../../utils/permissions.dart';
 
-import '../../utils/proprty_util/add_property_utils.dart';
+import '../../utils/property_util/add_property_utils.dart';
 import '../drawer_menu/sidebar.dart';
 
 class Dashboard extends StatefulWidget {
@@ -507,7 +507,7 @@ class properties extends StatelessWidget {
                   Navigator.of(context).pushNamed(
                     AppRoutes.propDetails,
                     arguments: {
-                      'id': howMany[index]['propertyID'],
+                      'data': howMany[index]['propertyID'],
                     },
                   );
                 },
@@ -548,7 +548,7 @@ class properties extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Text(
-                                      howMany[index]['unit'],
+                                      howMany[index]['unitData'].length.toString(),
                                       style: AppFonts.body1.copyWith(
                                         color: Pallete.primaryColor,
                                         fontWeight: FontWeight.w600,

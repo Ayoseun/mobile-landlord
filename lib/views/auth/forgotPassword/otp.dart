@@ -174,6 +174,7 @@ class _ResetOTPScreenState extends State<ResetOTPScreen> {
                           GestureDetector(
                             onTap: () {
                               RetryOTPUtil.retry(context);
+                               startTimer();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -209,8 +210,7 @@ class _ResetOTPScreenState extends State<ResetOTPScreen> {
                           onPressed: () {
                 
                             ResetOTPUtil.reset(context, otp);
-                            // Navigator.of(context)
-                            //     .pushNamed(AppRoutes.changePassword);
+                           
                           }),
                     ],
                   ),

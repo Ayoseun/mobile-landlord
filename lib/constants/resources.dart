@@ -43,6 +43,5 @@ String customFormatCurrency(int number) {
 }
 
 const imgHolder =
-    "https://firebasestorage.googleapis.com/v0/b/cashflakes-393509.appspot.com/o/pharmplug%2Fd.png?alt=media&token=f060f2fd-1339-4d38-98a5-63466d535ab0";
-const catHolder =
-    "https://firebasestorage.googleapis.com/v0/b/cashflakes-393509.appspot.com/o/pharmplug%2Fnn.jpg?alt=media&token=26a3c97b-34f8-402a-b511-1e160a941e4b";
+    "https://i.ibb.co/GtsgGKg/d5d5ce76ff5f.jpg";
+

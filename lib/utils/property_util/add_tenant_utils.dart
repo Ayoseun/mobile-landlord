@@ -9,20 +9,19 @@ import '../../provider/auth_provider.dart';
 import '../app_utils.dart';
 import '../local_storage.dart';
 
-class AddPropertyUtil {
+class AddTenantUtil {
   static Future<String> add(
       BuildContext context, Map<String, dynamic> propertyData) async {
     var result;
 
     AppUtils.showLoader(context);
     Provider.of<PropertyProvider>(context, listen: false)
-        .createProperty(propertyData)
+        .addTenantToUnit(propertyData)
         .then((value) async {
       Navigator.of(context).pop();
 
       if (value['statusCode'] == 200) {
-           Navigator.pop(context);
-          AppUtils.SuccessDialog(
+  AppUtils.SuccessDialog(
               context,
               "Successful",
               "Your Property and Units have been successfully added.",
@@ -31,14 +30,7 @@ class AddPropertyUtil {
                 width: 48,
               ),
               "View Property",
-              AppRoutes.navbar);
-              
-        Future.delayed(const Duration(seconds: 2), () {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          AppRoutes.navbar,
-          (route) => false,
-        );
-        });
+              AppRoutes.propDetails,routeData: value['data']['propertyID']);
       } else {
   
           AppUtils.showAlertDialog(

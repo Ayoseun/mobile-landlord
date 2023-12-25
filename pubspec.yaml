@@ -90,7 +90,6 @@ flutter:
       - assets/icons/
       - assets/icons/request/
       - assets/icons/tenant/
-      - assets/images/tmp/
       - assets/images/onboarding/
       - assets/icons/settings/
 

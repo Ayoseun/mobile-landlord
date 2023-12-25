@@ -30,14 +30,12 @@ class _PropertyState extends State<Property> {
         List<Map<String, dynamic>>.from(jsonDecode(propertyString));
     if (getproperty.isEmpty) {
       setState(() {
-      property = [];
-         print(property);
+        property = [];
+        print(property);
 
-      loaded = true;
+        loaded = true;
       });
-     
     } else {
-     
       setState(() {
         property = getproperty;
         print(property);
@@ -140,87 +138,88 @@ class _PropertyState extends State<Property> {
                             });
                           },
                         ),
-                      ! loaded
-                          ? Container(
-                              margin: EdgeInsets.only(bottom: 8),
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFF6F9F5),
-                                  borderRadius: BorderRadius.circular(10)),
-                              width: _getSize.width,
-                              height: _getSize.height * 0.38,
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    SpinKitRing(
-                                      size: 30,
-                                      color: Pallete.primaryColor,
-                                      lineWidth: 2.0,
-                                    ),
-                                    Text(
-                                      "Looking for your property Listing",
-                                      style: AppFonts.body1,
-                                    ),
-                                  ],
+                        !loaded
+                            ? Container(
+                                margin: EdgeInsets.only(bottom: 8),
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFF6F9F5),
+                                    borderRadius: BorderRadius.circular(10)),
+                                width: _getSize.width,
+                                height: _getSize.height * 0.38,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      SpinKitRing(
+                                        size: 30,
+                                        color: Pallete.primaryColor,
+                                        lineWidth: 2.0,
+                                      ),
+                                      Text(
+                                        "Looking for your property Listing",
+                                        style: AppFonts.body1,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ):  Column(
-                              children: [
-                                property.isEmpty
-                                    ? Container(
-                                        margin: EdgeInsets.only(bottom: 8),
-                                        decoration: BoxDecoration(
-                                            color: Color(0xFFF6F9F5),
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        width: _getSize.width,
-                                        height: _getSize.height * 0.38,
-                                        child: Center(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Image.asset(
-                                                AppImages.no_prop,
-                                                width: _getSize.width * 0.6,
+                              )
+                            : Column(
+                                children: [
+                                  property.isEmpty
+                                      ? Container(
+                                          margin: EdgeInsets.only(bottom: 8),
+                                          decoration: BoxDecoration(
+                                              color: Color(0xFFF6F9F5),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          width: _getSize.width,
+                                          height: _getSize.height * 0.38,
+                                          child: Center(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Image.asset(
+                                                  AppImages.no_prop,
+                                                  width: _getSize.width * 0.6,
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    Text(
+                                                      "You currently have no added property",
+                                                      style: AppFonts.body1,
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height:
+                                                      _getSize.height * 0.01,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ) // Widget to show when many is 0
+                                      : SizedBox(
+                                          height: _getSize.height * 0.6795,
+                                          child: TabBarView(
+                                            // physics: const NeverScrollableScrollPhysics(),
+                                            children: <Widget>[
+                                              tabContent(
+                                                propertyData: property,
+                                                getSize: _getSize,
+                                                items: 5,
                                               ),
-                                              Column(
-                                                children: [
-                                                  Text(
-                                                    "You currently have no added property",
-                                                    style: AppFonts.body1,
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: _getSize.height * 0.01,
+                                              tabContent(
+                                                propertyData: property,
+                                                getSize: _getSize,
+                                                items: 2,
                                               ),
                                             ],
                                           ),
                                         ),
-                                      ) // Widget to show when many is 0
-                                    :
-                                SizedBox(
-                          height: _getSize.height * 0.6795,
-                          child: TabBarView(
-                                // physics: const NeverScrollableScrollPhysics(),
-                                children: <Widget>[
-                                  tabContent(
-                                    propertyData: property,
-                                    getSize: _getSize,
-                                    items: 5,
-                                  ),
-                                  tabContent(
-                                    propertyData: property,
-                                    getSize: _getSize,
-                                    items: 2,
-                                  ),
                                 ],
-                          ),
-                        ),
-                              ],
-                            )
+                              )
                       ],
                     ),
                   ),
@@ -273,8 +272,12 @@ class tabContent extends StatelessWidget {
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) => (index != propertyData.length)
                 ? GestureDetector(
-                    onTap: () =>
-                        Navigator.of(context).pushNamed(AppRoutes.propDetails),
+                    onTap: () => Navigator.of(context).pushNamed(
+                      AppRoutes.propDetails,
+                      arguments: {
+                        'data': propertyData[index]['propertyID'],
+                      },
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
                       child: Row(
@@ -296,7 +299,8 @@ class tabContent extends StatelessWidget {
                                       color: Color.fromARGB(137, 246, 249, 245),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Color.fromARGB(104, 246, 249, 245),
+                                          color: Color.fromARGB(
+                                              104, 246, 249, 245),
                                           blurRadius: 11,
                                           spreadRadius: 1,
                                           offset: Offset(0, 5),
@@ -312,18 +316,22 @@ class tabContent extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Text(
-                                          "7",
+                                          propertyData[index]['unitData']
+                                              .length
+                                              .toString(),
                                           style: AppFonts.body1.copyWith(
-                                              color: Pallete.primaryColor,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: _getSize.height * 0.017,),
+                                            color: Pallete.primaryColor,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: _getSize.height * 0.017,
+                                          ),
                                         ),
                                         SizedBox(width: _getSize.width * 0.01),
-                                        Text("Rentals",
+                                        Text("Unit",
                                             style: AppFonts.body1.copyWith(
-                                                          fontWeight: FontWeight.w600,
-                                                color: Pallete.primaryColor,
-                                                 fontSize: _getSize.height * 0.017,))
+                                              fontWeight: FontWeight.w600,
+                                              color: Pallete.primaryColor,
+                                              fontSize: _getSize.height * 0.017,
+                                            ))
                                       ],
                                     ),
                                   ),
@@ -343,9 +351,9 @@ class tabContent extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                   propertyData[index]['name'],
+                                    propertyData[index]['name'],
                                     style: AppFonts.boldText.copyWith(
-                                     fontSize: _getSize.height * 0.017,
+                                        fontSize: _getSize.height * 0.017,
                                         fontWeight: FontWeight.w900,
                                         color: Color.fromARGB(255, 12, 12, 12)),
                                   ),
@@ -356,17 +364,16 @@ class tabContent extends StatelessWidget {
                                     children: [
                                       Image.asset(
                                         AppImages.estate,
-                                        width: 
-                                                  _getSize.width * 0.04,
+                                        width: _getSize.width * 0.04,
                                       ),
                                       SizedBox(
                                         width: _getSize.width * 0.008,
                                       ),
                                       Text(
-                                       propertyData[index]['type'],
+                                        propertyData[index]['type'],
                                         style: AppFonts.body1.copyWith(
-                                            color: Pallete.fade,fontSize:
-                                                  _getSize.height * 0.015),
+                                            color: Pallete.fade,
+                                            fontSize: _getSize.height * 0.015),
                                       )
                                     ],
                                   ),
@@ -377,8 +384,7 @@ class tabContent extends StatelessWidget {
                                     children: [
                                       Image.asset(
                                         AppImages.location,
-                                        width: 
-                                                  _getSize.width * 0.04,
+                                        width: _getSize.width * 0.04,
                                         color: Pallete.primaryColor,
                                       ),
                                       SizedBox(
@@ -408,8 +414,7 @@ class tabContent extends StatelessWidget {
                                 children: [
                                   Text("Description",
                                       style: AppFonts.boldText.copyWith(
-                                         fontSize:
-                                                  _getSize.height * 0.017,
+                                          fontSize: _getSize.height * 0.017,
                                           fontWeight: FontWeight.w900,
                                           color: Color(0xFF333436))),
                                   SizedBox(
@@ -418,11 +423,11 @@ class tabContent extends StatelessWidget {
                                   SizedBox(
                                     width: _getSize.width * 0.38,
                                     child: Text(
-                                      propertyData[index]['description'], maxLines: 2,
+                                      propertyData[index]['description'],
+                                      maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
-                                      style:
-                                          AppFonts.body1.copyWith(fontSize:
-                                                  _getSize.height * 0.015),
+                                      style: AppFonts.body1.copyWith(
+                                          fontSize: _getSize.height * 0.015),
                                     ),
                                   ),
                                 ],
