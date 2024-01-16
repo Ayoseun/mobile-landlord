@@ -515,7 +515,7 @@ class properties extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         width: _getSize.width,
-        height: _getSize.height * 0.41,
+        height: _getSize.height * 0.40,
         child: ListView.builder(
             itemCount: howMany.length,
             physics: BouncingScrollPhysics(),
@@ -624,21 +624,29 @@ class properties extends StatelessWidget {
                           SizedBox(
                             height: _getSize.height * 0.008,
                           ),
-                          Row(
-                            children: [
-                              Image.asset(AppImages.location,
-                                  width: _getSize.width * 0.037),
-                              SizedBox(
-                                width: _getSize.width * 0.008,
-                              ),
-                              Text(
-                                howMany[index]['location'],
-                                overflow: TextOverflow.ellipsis,
-                                style: AppFonts.body1.copyWith(
-                                    color: Pallete.fade,
-                                    fontSize: _getSize.height * 0.016),
-                              )
-                            ],
+                          SizedBox(
+                                height: _getSize.height*0.04,
+                            child: Row(
+                              children: [
+                                Image.asset(AppImages.location,
+                                    width: _getSize.width * 0.037),
+                                SizedBox(
+                                  width: _getSize.width * 0.008,
+                                ),
+                                SizedBox(
+                                   width: _getSize.width * 0.4,
+                               
+                                  child: Text(
+                                    howMany[index]['location'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: AppFonts.body1.copyWith(
+                                        color: Pallete.fade,
+                                        fontSize: _getSize.height * 0.0125),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: _getSize.height * 0.008,

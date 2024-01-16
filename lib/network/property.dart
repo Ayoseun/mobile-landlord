@@ -51,7 +51,7 @@ class PropertyAPI {
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': APIKEY
       },
-      body: jsonEncode(<String, String>{"id": id}),
+      body: jsonEncode(<String, String>{"landlordID": id}),
     );
 
     var parsedResponse = jsonDecode(response.body);
@@ -84,7 +84,7 @@ class PropertyAPI {
         'authorization': APIKEY
       },
       body: jsonEncode(
-          <String, String>{"id": id, "propertyID": propid.toString()}),
+          <String, String>{"landlordID": id, "propertyID": propid.toString()}),
     );
 
     var parsedResponse = jsonDecode(response.body);
