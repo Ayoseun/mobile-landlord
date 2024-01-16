@@ -32,31 +32,33 @@ class _TenantsState extends State<Tenants> {
       setState(() {
         propertyName = m;
         isLoadingProperty = false;
-            getAllPropertiesTenants(
-                              propertyName[0]['propertyID']);
+        getAllPropertiesTenants(propertyName[0]['propertyID']);
       });
     }
   }
 
   bool isLoadingTenants = true;
   List tenants = [];
+  var pid = '';
   getAllPropertiesTenants(propID) async {
+  
     isLoadingTenants = true;
     await Future.delayed(Duration(seconds: 1));
     var res = await PropertyAPI.getPropertyTenants(propID);
 
-    var gotTenants = res['data'];
+    List gotTenants = res['data'];
     print(gotTenants);
     if (gotTenants.isNotEmpty) {
       setState(() {
+          pid = propID;
         tenants = gotTenants;
         isLoadingTenants = false;
-        
       });
     } else {
       setState(() {
+          pid = propID;
         isLoadingTenants = false;
-        tenants.length = 0;
+        tenants = [];
       });
     }
   }
@@ -65,6 +67,15 @@ class _TenantsState extends State<Tenants> {
   void initState() {
     super.initState();
     getPropertyNameItems();
+  }
+
+  String extractPropertyID(String unitID) {
+    List<String> parts = unitID.split('-');
+    if (parts.isNotEmpty) {
+      return parts.first;
+    } else {
+      return ''; // Return an empty string if no hyphen is found
+    }
   }
 
   List<Tab> buildTabs() {
@@ -124,11 +135,9 @@ class _TenantsState extends State<Tenants> {
                     children: [
                       ButtonsTabBar(
                         onTap: (p) {
-                          isLoadingTenants =true;
-                          setState(() {
-                            
-                          });
-                          
+                          isLoadingTenants = true;
+                          setState(() {});
+
                           getAllPropertiesTenants(
                               propertyName[p]['propertyID']);
                         },
@@ -150,11 +159,83 @@ class _TenantsState extends State<Tenants> {
                         child: TabBarView(
                           children: propertyName.map((tabName) {
                             return !isLoadingTenants
-                                ? TenantsContent(
-                                    getSize: _getSize,
-                                    tenants: tenants,
-                                    // Pass any additional data to TenantsContent if needed
-                                  )
+                                ? tenants.isNotEmpty
+                                    ? TenantsContent(
+                                        getSize: _getSize,
+                                        tenants: tenants,
+                                        // Pass any additional data to TenantsContent if needed
+                                      )
+                                    : Container(
+                                        margin: EdgeInsets.only(bottom: 8),
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFFF6F9F5),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        width: _getSize.width,
+                                        height: _getSize.height * 0.38,
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Image.asset(
+                                                AppImages.no_prop,
+                                                width: _getSize.width * 0.6,
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    "You currently have no tenants in this property",
+                                                    style: AppFonts.body1,
+                                                  ),
+                                                  SizedBox(
+                                                    height:
+                                                        _getSize.height * 0.01,
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.of(context)
+                                                          .pushNamed(
+                                                        AppRoutes.propDetails,
+                                                        arguments: {
+                                                          'data':pid,
+                                                        },
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      width:
+                                                          _getSize.width * 0.4,
+                                                      height: _getSize.height *
+                                                          0.045,
+                                                      decoration: BoxDecoration(
+                                                          color: Pallete
+                                                              .primaryColor,
+                                                          border: Border.all(
+                                                              width: 0.5,
+                                                              color: Pallete
+                                                                  .primaryColor),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5)),
+                                                      child: Center(
+                                                        child: Text(
+                                                          "Add Tenant",
+                                                          style: AppFonts
+                                                              .smallWhiteBold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: _getSize.height * 0.01,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ) // Widget to show when many is 0
+
                                 : Container(
                                     margin: EdgeInsets.only(bottom: 8),
                                     decoration: BoxDecoration(

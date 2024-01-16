@@ -415,7 +415,10 @@ class _DashboardState extends State<Dashboard> {
                           : Column(
                               children: [
                                 property.isEmpty
-                                    ? Container(
+                                    ? 
+                                    
+                                    
+                                    Container(
                                         margin: EdgeInsets.only(bottom: 8),
                                         decoration: BoxDecoration(
                                             color: Color(0xFFF6F9F5),

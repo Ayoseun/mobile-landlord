@@ -15,60 +15,19 @@ class TenantsContent extends StatelessWidget {
   final List tenants;
   @override
   Widget build(BuildContext context) {
-    List<String> images = <String>[
-      "https://images.unsplash.com/photo-1458071103673-6a6e4c4a3413?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-      "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1470406852800-b97e5d92e2aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-      "https://images.unsplash.com/photo-1473700216830-7e08d47f858e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
-    ];
-    List<Map> services = [
-      {
-        'color': Color(0xFFFCEADA),
-        "date": "Today",
-        'text': 'Painter',
-        'text2': "Painting of Apartment 004",
-        'data': [
-          {
-            'icon': AppImages.cleaner,
-            'color': Color(0xFFFCEADA),
-            'text': '2nd Floor- Back',
-            'text2': "Mr. Eric is in need of house cleaning."
-          },
-        ]
-      },
-      {
-        'color': Color(0xFFEADAFF),
-        'text': 'Rent Paid',
-        "date": "Yesterday",
-        'text2':
-            "Agent Emmanuel has received rent payment from Miss Susan for June 2023.",
-        'data': [
-          {
-            'icon': AppImages.movers,
-            'color': Color(0xFFFFE4E9),
-            'text': '1st Floor- Front',
-            'text2':
-                " Miss Susan is in need of  home movers into their apartment."
-          },
-        ]
-      }
-    ];
+
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, bottom: 16),
       child: SizedBox(
           width: _getSize.width * 0.9,
           height: _getSize.height * 0.9,
           child: ListView.builder(
-              itemCount: services.length,
+              itemCount: tenants.length,
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
-                return 
-                TenantContent(
-                    getSize: _getSize,
-                    images: images,
-                    tenants: tenants,
-                    count: index);
+                return TenantContent(
+                    getSize: _getSize, tenants: tenants, count: index);
               })),
     );
   }
@@ -78,7 +37,6 @@ class TenantContent extends StatelessWidget {
   const TenantContent(
       {super.key,
       required Size getSize,
-      required this.images,
       required this.tenants,
       required this.count})
       : _getSize = getSize;
@@ -86,7 +44,6 @@ class TenantContent extends StatelessWidget {
   final Size _getSize;
   final List tenants;
   final int count;
-  final List<String> images;
 
   String converts(rem) {
     String isOweing = '';
@@ -104,12 +61,12 @@ class TenantContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-       Navigator.of(context).pushNamed(
-                                        AppRoutes.tenantsProfile,
-                                        arguments: {
-                                          'tenant': tenants[count],
-                                        },
-                                      );
+        Navigator.of(context).pushNamed(
+          AppRoutes.tenantsProfile,
+          arguments: {
+            'tenant': tenants[count],
+          },
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
@@ -138,12 +95,12 @@ class TenantContent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                       width: _getSize.width * 0.7,
+                      width: _getSize.width * 0.7,
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                               width: _getSize.width * 0.34,
+                              width: _getSize.width * 0.34,
                               child: Text(
                                 '${tenants[count]['name']} ${tenants[count]['surname']}',
                                 overflow: TextOverflow.ellipsis,
@@ -172,10 +129,11 @@ class TenantContent extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(100),
-                                          color:
-                                              tenants[count]['remainingWeeks'] > 6
-                                                  ? Color(0xFF47893F)
-                                                  : Color(0xFFD90001)),
+                                          color: tenants[count]
+                                                      ['remainingWeeks'] >
+                                                  6
+                                              ? Color(0xFF47893F)
+                                              : Color(0xFFD90001)),
                                     ),
                                     SizedBox(
                                       width: _getSize.width * 0.025,
@@ -192,13 +150,15 @@ class TenantContent extends StatelessWidget {
                                                 "Paid",
                                                 style: AppFonts.smallWhiteBold
                                                     .copyWith(
-                                                        color: Color(0xFF47893F)),
+                                                        color:
+                                                            Color(0xFF47893F)),
                                               )
                                             : Text(
                                                 "Due in ${tenants[count]['remainingWeeks']} weeks",
                                                 style: AppFonts.smallWhiteBold
                                                     .copyWith(
-                                                        color: Color(0xFFD90001)),
+                                                        color:
+                                                            Color(0xFFD90001)),
                                               ),
                                   ],
                                 ),
@@ -247,14 +207,16 @@ class TenantContent extends StatelessWidget {
                                 SizedBox(
                                   width: _getSize.width * 0.01,
                                 ),
-                                Text(          tenants[count]["bedroom"],)
+                                Text(
+                                  tenants[count]["bedroom"],
+                                )
                               ],
                             ),
                             SizedBox(
                               height: _getSize.height * 0.001,
                             ),
                             Text(
-                               "Bedroom",
+                              "Bedroom",
                               style: AppFonts.bodyText.copyWith(fontSize: 12),
                             )
                           ],
@@ -276,7 +238,7 @@ class TenantContent extends StatelessWidget {
                                   width: _getSize.width * 0.01,
                                 ),
                                 Text(
-                             tenants[count]['toilet'],
+                                  tenants[count]['toilet'],
                                 )
                               ],
                             ),
@@ -284,7 +246,7 @@ class TenantContent extends StatelessWidget {
                               height: _getSize.height * 0.001,
                             ),
                             Text(
-                                 'Toilet',
+                              'Toilet',
                               style: AppFonts.bodyText.copyWith(fontSize: 12),
                             )
                           ],
@@ -305,14 +267,14 @@ class TenantContent extends StatelessWidget {
                                 SizedBox(
                                   width: _getSize.width * 0.01,
                                 ),
-                                Text(    tenants[count]['bathroom'])
+                                Text(tenants[count]['bathroom'])
                               ],
                             ),
                             SizedBox(
                               height: _getSize.height * 0.001,
                             ),
                             Text(
-                                 'Bathroom',
+                              'Bathroom',
                               style: AppFonts.bodyText.copyWith(fontSize: 12),
                             )
                           ],
@@ -333,14 +295,14 @@ class TenantContent extends StatelessWidget {
                                 SizedBox(
                                   width: _getSize.width * 0.01,
                                 ),
-                                Text( tenants[count]['waterMeter'])
+                                Text(tenants[count]['waterMeter'])
                               ],
                             ),
                             SizedBox(
                               height: _getSize.height * 0.001,
                             ),
                             Text(
-                             'Water Meter',
+                              'Water Meter',
                               style: AppFonts.bodyText.copyWith(fontSize: 12),
                             )
                           ],
@@ -361,9 +323,9 @@ class TenantContent extends StatelessWidget {
                               width: _getSize.width * 0.02,
                             ),
                             SizedBox(
-                               width: _getSize.width * 0.65,
+                              width: _getSize.width * 0.65,
                               child: Text(
-                                   tenants[count]['propertyLocation'],
+                                tenants[count]['propertyLocation'],
                                 overflow: TextOverflow.ellipsis,
                                 style: AppFonts.body1.copyWith(
                                     color: Pallete.fade,
