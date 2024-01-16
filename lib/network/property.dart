@@ -3,7 +3,10 @@ import 'package:abjalandlord/utils/local_storage.dart';
 import 'package:http/http.dart' as http;
 import '../constants/resources.dart';
 
+
+
 class PropertyAPI {
+
   static Future addProperty(data) async {
     var id = await showId();
     print(data);
@@ -55,6 +58,21 @@ class PropertyAPI {
     print(parsedResponse);
     return parsedResponse;
   }
+  static Future getAllPropertiesData() async {
+    var id = await showId();
+    var response = await http.post(
+      Uri.parse('$BaseURL/service/landlord/propertiesdata'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': APIKEY
+      },
+      body: jsonEncode(<String, String>{ "landlordID": id}),
+    );
+
+    var parsedResponse = jsonDecode(response.body);
+    print(parsedResponse);
+    return parsedResponse;
+  }
 
   static Future getProperty(propid) async {
     print(propid);
@@ -74,27 +92,43 @@ class PropertyAPI {
     return parsedResponse;
   }
 
-  static Future resetPassword(id, token, cpassword, password) async {
+  static Future getPropertyName() async {
+  
+    var id = await showId();
     var response = await http.post(
-      Uri.parse('$BaseURL/auth/landlord/reset_password'),
+      Uri.parse('$BaseURL/service/landlord/propertiesbyname'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': APIKEY
       },
-      body: jsonEncode(<String, String>{
-        "id": id,
-        "token": token,
-        "password": password,
-        "confirmPassword": cpassword
-      }),
+      body: jsonEncode(
+          <String, String>{ "landlordID": id}),
     );
 
     var parsedResponse = jsonDecode(response.body);
-
     print(parsedResponse);
-
     return parsedResponse;
   }
+
+    static Future getPropertyTenants(propID) async {
+  
+    var id = await showId();
+    var response = await http.post(
+      Uri.parse('$BaseURL/service/landlord/all_property_tenants'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': APIKEY
+      },
+      body: jsonEncode(
+          <String, String>{ "landlordID": id, "propertyID":propID}),
+    );
+
+    var parsedResponse = jsonDecode(response.body);
+    print(parsedResponse);
+    return parsedResponse;
+  }
+
+
 
   static Future uploadImage(selfie) async {
     var response = await http.post(
@@ -127,7 +161,7 @@ class PropertyAPI {
 
   static Future addTenant(data) async {
     var id = await showId();
-    print(data);
+   // print(data);
     var response = await http.post(
       Uri.parse('$BaseURL/service/landlord/add_tenant_unit'),
       headers: <String, String>{
@@ -141,14 +175,38 @@ class PropertyAPI {
         "unitID": data['unitID'],
         "phone": data['phone'],
         "startDate": data['startDate'],
-        "endDate": data['dueDate'],
+        "endDate": data['endDate'],
         "name": data['name'],
         "surname": data['surname'],
-        "docPhoto": data['docPhoto'],
+         "idPhoto": data['idPhoto'],
+        "receiptPhoto": data['receiptPhoto'],
+        "rentalPhoto": data['rentalPhoto'],
       }),
     );
 
     var parsedResponse = jsonDecode(response.body);
     return parsedResponse;
   }
+
+  static Future addUnit(data) async {
+    var id = await showId();
+    print(data);
+    print(data);
+    var response = await http.post(
+      Uri.parse('$BaseURL/service/landlord/add_unit'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': APIKEY
+      },
+      body: jsonEncode(<String, dynamic>{
+        "propertyID": data['propertyID'],
+        "unitData": data['unitData'],
+        "landlordID": id,
+      }),
+    );
+
+    var parsedResponse = jsonDecode(response.body);
+    return parsedResponse;
+  }
+
 }

@@ -16,6 +16,12 @@ savePropertyItem(cartItems) async {
   s_prefs.setString("propItem", jsonString);
 }
 
+savePropertyName(name) async {
+  s_prefs = await SharedPreferences.getInstance();
+  String jsonString = jsonEncode(name);
+  s_prefs.setString("nameItem", jsonString);
+}
+
 saveName(name) async {
   s_prefs = await SharedPreferences.getInstance();
   s_prefs.setString("name", name);
@@ -74,8 +80,6 @@ saveId(id) async {
   s_prefs.setString("id", id);
 }
 
-
-
 //SHOW SAVE DATA
 showUsername() async {
   s_prefs = await SharedPreferences.getInstance();
@@ -108,6 +112,7 @@ showId() async {
 
   return temp;
 }
+
 showPropertyItem() async {
   s_prefs = await SharedPreferences.getInstance();
 
@@ -115,6 +120,15 @@ showPropertyItem() async {
 
   return temp;
 }
+
+showPropertyNameItem() async {
+  s_prefs = await SharedPreferences.getInstance();
+
+  String? temp = s_prefs.getString("nameItem");
+
+  return temp;
+}
+
 showToken() async {
   s_prefs = await SharedPreferences.getInstance();
 
@@ -122,6 +136,7 @@ showToken() async {
 
   return temp;
 }
+
 showName() async {
   s_prefs = await SharedPreferences.getInstance();
 
@@ -129,6 +144,7 @@ showName() async {
 
   return temp;
 }
+
 showAbout() async {
   s_prefs = await SharedPreferences.getInstance();
 
@@ -136,6 +152,7 @@ showAbout() async {
 
   return temp;
 }
+
 showPhone() async {
   s_prefs = await SharedPreferences.getInstance();
 
@@ -175,8 +192,6 @@ isSecured() async {
 
   return temp;
 }
-
-
 
 clear() async {
   s_prefs = await SharedPreferences.getInstance();

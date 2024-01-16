@@ -8,6 +8,7 @@ import 'package:abjalandlord/views/drawer_menu/sidebar.dart';
 import 'package:abjalandlord/views/profile/edit_profile.dart';
 import 'package:abjalandlord/views/profile/profile.dart';
 import 'package:abjalandlord/views/property/add/add-property.dart';
+import 'package:abjalandlord/views/property/add/add-unit-more.dart';
 import 'package:abjalandlord/views/property/details/property-details.dart';
 import 'package:abjalandlord/views/settings/content/content.dart';
 import 'package:abjalandlord/views/settings/settings.dart';
@@ -28,20 +29,18 @@ class AppRoutes {
   static const dashboardScreen = '/dashboardScreen';
   static const propDetails = '/propDetails';
   static const welcomeScreen = '/welcomeScreen';
-  static const chat = '/chatScreen';
-  static const speakWithDoc = './speakWithDoc';
+
   static const profile = '/profile';
   static const editProfile = '/editProfile';
   static const about = './history';
-  static const bookATest = './bookATest';
+
   static const randomSearch = '/randomSearchScreen';
   static const addTenant = '/addTenant';
-  static const viewAllCart = '/viewAllCart';
-  static const drugItemScreen = '/drugItem';
+
   static const webviewScreen = '/webview';
   static const checkOut = '/checkOut';
-  static const seeAllCart = '/seeAllCart';
-  static const refer = '/refer';
+
+
   static const loginScreen = '/loginScreen';
   static const forgotPassword = '/forgotPassword';
   static const selectTest = '/selectTest';
@@ -59,6 +58,7 @@ class AppRoutes {
   static const resetOTPScreen = '/resetOTPScreen';
   static const addProperty = '/addProperty';
   static const addUnit = '/addUnit';
+    static const addMoreUnit = '/addMoreUnit';
   static const makeRequest = '/makeRequest';
   static const tenants = '/tenants';
   static const onboarding = '/onboarding';
@@ -87,6 +87,7 @@ class AppRoutes {
       AppRoutes.dashboardScreen: (context) => Dashboard(),
       AppRoutes.navbar: (context) => NavBar(),
       AppRoutes.addTenant: (context) => AddTenant(),
+       AppRoutes.addMoreUnit: (context) => AddMoreUnit(),
       AppRoutes.tenants: (context) => Tenants(),
       AppRoutes.tenantsProfile: (context) => TenantProfile(),
       AppRoutes.propDetails: (context) => PropertyDetails(),

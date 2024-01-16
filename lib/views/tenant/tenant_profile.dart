@@ -18,12 +18,6 @@ class TenantProfile extends StatefulWidget {
 }
 
 class _TenantProfileState extends State<TenantProfile> {
-  List<String> images = <String>[
-    "https://images.unsplash.com/photo-1458071103673-6a6e4c4a3413?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-    "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80",
-    "https://images.unsplash.com/photo-1470406852800-b97e5d92e2aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-    "https://images.unsplash.com/photo-1473700216830-7e08d47f858e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
-  ];
   int _tabIndex = 0;
   var name = '';
   var surname = '';
@@ -44,6 +38,7 @@ class _TenantProfileState extends State<TenantProfile> {
     });
   }
 
+  var tenant = {};
   @override
   void initState() {
     getPhoto();
@@ -52,6 +47,9 @@ class _TenantProfileState extends State<TenantProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final dataFromRoute = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    tenant = dataFromRoute["tenant"];
     final _getSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Pallete.whiteColor,
@@ -107,7 +105,7 @@ class _TenantProfileState extends State<TenantProfile> {
                         padding: const EdgeInsets.all(2.0),
                         child: ClipOval(
                           child: Image.network(
-                            photo,
+                            tenant['selfie'],
                             fit: BoxFit.cover,
                             width: _getSize.width * 0.22,
                             height: _getSize.height * 0.10,
@@ -131,7 +129,7 @@ class _TenantProfileState extends State<TenantProfile> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "$name $surname",
+                    "${tenant["name"]} ${tenant["surname"]}",
                     style: AppFonts.boldText
                         .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
@@ -149,7 +147,7 @@ class _TenantProfileState extends State<TenantProfile> {
                         width: 4,
                       ),
                       Text(
-                        "24, Commercial Avenue, Kampala",
+                        tenant["propertyLocation"],
                         style: AppFonts.body1.copyWith(fontSize: 14),
                       )
                     ],
@@ -158,7 +156,7 @@ class _TenantProfileState extends State<TenantProfile> {
                     height: 8,
                   ),
                   Text(
-                    "The Spring Lounge",
+                    tenant["propertyName"],
                     style: AppFonts.body1.copyWith(
                         color: Pallete.text,
                         fontSize: 14,
@@ -179,7 +177,7 @@ class _TenantProfileState extends State<TenantProfile> {
               ),
               middle(
                 getSize: _getSize,
-                img: images,
+                tenantData: tenant,
               ),
               SizedBox(
                 height: _getSize.height * 0.027,
@@ -187,50 +185,57 @@ class _TenantProfileState extends State<TenantProfile> {
               ProfileData(
                 getSize: _getSize,
                 header: "Email Address",
-                content: "ayoseunsolomon",
-              ),  SizedBox(
+                content: tenant['email'],
+              ),
+              SizedBox(
                 height: _getSize.height * 0.02,
               ),
               ProfileData(
                 getSize: _getSize,
                 header: "Phone Number",
-                content: "09078099974",
-              ),SizedBox(
+                content: tenant['phone'],
+              ),
+              SizedBox(
                 height: _getSize.height * 0.02,
               ),
               ProfileData(
                 getSize: _getSize,
                 header: "Job",
                 content: "accountant",
-              ),SizedBox(
+              ),
+              SizedBox(
                 height: _getSize.height * 0.02,
               ),
               ProfileData(
                 getSize: _getSize,
                 header: "Move-In-Date",
-                content: "13 december 2023",
-              ),SizedBox(
+                content: tenant['startDate'],
+              ),
+              SizedBox(
                 height: _getSize.height * 0.02,
               ),
               ProfileData(
                 getSize: _getSize,
                 header: "Light Meter",
-                content: "89675657658",
-              ),SizedBox(
+                content: tenant['lightMeter'],
+              ),
+              SizedBox(
                 height: _getSize.height * 0.02,
               ),
               ProfileData(
                 getSize: _getSize,
                 header: "Water Meter",
-                content: "89675657658",
-              ),SizedBox(
+                content: tenant['waterMeter'],
+              ),
+              SizedBox(
                 height: _getSize.height * 0.02,
               ),
               ProfileData(
                 getSize: _getSize,
                 header: "Document",
                 content: "Id card",
-              ),SizedBox(
+              ),
+              SizedBox(
                 height: _getSize.height * 0.03,
               ),
             ],
@@ -280,14 +285,16 @@ class ProfileData extends StatelessWidget {
 class middle extends StatelessWidget {
   const middle({
     super.key,
-    required this.img,
+    required this.tenantData,
     required Size getSize,
   }) : _getSize = getSize;
 
   final Size _getSize;
-  final List<String> img;
+  final tenantData;
+
   @override
   Widget build(BuildContext context) {
+    var week2mnth = tenantData['remainingWeeks'] / 4;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -317,7 +324,7 @@ class middle extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        Text("05",
+                        Text(week2mnth.toString(),
                             style: AppFonts.boldText.copyWith(
                               fontSize: _getSize.height * 0.02,
                               color: Color(0xFF1D5A67),

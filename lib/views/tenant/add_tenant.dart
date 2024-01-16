@@ -38,29 +38,35 @@ class _AddTenantState extends State<AddTenant> {
     "endDate": "",
     "surname": ""
   };
-  bool isFetchingImage = false;
+  bool isFetchingid = false;
+  bool isFetchingrental = false;
+  bool isFetchingreciept = false;
   Map<String, dynamic> tenantData = {};
   String photo = '';
   imgpika.XFile? image; //this is the state variable
+  bool isuploaded = false;
+    bool isuploadedren = false;
+      bool isuploadedrec = false;
   upload(selfie) async {
-    isFetchingImage = true;
+    var photo = "";
+  
+ 
     var res = await PropertyAPI.uploadImage(selfie);
-
-    print(res);
-
     setState(() {
       photo = res['data']['selfie'];
-      isFetchingImage = false;
-      _tenantData['docPhoto'] = photo;
+
+    
     });
+    print(photo);
+    return photo;
   }
 
   DateTime startDate = DateTime.now();
+  String startholderDate = 'dd/mm/yyyy';
+  String endholderDate = 'dd/mm/yyyy';
   DateTime endDate = DateTime.now().add(Duration(days: 180)); // 6 months later
-bool haveSelectedStartDate=false;
+  bool haveSelectedStartDate = false;
   Future<void> _selectStartDate(BuildContext context) async {
-
-
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: startDate,
@@ -71,51 +77,49 @@ bool haveSelectedStartDate=false;
       setState(() {
         startDate = picked;
         endDate = picked.add(Duration(days: 180));
-
+        startholderDate = formatDate(startDate);
         // Update end date to be at least 6 months later
-haveSelectedStartDate=true;
-        
+        haveSelectedStartDate = true;
       });
     }
   }
 
   Future<void> _selectEndDate(BuildContext context) async {
-        if(!haveSelectedStartDate){
-   AppUtils.singleDialog(
-                          context,
-                          'Error',
-                          'Select start date first',
-                          'close',
-                          const Icon(
-                            Icons.error,
-                            color: Color.fromARGB(255, 205, 5, 5),
-                            size: 30,
-                          ),
-                          const Text(""),
-                          () => Navigator.of(context).pop());
-    }else{
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: endDate.isBefore(startDate.add(Duration(days: 180)))
-          ? startDate.add(Duration(days: 180))
-          : endDate,
-      firstDate: startDate.add(Duration(days: 180)),
-      lastDate: DateTime(2101),
-    );
+    if (!haveSelectedStartDate) {
+      AppUtils.singleDialog(
+          context,
+          'Error',
+          'Select start date first',
+          'close',
+          const Icon(
+            Icons.error,
+            color: Color.fromARGB(255, 205, 5, 5),
+            size: 30,
+          ),
+          const Text(""),
+          () => Navigator.of(context).pop());
+    } else {
+      final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: endDate.isBefore(startDate.add(Duration(days: 180)))
+            ? startDate.add(Duration(days: 180))
+            : endDate,
+        firstDate: startDate.add(Duration(days: 180)),
+        lastDate: DateTime(2101),
+      );
 
-   if (picked != null && picked != endDate) {
-      setState(() {
-        endDate = picked;
+      if (picked != null && picked != endDate) {
+        setState(() {
+          endDate = picked;
 
+          endholderDate = formatDate(endDate);
           _tenantData['propertyID'] = tenantData['propertyID'];
-                      _tenantData['unitID'] = tenantData['unitID'];
-                      _tenantData['startDate'] = formatDate(startDate);
-                       _tenantData['endDate'] = formatDate(endDate);
-        
-      });
+          _tenantData['unitID'] = tenantData['unitID'];
+          _tenantData['startDate'] = startholderDate;
+          _tenantData['endDate'] = endholderDate;
+        });
+      }
     }
-    }
-
   }
 
   @override
@@ -209,7 +213,7 @@ haveSelectedStartDate=true;
                           children: <Widget>[
                             TextFormField(
                               decoration: InputDecoration(
-                                labelText: 'Move-in Date',
+                                labelText: 'Start Date',
                                 suffixIconConstraints:
                                     BoxConstraints(minWidth: 35),
                                 suffixIcon: Image.asset(
@@ -219,8 +223,8 @@ haveSelectedStartDate=true;
                               ),
                               readOnly: true,
                               onTap: () => _selectStartDate(context),
-                              controller: TextEditingController(
-                                  text: "${startDate.toLocal()}".split(' ')[0]),
+                              controller:
+                                  TextEditingController(text: startholderDate),
                             ),
                             SizedBox(
                                 height: 20), // Spacing between input fields
@@ -236,8 +240,8 @@ haveSelectedStartDate=true;
                               ),
                               readOnly: true,
                               onTap: () => _selectEndDate(context),
-                              controller: TextEditingController(
-                                  text: "${endDate.toLocal()}".split(' ')[0]),
+                              controller:
+                                  TextEditingController(text: endholderDate),
                             ),
                           ],
                         ),
@@ -251,91 +255,191 @@ haveSelectedStartDate=true;
                 SizedBox(
                   height: _getSize.height * 0.03,
                 ),
-                GestureDetector(
-                  onTap: () async {
-                    final imgpika.ImagePicker _picker = imgpika.ImagePicker();
-                    final img = await _picker.pickImage(
-                        source: imgpika.ImageSource.gallery);
-                    if (img != null) {
-                      File imageFile = File(img.path);
-                      Uint8List imageBytes = await imageFile.readAsBytes();
-                      String base64String = base64Encode(imageBytes);
-                      setState(() {
-                        print(base64String);
-                        upload(base64String);
-                      });
-                    }
-                  },
-                  child: DottedBorder(
-                    color: Pallete.text,
-                    strokeWidth: 1,
-                    dashPattern: [6, 6],
-                    borderType: BorderType.RRect,
-                    radius: Radius.circular(5),
-                    padding: EdgeInsets.all(4),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      child: Container(
-                        height: _getSize.height * 0.13,
-                        width: _getSize.width * 0.6,
-                        child: !isFetchingImage
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Image.asset(
-                                    AppImages.dwn,
-                                    width: 24,
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    "Choose a file to upload",
-                                    style: AppFonts.bodyText.copyWith(
-                                        color: Pallete.text,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 11),
-                                  ),
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(
-                                    "JPEG, PNG, PDF and DOCS formats, up to 50MB.",
-                                    style: AppFonts.bodyText
-                                        .copyWith(fontSize: 10),
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(2),
-                                        border: Border.all(
-                                            color: Pallete.primaryColor,
-                                            width: 0.5)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "Browse File",
-                                        style: AppFonts.bodyText.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            color: Pallete.text,
-                                            fontSize: 11),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : SpinKitRing(
-                                size: 30,
-                                color: Pallete.primaryColor,
-                                lineWidth: 2.0,
-                              ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Upload Documents',
+                        style: AppFonts.bodyText
+                            .copyWith(color: Pallete.text, fontSize: 16),
                       ),
-                    ),
+                      Text(
+                        '*',
+                        style: AppFonts.boldText.copyWith(color: Colors.red),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: _getSize.width * 0.8,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: _getSize.height * 0.03,
+                      ),
+                      GestureDetector(
+                          onTap: () async {
+                            final imgpika.ImagePicker _picker =
+                                imgpika.ImagePicker();
+                            final img = await _picker.pickImage(
+                                source: imgpika.ImageSource.gallery);
+                            if (img != null) {
+                              File imageFile = File(img.path);
+                              Uint8List imageBytes =
+                                  await imageFile.readAsBytes();
+                              String base64String = base64Encode(imageBytes);
+                              setState(() {
+                                
+                              });
+                              isFetchingid = true;
+
+                              _tenantData['idPhoto'] =
+                                  await upload(base64String);
+                              isFetchingid = false;
+                              isuploaded = true;
+                              setState(() {});
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                               'National ID/ Passport'
+                                  ,
+                                style: AppFonts.bodyText.copyWith(
+                                    color: Pallete.text, fontSize: 14),
+                              ),
+                              !isFetchingid
+                                  ? Column(
+                                      children: [
+                                        !isuploaded
+                                            ? Image.asset(
+                                                AppImages.dwn,
+                                                width: 20,
+                                              )
+                                            : Icon(
+                                                Icons.check_circle_rounded,
+                                                color: Pallete.primaryColor,
+                                              ),
+                                      ],
+                                    )
+                                  : SpinKitChasingDots(
+                                      size: 14,
+                                      color: Pallete.primaryColorVariant,
+                                    )
+                            ],
+                          )),
+                      SizedBox(
+                        height: _getSize.height * 0.025,
+                      ),
+                      GestureDetector(
+                          onTap: () async {
+                            final imgpika.ImagePicker _picker =
+                                imgpika.ImagePicker();
+                            final img = await _picker.pickImage(
+                                source: imgpika.ImageSource.gallery);
+                            if (img != null) {
+                              File imageFile = File(img.path);
+                              Uint8List imageBytes =
+                                  await imageFile.readAsBytes();
+                              String base64String = base64Encode(imageBytes);
+                               setState(() {
+                                
+                              });
+                                 isFetchingrental = true;
+
+                              _tenantData['rentalPhoto'] =
+                                  await upload(base64String);
+                              isFetchingrental = false;
+                              isuploadedren = true;
+                              setState(() {});
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Rental Agreement',
+                                style: AppFonts.bodyText.copyWith(
+                                    color: Pallete.text, fontSize: 14),
+                              ),
+                              !isFetchingrental
+                                  ? Column(
+                                      children: [
+                                        !isuploadedren
+                                            ? Image.asset(
+                                                AppImages.dwn,
+                                                width: 20,
+                                              )
+                                            : Icon(
+                                                Icons.check_circle_rounded,
+                                                color: Pallete.primaryColor,
+                                              ),
+                                      ],
+                                    )
+                                  : SpinKitChasingDots(
+                                      size: 14,
+                                      color: Pallete.primaryColorVariant,
+                                    )
+                            ],
+                          )),
+                      SizedBox(
+                        height: _getSize.height * 0.025,
+                      ),
+                      GestureDetector(
+                          onTap: () async {
+                            final imgpika.ImagePicker _picker =
+                                imgpika.ImagePicker();
+                            final img = await _picker.pickImage(
+                                source: imgpika.ImageSource.gallery);
+                            if (img != null) {
+                              File imageFile = File(img.path);
+                              Uint8List imageBytes =
+                                  await imageFile.readAsBytes();
+                              String base64String = base64Encode(imageBytes);
+                               setState(() {
+                                
+                              });
+                                   isFetchingreciept = true;
+
+                              _tenantData['receiptPhoto'] =
+                                  await upload(base64String);
+                              isFetchingreciept = false;
+                              isuploadedrec = true;
+                              setState(() {});
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'First Payment Receipt',
+                                style: AppFonts.bodyText.copyWith(
+                                    color: Pallete.text, fontSize: 14),
+                              ),
+                              !isFetchingreciept
+                                  ? Column(
+                                      children: [
+                                        !isuploadedrec
+                                            ? Image.asset(
+                                                AppImages.dwn,
+                                                width: 20,
+                                              )
+                                            : Icon(
+                                                Icons.check_circle_rounded,
+                                                color: Pallete.primaryColor,
+                                              ),
+                                      ],
+                                    )
+                                  : SpinKitChasingDots(
+                                      size: 14,
+                                      color: Pallete.primaryColorVariant,
+                                    )
+                            ],
+                          )),
+                    ],
                   ),
                 ),
                 SizedBox(
@@ -348,7 +452,9 @@ haveSelectedStartDate=true;
                         _tenantData['surname'] == "" ||
                         _tenantData['email'] == "" ||
                         _tenantData['phone'] == "" ||
-                        _tenantData['docphoto'] == "" ||
+                        _tenantData['idPhoto'] == "" ||
+                        _tenantData['rentalPhoto'] == "" ||
+                        _tenantData['receiptPhoto'] == "" ||
                         _tenantData['startDate'] == "" ||
                         _tenantData["endDate"] == "") {
                       AppUtils.singleDialog(
@@ -364,9 +470,8 @@ haveSelectedStartDate=true;
                           Text(""),
                           () => Navigator.of(context).pop());
                     } else {
-                    
                       print(_tenantData);
-                       AddTenantUtil.add(context, _tenantData);
+                      AddTenantUtil.add(context, _tenantData);
                     }
                   },
                   child: Container(
@@ -399,8 +504,9 @@ haveSelectedStartDate=true;
     );
   }
 }
-  // Create a new method to format the date
-  String formatDate(DateTime date) {
-    final DateFormat formatter = DateFormat('d MMMM yyyy');
-    return formatter.format(date);
-  }
+
+// Create a new method to format the date
+String formatDate(DateTime date) {
+  final DateFormat formatter = DateFormat('d MMMM yyyy');
+  return formatter.format(date);
+}

@@ -36,7 +36,11 @@ class PropertyProvider extends ChangeNotifier {
       data = {'error': e};
     }
     return data;
-  }  Future<Map<String, dynamic>> addTenantToUnit(dataobj) async {
+  }  
+  
+  
+  
+  Future<Map<String, dynamic>> addTenantToUnit(dataobj) async {
     dynamic data;
     //dynamic dataz;
     //List<dynamic> data;
@@ -60,4 +64,32 @@ class PropertyProvider extends ChangeNotifier {
     }
     return data;
   }
+
+  
+  Future<Map<String, dynamic>> addUnit(dataobj) async {
+    dynamic data;
+    //dynamic dataz;
+    //List<dynamic> data;
+    notifyListeners();
+
+    try {
+      var responseData = await PropertyAPI.addUnit(dataobj);
+
+      data = responseData;
+
+      if (responseData['statusCode'] == 200) {
+        notifyListeners();
+        print(data);
+        data;
+      } else {
+        data;
+      }
+    } catch (e) {
+      notifyListeners();
+      data = {'error': e};
+    }
+    return data;
+  }
+
+
 }

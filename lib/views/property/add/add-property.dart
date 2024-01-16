@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart' as imgpika;
 import '../../../constants/app_images.dart';
+import '../../../utils/local_storage.dart';
+import 'add-unit.dart';
 
 class AddProperty extends StatefulWidget {
   const AddProperty({Key? key}) : super(key: key);
@@ -26,6 +28,24 @@ class AddProperty extends StatefulWidget {
 }
 
 class _AddPropertyState extends State<AddProperty> {
+  int unitCount = 0;
+  var name = '';
+  var landlordid = '';
+  var surname = '';
+  var pID = "";
+  String randomString = generateRandomString(5, "a");
+
+  getData() async {
+    landlordid = await showId();
+    name = await showName();
+    surname = await showSurname();
+    setState(() {
+      name;
+      surname;
+      landlordid;
+    });
+  }
+
   final Map<String, dynamic> _propertyData = {
     "landlordID": "",
     "name": "",
@@ -84,9 +104,24 @@ class _AddPropertyState extends State<AddProperty> {
     });
   }
 
+  bool isStandalone = false;
+  String typeItemvalue = 'Residential';
+  String structureItemsValue = 'Duplex';
+  String categoryItemsValue = 'Lease';
+  // List of items in our dropdown menu
+  var typeItems = ['Residential', 'Commercial'];
+  var structureItems = ['Standalone', 'Duplex', 'Semi-Detached', 'Apartments'];
+  var categoryItems = ['Lease', 'Rent', 'Sale', 'Rent to own'];
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _getSize = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
@@ -129,35 +164,173 @@ class _AddPropertyState extends State<AddProperty> {
               SizedBox(
                 height: _getSize.height * 0.03,
               ),
-              NewWidget(
-                data: (value) {
-                  _propertyData['type'] = value;
-                },
-                data2: (value) {
-                  _propertyData['structure'] = value;
-                },
-                getSize: _getSize,
-                label: "Type",
-                hint: "ex: Residential",
-                label2: "Structure",
-                hint2: "ex: Condominium",
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: _getSize.width * 0.4,
+                      child: DropdownButtonFormField<String>(
+                        // Initial Value
+                        value: typeItemvalue,
+                        decoration: const InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Pallete
+                                    .hintColor), // Change the underline color
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Pallete
+                                    .hintColor), // Change the underline color when focused
+                          ),
+                        ),
+                        isExpanded: true,
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        elevation: 0,
+                        focusColor: Pallete.text,
+                        style: AppFonts.body1,
+                        // Array list of items
+                        items: typeItems.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            typeItemvalue = newValue!;
+                            _propertyData['type'] = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: _getSize.width * 0.44,
+                      child: DropdownButtonFormField<String>(
+                        // Initial Value
+                        value: structureItemsValue,
+                        decoration: const InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Pallete
+                                    .hintColor), // Change the underline color
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Pallete
+                                    .hintColor), // Change the underline color when focused
+                          ),
+                        ),
+                        isExpanded: true,
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        elevation: 0,
+                        focusColor: Pallete.text,
+                        style: AppFonts.body1,
+                        // Array list of items
+                        items: structureItems.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            structureItemsValue = newValue!;
+                            _propertyData['structure'] = newValue;
+                            if (_propertyData['structure'] == "Standalone") {
+                              isStandalone = true;
+                              _propertyData['unit'] = 0;
+                              _propertyData["landlordID"] = landlordid;
+
+                              pID =
+                                  'ABJA$landlordid${_propertyData["name"].replaceAll(' ', '')}$randomString';
+                              _propertyData["propertyID"] = pID;
+                            } else {
+                              isStandalone = false;
+                            }
+                            print(_propertyData['structure']);
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: _getSize.height * 0.03,
               ),
-              NewWidget(
-                data: (value) {
-                  _propertyData['category'] = value;
-                },
-                data2: (value) {
-                  _propertyData['unit'] = value;
-                },
-                getSize: _getSize,
-                label: "Category",
-                hint: "ex: Rent",
-                label2: "Unit",
-                type2: "number",
-                hint2: "ex: 3 units",
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: !isStandalone
+                          ? _getSize.width * 0.4
+                          : _getSize.width * 0.85,
+                      child: DropdownButtonFormField<String>(
+                        // Initial Value
+                        value: categoryItemsValue,
+                        decoration: const InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Pallete
+                                    .hintColor), // Change the underline color
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Pallete
+                                    .hintColor), // Change the underline color when focused
+                          ),
+                        ),
+                        isExpanded: true,
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        elevation: 0,
+                        focusColor: Pallete.text,
+                        style: AppFonts.body1,
+                        // Array list of items
+                        items: categoryItems.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            categoryItemsValue = newValue!;
+                            _propertyData['category'] = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                    Visibility(
+                      visible: !isStandalone,
+                      child: SizedBox(
+                        width: _getSize.width * 0.45,
+                        child: CustomInput3(
+                          onChanged: (value) {
+                            _propertyData['unit'] = value;
+                          },
+                          onSaved: (value) {},
+                          type: 'number',
+                          label: "Unit",
+                          hint: "ex: 1",
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: _getSize.height * 0.03,
@@ -338,124 +511,139 @@ class _AddPropertyState extends State<AddProperty> {
               SizedBox(
                 height: _getSize.height * 0.09,
               ),
-             isuploaded? Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        print(_propertyData);
+              isuploaded
+                  ? Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              print(_propertyData);
 
-                        if (_propertyData['name'] == "" ||
-                            _propertyData['location'] == "" ||
-                            _propertyData['structure'] == "" ||
-                            _propertyData['unit'] == "" ||
-                            _propertyData['category'] == "" ||
-                            _propertyData['type'] == ""||
-                            _propertyData["description"]=="") {
-                          AppUtils.singleDialog(
-                              context,
-                              'Error',
-                              'You must provide all property information.',
-                              'close',
-                              const Icon(
-                                Icons.error,
-                                color: Color.fromARGB(255, 205, 5, 5),
-                                size: 30,
-                              ),
-                              Text(""),
-                              () => Navigator.of(context).pop());
-                        } else if (!_propertyData['power']) {
-                          AppUtils.singleDialog(
-                              context,
-                              'Error',
-                              'You must select atleast power',
-                              'close',
-                              const Icon(
-                                Icons.error,
-                                color: Color.fromARGB(255, 205, 5, 5),
-                                size: 30,
-                              ),
-                              Image.asset(
-                                AppImages.power,
-                                width: 24,
-                              ),
-                              () => Navigator.of(context).pop());
-                        } else if (_propertyData['photo'] == '') {
-                          AppUtils.singleDialog(
-                              context,
-                              'Error',
-                              'You have not uploaded an image of this property',
-                              'close',
-                              const Icon(
-                                Icons.error,
-                                color: Color.fromARGB(255, 205, 5, 5),
-                                size: 30,
-                              ),
-                              Text(""),
-                              () => Navigator.of(context).pop());
-                        } else {
-                          print(_propertyData);
-                          Navigator.of(context).pushNamed(
-                            AppRoutes.addUnit,
-                            arguments: {
-                              'data': _propertyData,
+                              if (_propertyData['name'] == "" ||
+                                  _propertyData['location'] == "" ||
+                                  _propertyData['structure'] == "" ||
+                                  _propertyData['unit'] == "" ||
+                                  _propertyData['category'] == "" ||
+                                  _propertyData['type'] == "" ||
+                                  _propertyData["description"] == "") {
+                                AppUtils.singleDialog(
+                                    context,
+                                    'Error',
+                                    'You must provide all property information.',
+                                    'close',
+                                    const Icon(
+                                      Icons.error,
+                                      color: Color.fromARGB(255, 205, 5, 5),
+                                      size: 30,
+                                    ),
+                                    Text(""),
+                                    () => Navigator.of(context).pop());
+                              } else if (!_propertyData['power']) {
+                                AppUtils.singleDialog(
+                                    context,
+                                    'Error',
+                                    'You must select atleast power',
+                                    'close',
+                                    const Icon(
+                                      Icons.error,
+                                      color: Color.fromARGB(255, 205, 5, 5),
+                                      size: 30,
+                                    ),
+                                    Image.asset(
+                                      AppImages.power,
+                                      width: 24,
+                                    ),
+                                    () => Navigator.of(context).pop());
+                              } else if (_propertyData['photo'] == '') {
+                                AppUtils.singleDialog(
+                                    context,
+                                    'Error',
+                                    'You have not uploaded an image of this property',
+                                    'close',
+                                    const Icon(
+                                      Icons.error,
+                                      color: Color.fromARGB(255, 205, 5, 5),
+                                      size: 30,
+                                    ),
+                                    Text(""),
+                                    () => Navigator.of(context).pop());
+                              } else {
+                                isStandalone
+                                    ? AddPropertyUtil.add(
+                                        context, _propertyData)
+                                    : Navigator.of(context).pushNamed(
+                                        AppRoutes.addUnit,
+                                        arguments: {
+                                          'data': _propertyData,
+                                        },
+                                      );
+                              }
                             },
-                          );
-                        }
-                      },
-                      child: Container(
-                width: _getSize.width * 0.6,
-                        height: _getSize.height * 0.055,
-                        decoration: BoxDecoration(
-                           color: Pallete.primaryColor,
-                            border: Border.all(
-                                width: 0.5, color: Pallete.primaryColor),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                          child: Text("Add Unit",style: AppFonts.smallWhiteBold,),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ):Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                            AppUtils.singleDialog(
-                              context,
-                              'Empty Property',
-                              'You have to provide all property \n information to add unit.',
-                              'close',
-                              const Icon(
-                                Icons.error,
-                                color: Color.fromARGB(255, 205, 5, 5),
-                                size: 30,
+                            child: Container(
+                              width: _getSize.width * 0.6,
+                              height: _getSize.height * 0.055,
+                              decoration: BoxDecoration(
+                                  color: Pallete.primaryColor,
+                                  border: Border.all(
+                                      width: 0.5, color: Pallete.primaryColor),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                child: Text(
+                                  !isStandalone ? "Add Unit" : "submit",
+                                  style: AppFonts.smallWhiteBold,
+                                ),
                               ),
-                              Text(""),
-                              () => Navigator.of(context).pop());
-                      },
-                      child: Container(
-                        width: _getSize.width * 0.6,
-                        height: _getSize.height * 0.055,
-                        decoration: BoxDecoration(
-                           color: Color.fromARGB(255, 193, 206, 190),
-                            border: Border.all(
-                                width: 0.5, color: Color.fromARGB(255, 166, 194, 160)),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                          child: Text("Add Unit",style: AppFonts.body1.copyWith(color: Pallete.whiteColor,fontSize: 14),),
-                        ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              AppUtils.singleDialog(
+                                  context,
+                                  'Empty Property',
+                                  !isStandalone
+                                      ? 'You have to provide all property \n information to add unit.'
+                                      : 'You have to provide all property \n information to a single property',
+                                  'close',
+                                  const Icon(
+                                    Icons.error,
+                                    color: Color.fromARGB(255, 205, 5, 5),
+                                    size: 30,
+                                  ),
+                                  Text(""),
+                                  () => Navigator.of(context).pop());
+                            },
+                            child: Container(
+                              width: _getSize.width * 0.6,
+                              height: _getSize.height * 0.055,
+                              decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 193, 206, 190),
+                                  border: Border.all(
+                                      width: 0.5,
+                                      color:
+                                          Color.fromARGB(255, 166, 194, 160)),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                child: Text(
+                                  !isStandalone ? "Add Unit" : "Submit",
+                                  style: AppFonts.body1.copyWith(
+                                      color: Pallete.whiteColor, fontSize: 14),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
               SizedBox(
                 height: _getSize.height * 0.01,
               ),
@@ -509,8 +697,7 @@ class NewWidget extends StatelessWidget {
         SizedBox(
           width: _getSize.width * 0.45,
           child: CustomInput3(
-            enabled:enabled ,
-            
+            enabled: enabled,
             type: type2,
             onSaved: (onsaved) {},
             onChanged: data2,

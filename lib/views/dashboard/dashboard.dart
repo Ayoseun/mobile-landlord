@@ -91,10 +91,11 @@ class _DashboardState extends State<Dashboard> {
   ];
   bool isLoadingProperty = true;
   List property = [];
+  var allPropertiesInfo = [];
   getAllProperties() async {
     await Future.delayed(Duration(seconds: 1));
     var res = await PropertyAPI.getAllProperty();
-   
+
     var gotproperties = res['data'];
     await savePropertyItem(gotproperties);
     if (gotproperties.isNotEmpty) {
@@ -110,19 +111,29 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  getPropertiesName() async {
+    var res = await PropertyAPI.getPropertyName();
+    var gotproperties = res['data'];
+    print(gotproperties);
+    await savePropertyName(gotproperties);
+  }
+
+  getPropertiesData() async {
+    var res = await PropertyAPI.getAllPropertiesData();
+    allPropertiesInfo = res['data'];
+  }
+
   getPropertyItems() async {
     isLoadingProperty = true;
     var propertyString = await showPropertyItem();
-  
+
     var getproperty =
         List<Map<String, dynamic>>.from(jsonDecode(propertyString));
     if (getproperty.isEmpty) {
       getAllProperties();
     } else {
-      
       setState(() {
         property = getproperty;
-    
         isLoadingProperty = false;
       });
     }
@@ -155,7 +166,9 @@ class _DashboardState extends State<Dashboard> {
     getName();
     getData();
     getPropertyItems();
+    getPropertiesData();
     getAllProperties();
+    getPropertiesName();
     super.initState();
   }
 
@@ -503,7 +516,6 @@ class properties extends StatelessWidget {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                
                   Navigator.of(context).pushNamed(
                     AppRoutes.propDetails,
                     arguments: {
@@ -548,7 +560,9 @@ class properties extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Text(
-                                      howMany[index]['unitData'].length.toString(),
+                                      howMany[index]['unitData']
+                                          .length
+                                          .toString(),
                                       style: AppFonts.body1.copyWith(
                                         color: Pallete.primaryColor,
                                         fontWeight: FontWeight.w600,
