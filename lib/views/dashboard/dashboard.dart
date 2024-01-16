@@ -90,8 +90,9 @@ class _DashboardState extends State<Dashboard> {
     },
   ];
   bool isLoadingProperty = true;
+    bool isLoadedPropertyData = true;
   List property = [];
-  var allPropertiesInfo = [];
+  var allPropertiesInfo;
   getAllProperties() async {
     await Future.delayed(Duration(seconds: 1));
     var res = await PropertyAPI.getAllProperty();
@@ -121,6 +122,11 @@ class _DashboardState extends State<Dashboard> {
   getPropertiesData() async {
     var res = await PropertyAPI.getAllPropertiesData();
     allPropertiesInfo = res['data'];
+    if (allPropertiesInfo!=null) {
+       isLoadedPropertyData = false;
+    } else {
+      
+    }
   }
 
   getPropertyItems() async {
@@ -480,7 +486,8 @@ class _DashboardState extends State<Dashboard> {
                               ],
                             ), //
 
-                      middle(getSize: _getSize),
+                     !isLoadedPropertyData ?  middle(
+                          getSize: _getSize, propertyData: allPropertiesInfo):Text(''),
                       SizedBox(
                         height: _getSize.height * 0.035,
                       ),
@@ -668,13 +675,11 @@ class properties extends StatelessWidget {
 }
 
 class middle extends StatelessWidget {
-  const middle({
-    super.key,
-    required Size getSize,
-  }) : _getSize = getSize;
+  const middle({super.key, required Size getSize, required this.propertyData})
+      : _getSize = getSize;
 
   final Size _getSize;
-
+  final propertyData;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -708,7 +713,7 @@ class middle extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("05",
+                      Text(propertyData['totalProperties'].toString(),
                           style: AppFonts.boldText.copyWith(
                             fontSize: _getSize.height * 0.02,
                             color: Color(0xFF1D5A67),
@@ -779,7 +784,7 @@ class middle extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("02",
+                      Text(propertyData['totalVacantProperties'].toString(),
                           style: AppFonts.boldText.copyWith(
                               fontSize: _getSize.height * 0.02,
                               color: Color(0xFFF58807))),
@@ -848,7 +853,7 @@ class middle extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text("02",
+                        Text(propertyData['totalTenants'].toString(),
                             style: AppFonts.boldText.copyWith(
                                 fontSize: _getSize.height * 0.02,
                                 color: Color(0xFF750790))),
