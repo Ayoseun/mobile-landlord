@@ -46,12 +46,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
       'text2': "Miss Susan is in need of  home movers into their apartment."
     },
   ];
-  List<String> images = <String>[
-    "https://images.unsplash.com/photo-1458071103673-6a6e4c4a3413?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-    "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80",
-    "https://images.unsplash.com/photo-1470406852800-b97e5d92e2aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
-    "https://images.unsplash.com/photo-1473700216830-7e08d47f858e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
-  ];
+
 
   String formatDate(DateTime dateTime) {
     return DateFormat('dd MMMM, y').format(dateTime);
@@ -110,8 +105,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
   void scrollToNextItem() {
     _scrollController.animateTo(
       _scrollController.offset +
-          400, // Adjust this value based on your item size
-      duration: Duration(milliseconds: 500),
+          970, // Adjust this value based on your item size
+      duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
     );
     if (_currentIndex == imgList.length) {
@@ -123,8 +118,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
   void scrollToPreviousItem() {
     _scrollController.animateTo(
       _scrollController.offset -
-          400, // Adjust this value based on your item size
-      duration: Duration(milliseconds: 500),
+          970, // Adjust this value based on your item size
+      duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
     );
     if (_currentIndex == 0) {
@@ -188,14 +183,14 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                     itemBuilder: (context, index) {
                                       // Replace this with your actual ListView item
                                       return Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(2.0),
                                         child: ClipRRect(
                                           // Clip the image to match the border radius
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           child: Image.network(
                                               height: _getSize.height * 0.25,
-                                              width: _getSize.width * 0.9,
+                                              width: _getSize.width * 0.92,
                                               imgList[index] != null
                                                   ? imgList[index]
                                                   : imgHolder,
@@ -403,7 +398,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                     property: property,
                                      propertyUnits: propertyUnits,
                                        unitCount: unitIndex,
-                                    images: images,
+                                  
                                     service: service)
                                 //Individual unit view
                                 : UnitContent(
@@ -411,7 +406,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                     property: property,
                                     propertyUnits: propertyUnits,
                                     unitCount: unitIndex,
-                                    images: images)
+                                    )
                           ],
                         )
                       : Container(

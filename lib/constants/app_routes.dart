@@ -23,6 +23,8 @@ import '../views/auth/register/register_otp.dart';
 import '../views/navbar/nav.dart';
 import '../views/onboarding/onboarding.dart';
 import '../views/property/add/add-unit.dart';
+import '../views/request/create_request/create_request.dart';
+import '../views/request/create_request/request_details.dart';
 import '../views/tenant/tenants.dart';
 
 class AppRoutes {
@@ -52,6 +54,8 @@ class AppRoutes {
   static const loadHome = '/loadHome';
   static const privacy = '/privacy';
   static const terms = '/terms';
+    static const requestDetails = './requestDetails';
+  static const createRequest = './createRequest';
   static const registerOTPScreen = '/registerOTPScreen';
   static const changePassword = '/changePassword';
   static const registerScreen = '/registerScreen';
@@ -67,6 +71,8 @@ class AppRoutes {
   static const settingsDetails = '/settingsDetails';
   static Map<String, WidgetBuilder> routes() {
     return <String, WidgetBuilder>{
+          AppRoutes.createRequest: (context) => CreateRequest(),
+        AppRoutes.requestDetails: (context) => RequestDetails(),
       AppRoutes.welcomeScreen: ((context) => Welcome()),
       AppRoutes.onboarding: (context) =>  OnboardingScreen(),
       AppRoutes.forgotPassword: ((context) => PasswordResetScreen()),

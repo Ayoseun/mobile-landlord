@@ -247,7 +247,7 @@ class _AddPropertyState extends State<AddProperty> {
                             _propertyData['structure'] = newValue;
                             if (_propertyData['structure'] == "Standalone") {
                               isStandalone = true;
-                              _propertyData['unit'] = 0;
+                              _propertyData['unit'] = "1";
                               _propertyData["landlordID"] = landlordid;
 
                               pID =

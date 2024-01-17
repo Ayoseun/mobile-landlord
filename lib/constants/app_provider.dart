@@ -3,6 +3,7 @@ import 'package:abjalandlord/provider/property_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import '../provider/auth_provider.dart';
+import '../provider/websocket_provider.dart';
 
 
 class AppProviders {
@@ -12,6 +13,8 @@ class AppProviders {
     ),
      ChangeNotifierProvider<PropertyProvider>(
       create: (ctx) => PropertyProvider(),
+    ),ChangeNotifierProvider<WebSocketProvider>(
+      create: (ctx) => WebSocketProvider(),
     ),
    
   ];

@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'components/size_config.dart';
 import 'constants/app_colors.dart';
 import 'constants/app_provider.dart';
@@ -52,7 +54,6 @@ void main() async {
 
     //add more notification type with different configuration
   ]);
-
 
 
   runApp(const MyApp());

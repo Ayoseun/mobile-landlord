@@ -166,40 +166,39 @@ class ButtonWithFuction extends StatelessWidget {
     Key? key,
     required this.text,
     required this.onPressed,
-     this.fontS=18,
-    this.enabled = true,
+    this.fontS = 18,
+    this.disabled,
   }) : super(key: key);
 
   final String text;
-  final bool enabled;
-  final double fontS;
-  //this calls the onpressed widget
+  final bool? disabled;
+  final double? fontS; // Use '?' for the nullable type
   final Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(2)),
-            color:Pallete.primaryColor ,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(2)),
+        color: disabled != null && disabled! ? Pallete.disabledColor: Pallete.primaryColor 
+      ),
+      width: MediaQuery.of(context).size.width,
+      child: OutlinedButton(
+        child: Text(text,style: AppFonts.smallWhiteBold.copyWith(fontSize: 18),),
+        style: OutlinedButton.styleFrom(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+          primary: disabled != null && disabled! ?Pallete.disabledColor: Colors.white ,
+          backgroundColor: Color.fromARGB(0, 137, 200, 140),
+          shadowColor: Color.fromARGB(56, 148, 148, 148),
+          elevation: 5,
+          textStyle: AppFonts.smallWhiteBold.copyWith(fontSize: fontS),
         ),
-        width: MediaQuery.of(context).size.width,
-        child: OutlinedButton(
-            child: Text(
-              text,
-            ),
-            style: OutlinedButton.styleFrom(
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                primary: Colors.white,
-                backgroundColor: Color.fromARGB(0, 137, 200, 140),
-                shadowColor: Color.fromARGB(56, 148, 148, 148),
-                elevation: 5,
-                textStyle:AppFonts.smallWhiteBold.copyWith(fontSize: fontS)
-                 ),
-            onPressed: onPressed));
+        onPressed: disabled != null && disabled! ? null : onPressed,
+      ),
+    );
   }
 }
 

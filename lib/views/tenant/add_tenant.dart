@@ -36,7 +36,10 @@ class _AddTenantState extends State<AddTenant> {
     "unitID": "",
     "startDate": "",
     "endDate": "",
-    "surname": ""
+    "surname": "",
+    "receiptPhoto": "",
+    "idPhoto": "",
+    "rentalPhoto": ""
   };
   bool isFetchingid = false;
   bool isFetchingrental = false;
@@ -45,17 +48,14 @@ class _AddTenantState extends State<AddTenant> {
   String photo = '';
   imgpika.XFile? image; //this is the state variable
   bool isuploaded = false;
-    bool isuploadedren = false;
-      bool isuploadedrec = false;
+  bool isuploadedren = false;
+  bool isuploadedrec = false;
+  
   upload(selfie) async {
     var photo = "";
-  
- 
     var res = await PropertyAPI.uploadImage(selfie);
     setState(() {
       photo = res['data']['selfie'];
-
-    
     });
     print(photo);
     return photo;
@@ -202,48 +202,52 @@ class _AddTenantState extends State<AddTenant> {
                           onChanged: (v) {
                             _tenantData['phone'] = v;
                           },
+                          type: "number",
                           label: "Phone Number",
                           hint: "Phone",
                         ),
                         SizedBox(
                           height: _getSize.height * 0.025,
                         ),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Start Date',
-                                suffixIconConstraints:
-                                    BoxConstraints(minWidth: 35),
-                                suffixIcon: Image.asset(
-                                  "assets/icons/calenda.png",
-                                  height: _getSize.height * 0.02,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Start Date',
+                                  suffixIconConstraints:
+                                      BoxConstraints(minWidth: 35),
+                                  suffixIcon: Image.asset(
+                                    "assets/icons/calenda.png",
+                                    height: _getSize.height * 0.02,
+                                  ),
                                 ),
+                                readOnly: true,
+                                onTap: () => _selectStartDate(context),
+                                controller: TextEditingController(
+                                    text: startholderDate),
                               ),
-                              readOnly: true,
-                              onTap: () => _selectStartDate(context),
-                              controller:
-                                  TextEditingController(text: startholderDate),
-                            ),
-                            SizedBox(
-                                height: 20), // Spacing between input fields
-                            TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Due Date',
-                                suffixIconConstraints:
-                                    BoxConstraints(minWidth: 35),
-                                suffixIcon: Image.asset(
-                                  "assets/icons/calenda.png",
-                                  height: _getSize.height * 0.02,
+                              SizedBox(
+                                  height: 20), // Spacing between input fields
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Due Date',
+                                  suffixIconConstraints:
+                                      BoxConstraints(minWidth: 35),
+                                  suffixIcon: Image.asset(
+                                    "assets/icons/calenda.png",
+                                    height: _getSize.height * 0.02,
+                                  ),
                                 ),
+                                readOnly: true,
+                                onTap: () => _selectEndDate(context),
+                                controller:
+                                    TextEditingController(text: endholderDate),
                               ),
-                              readOnly: true,
-                              onTap: () => _selectEndDate(context),
-                              controller:
-                                  TextEditingController(text: endholderDate),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: _getSize.height * 0.025,
@@ -253,7 +257,7 @@ class _AddTenantState extends State<AddTenant> {
                   ),
                 ),
                 SizedBox(
-                  height: _getSize.height * 0.03,
+                  height: _getSize.height * 0.02,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -290,9 +294,7 @@ class _AddTenantState extends State<AddTenant> {
                               Uint8List imageBytes =
                                   await imageFile.readAsBytes();
                               String base64String = base64Encode(imageBytes);
-                              setState(() {
-                                
-                              });
+                              setState(() {});
                               isFetchingid = true;
 
                               _tenantData['idPhoto'] =
@@ -306,8 +308,7 @@ class _AddTenantState extends State<AddTenant> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                               'National ID/ Passport'
-                                  ,
+                                'National ID/ Passport',
                                 style: AppFonts.bodyText.copyWith(
                                     color: Pallete.text, fontSize: 14),
                               ),
@@ -345,10 +346,8 @@ class _AddTenantState extends State<AddTenant> {
                               Uint8List imageBytes =
                                   await imageFile.readAsBytes();
                               String base64String = base64Encode(imageBytes);
-                               setState(() {
-                                
-                              });
-                                 isFetchingrental = true;
+                              setState(() {});
+                              isFetchingrental = true;
 
                               _tenantData['rentalPhoto'] =
                                   await upload(base64String);
@@ -399,10 +398,8 @@ class _AddTenantState extends State<AddTenant> {
                               Uint8List imageBytes =
                                   await imageFile.readAsBytes();
                               String base64String = base64Encode(imageBytes);
-                               setState(() {
-                                
-                              });
-                                   isFetchingreciept = true;
+                              setState(() {});
+                              isFetchingreciept = true;
 
                               _tenantData['receiptPhoto'] =
                                   await upload(base64String);
@@ -447,6 +444,7 @@ class _AddTenantState extends State<AddTenant> {
                 ),
                 GestureDetector(
                   onTap: () {
+                    // ADD DOCUMENT NOT WORKING
                     print(_tenantData);
                     if (_tenantData['name'] == "" ||
                         _tenantData['surname'] == "" ||

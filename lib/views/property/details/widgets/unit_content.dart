@@ -13,14 +13,14 @@ class UnitContent extends StatelessWidget {
     required this.property,
     required this.propertyUnits,
     required this.unitCount,
-    required this.images,
+  
   }) : _getSize = getSize;
 
   final Size _getSize;
   final Map property;
   final List propertyUnits;
   final int unitCount;
-  final List<String> images;
+ 
 
   @override
   Widget build(BuildContext context) {

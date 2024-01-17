@@ -11,12 +11,14 @@ import 'package:location/location.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_fonts.dart';
 import '../../constants/app_images.dart';
 import '../../constants/app_routes.dart';
 import '../../models/dashItem.dart';
 import '../../models/pharm.dart';
+import '../../provider/websocket_provider.dart';
 import '../../utils/app_utils.dart';
 import '../../utils/local_storage.dart';
 import '../../utils/location.dart';
@@ -77,18 +79,7 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
-  List<Map> ListItem = [
-    {'image': "assets/images/icons/pills.png", 'text': 'Get medications.'},
-    {
-      'image': "assets/images/icons/textrack.png",
-      'text': 'Order for a lab test'
-    },
-    {'image': "assets/images/icons/upload.png", 'text': 'Upload Prescription'},
-    {
-      'image': "assets/images/images/support_doc.jpeg",
-      'text': 'Ask Pharm Josy'
-    },
-  ];
+  late WebSocketProvider webSocketProvider;
   bool isLoadingProperty = true;
     bool isLoadedPropertyData = true;
   List property = [];
@@ -193,7 +184,7 @@ class _DashboardState extends State<Dashboard> {
     final Size = MediaQuery.of(context).size;
     final walkThroughItem = PharmItems.loadItems();
     List<Widget> items = [];
-
+    webSocketProvider = Provider.of<WebSocketProvider>(context, listen: false);
     return Scaffold(
       key: _scaffoldKey,
       drawer: SideBar(

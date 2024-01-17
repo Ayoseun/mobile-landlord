@@ -1,5 +1,8 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'app_images.dart';
 
 const BaseURL = "https://casmara-app-api.onrender.com/api";
 String getCurrency() {
@@ -45,3 +48,56 @@ String customFormatCurrency(int number) {
 const imgHolder =
     "https://i.ibb.co/GtsgGKg/d5d5ce76ff5f.jpg";
 
+
+  List<Map> services = [
+      {'icon': AppImages.agent,'color2': Color(0xFF47893F), 'color': Color(0xFFDAE7D9), 'text': 'House Agent'},
+      {
+        'icon': AppImages.electrician,
+        'color': Color(0xFFFCEADA),
+        'color2': Color(0xFFEF9645),
+        
+        'text': 'Electrician'
+      },
+      {
+        'icon': AppImages.plumber,
+        'color': Color(0xFFEADAFF),
+        'color2': Color(0xFF750790),
+        'text': 'Plumber'
+      },
+      {
+        'icon': AppImages.funmigate,
+        'color': Color(0xFFFFE4E9),
+       'color2': Color(0xFFFF7892),
+        'text': 'Fumigator'
+      },
+      {
+        'icon': AppImages.cleaner,
+        'color2': Color(0xFFEA4335),
+      'color': Color(0xFFFBD9D7),
+        'text': 'Cleaner'
+      },
+      {
+        'icon': AppImages.painter,
+        'color2': const Color(0xFF22DBBA),
+       'color': Color(0xFFD3F8F1),
+        'text': 'Painter'
+      },
+      {
+        'icon': AppImages.gardener,
+        'color2': Color(0xFFFF5F00),
+     'color': Color(0xFFFFDFCC),
+        'text': 'Gardener'
+      },{
+        'icon': AppImages.movers,
+        'color2': Color(0xFF750790),
+      'color': Color(0xFFDAE7D9),
+        'text': 'Mover'
+      },{
+        'icon': AppImages.carpenter,
+        'color2': Color(0xFF5DADEC),
+        'color': Color(0xFFDAE7D9),
+       
+        'text': 'Carpenter'
+      },
+    ];
+   

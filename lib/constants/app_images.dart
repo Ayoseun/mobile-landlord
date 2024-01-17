@@ -69,9 +69,12 @@ class AppImages {
   static const estate = 'assets/icons/estate.png';
   static const estatefilled = 'assets/icons/estatef.png';
   static const call = 'assets/images/icons/call.png';
+     static const tag = 'assets/icons/tag.png';
 //icons
 
   static const joined = 'assets/icons/join.png';
+    static const gardener = 'assets/icons/request/Gardener.png';
+  static const carpenter = 'assets/icons/request/Carpenter.png';
   static const plumber = 'assets/icons/request/plumber.png';
   static const bags = 'assets/icons/bags.png';
   static const agent = 'assets/icons/agent.png';
