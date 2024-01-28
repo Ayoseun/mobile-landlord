@@ -61,11 +61,8 @@ class FullPropertyContent extends StatelessWidget {
         ),
         SizedBox(
           height: _getSize.height * 0.56,
-          child: 
-          
-          SingleChildScrollView(
-            child: 
-            Column(
+          child: SingleChildScrollView(
+            child: Column(
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,7 +146,7 @@ class FullPropertyContent extends StatelessWidget {
                           onTap: () {
                             var tenantInfo = {
                               "propertyID": property['propertyID'],
-                              "unitID": property['propertyID']
+                              "unitID": property["unitData"][0]['unitID']
                             };
 
                             property['structure'] != "Standalone"
@@ -311,41 +308,46 @@ class FullPropertyContent extends StatelessWidget {
                           height: _getSize.height * 0.005,
                         ),
                         selfieUrls.isNotEmpty
-                            ? Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  ImageStack(
-                                    imageList: selfieUrls,
-                                    backgroundColor:
-                                        Color.fromARGB(49, 209, 209, 209),
-                                    extraCountTextStyle: AppFonts.body1
-                                        .copyWith(
-                                            color: Pallete.primaryColor,
-                                            fontWeight: FontWeight.w600),
-                                    totalCount:
-                                        tenantCount, // If larger than images.length, will show extra empty circle
-                                    imageRadius: 45, // Radius of each images
-                                    imageCount: tenantCount > 3
-                                        ? 3
-                                        : tenantCount, // Maximum number of images to be shown in stack
-                                    imageBorderWidth:
-                                        0.6, // Border width around the images
-                                  ),
-                                  Text(
-                                    "See More",
-                                    style: AppFonts.body1.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: Pallete.secondaryColor),
-                                  )
-                                ],
+                            ? GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed(AppRoutes.tenants);
+                                },
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ImageStack(
+                                      imageList: selfieUrls,
+                                      backgroundColor:
+                                          Color.fromARGB(49, 209, 209, 209),
+                                      extraCountTextStyle: AppFonts.body1
+                                          .copyWith(
+                                              color: Pallete.primaryColor,
+                                              fontWeight: FontWeight.w600),
+                                      totalCount:
+                                          tenantCount, // If larger than images.length, will show extra empty circle
+                                      imageRadius: 45, // Radius of each images
+                                      imageCount: tenantCount > 3
+                                          ? 3
+                                          : tenantCount, // Maximum number of images to be shown in stack
+                                      imageBorderWidth:
+                                          0.6, // Border width around the images
+                                    ),
+                                    Text(
+                                      "See More",
+                                      style: AppFonts.body1.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Pallete.secondaryColor),
+                                    )
+                                  ],
+                                ),
                               )
                             : Center(
                                 child: Container(
                                     decoration: BoxDecoration(
                                         color: Color(0xFFC8DCC5),
-                                        borderRadius:
-                                            BorderRadius.circular(5)),
+                                        borderRadius: BorderRadius.circular(5)),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
@@ -365,7 +367,7 @@ class FullPropertyContent extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Total Service Requests",
+                              "Total Service Repairs",
                               style: AppFonts.boldText.copyWith(
                                   fontWeight: FontWeight.w400,
                                   color: Pallete.text,
@@ -402,8 +404,7 @@ class FullPropertyContent extends StatelessWidget {
                                             ),
                                             Text(
                                               service[index]['text'],
-                                              style:
-                                                  AppFonts.bodyText.copyWith(
+                                              style: AppFonts.bodyText.copyWith(
                                                 fontSize: 12,
                                                 color: Pallete.text,
                                               ),
@@ -539,56 +540,56 @@ class FullPropertyContent extends StatelessWidget {
                       ],
                     )
                   ],
-                ),        SizedBox(
-          height: _getSize.height * 0.03,
-        ),
-        
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            children: [
-              Container(
-                height: _getSize.height * 0.05,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 0.5, color: Pallete.primaryColor),
-                  borderRadius: BorderRadius.circular(2),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      AppImages.dustbin,
-                      width: 18,
-                    ),
-                    SizedBox(
-                      width: _getSize.width * 0.03,
-                    ),
-                    Text(
-                      "Delete Property",
-                      style: AppFonts.bodyText.copyWith(
-                          color: Pallete.primaryColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
-                    )
-                  ],
+                SizedBox(
+                  height: _getSize.height * 0.03,
                 ),
-              ),
-              SizedBox(
-                height: _getSize.height * 0.015,
-              ),
-              ButtonWithFuction(
-                  text: "Request Service Provider", onPressed: () {}),
-              SizedBox(
-                height: _getSize.height * 0.045,
-              ),
-            ],
-          ),
-        ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: _getSize.height * 0.05,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 0.5, color: Pallete.primaryColor),
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              AppImages.dustbin,
+                              width: 18,
+                            ),
+                            SizedBox(
+                              width: _getSize.width * 0.03,
+                            ),
+                            Text(
+                              "Delete Property",
+                              style: AppFonts.bodyText.copyWith(
+                                  color: Pallete.primaryColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: _getSize.height * 0.015,
+                      ),
+                      ButtonWithFuction(
+                          text: "Request Service Provider", onPressed: () {}),
+                      SizedBox(
+                        height: _getSize.height * 0.045,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
         ),
-
       ],
     );
   }

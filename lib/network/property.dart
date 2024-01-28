@@ -55,7 +55,7 @@ class PropertyAPI {
     );
 
     var parsedResponse = jsonDecode(response.body);
-    print(parsedResponse);
+
     return parsedResponse;
   }
   static Future getAllPropertiesData() async {
@@ -70,7 +70,7 @@ class PropertyAPI {
     );
 
     var parsedResponse = jsonDecode(response.body);
-    print(parsedResponse);
+    
     return parsedResponse;
   }
 
@@ -88,7 +88,7 @@ class PropertyAPI {
     );
 
     var parsedResponse = jsonDecode(response.body);
-    print(parsedResponse);
+  
     return parsedResponse;
   }
 
@@ -106,7 +106,7 @@ class PropertyAPI {
     );
 
     var parsedResponse = jsonDecode(response.body);
-    print(parsedResponse);
+  
     return parsedResponse;
   }
 
@@ -124,7 +124,7 @@ class PropertyAPI {
     );
 
     var parsedResponse = jsonDecode(response.body);
-    print(parsedResponse);
+  
     return parsedResponse;
   }
 

@@ -11,6 +11,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import '../../../network/property.dart';
 import '../../../utils/backpressed.dart';
+import '../../navbar/nav.dart';
+import '../property.dart';
 
 class PropertyDetails extends StatefulWidget {
   const PropertyDetails({Key? key}) : super(key: key);
@@ -29,7 +31,6 @@ class _PropertyDetailsState extends State<PropertyDetails> {
   void maind() {
     final DateTime now = DateTime.now();
     formattedDate = formatDate(now);
-    print(formattedDate);
   }
 
   int currentIndexs = 0;
@@ -46,7 +47,6 @@ class _PropertyDetailsState extends State<PropertyDetails> {
       'text2': "Miss Susan is in need of  home movers into their apartment."
     },
   ];
-
 
   String formatDate(DateTime dateTime) {
     return DateFormat('dd MMMM, y').format(dateTime);
@@ -76,7 +76,6 @@ class _PropertyDetailsState extends State<PropertyDetails> {
       isLoadingProperty = false;
       setState(() {
         property;
-        print(property);
       });
     } else {
       setState(() {
@@ -88,9 +87,10 @@ class _PropertyDetailsState extends State<PropertyDetails> {
 
   @override
   void initState() {
+    unitIndex;
     maind();
     getProperties();
-     print(unitIndex);
+    print(unitIndex);
     _scrollController.addListener(() {
       setState(() {
         _currentPage = (_scrollController.offset / 100).round();
@@ -105,11 +105,11 @@ class _PropertyDetailsState extends State<PropertyDetails> {
   void scrollToNextItem() {
     _scrollController.animateTo(
       _scrollController.offset +
-          970, // Adjust this value based on your item size
+          400, // Adjust this value based on your item size
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
     );
-    if (_currentIndex == imgList.length) {
+    if (_currentIndex == propertyUnits.length) {
     } else {
       _currentIndex++;
     }
@@ -118,7 +118,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
   void scrollToPreviousItem() {
     _scrollController.animateTo(
       _scrollController.offset -
-          970, // Adjust this value based on your item size
+          400, // Adjust this value based on your item size
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
     );
@@ -149,8 +149,13 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              AppRoutes.navbar, (route) => false);
+                         Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            NavBar(initialScreen: Property(),initialTab: 2)),
+                                    (route) => false,
+                                  );
                         },
                         child: Image.asset(
                           AppImages.back,
@@ -201,9 +206,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                   ),
                                 ),
                                 property['structure'] != "Standalone"
-                                    ?
-                                     Positioned(
-                                        left: _getSize.width * 0.07,
+                                    ? Positioned(
+                                        left: _getSize.width * 0.08,
                                         bottom: _getSize.height * 0.24,
                                         child: Container(
                                           decoration: BoxDecoration(
@@ -297,8 +301,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                       )
                                     : Text(''),
                                 property['structure'] != "Standalone"
-                                    ? 
-                                    Positioned(
+                                    ? Positioned(
                                         top: 130, // adjust position as needed
                                         left: 30,
                                         child: SizedBox(
@@ -327,16 +330,18 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                                       size: 16,
                                                     ),
                                                     onPressed: () {
-                                                      //  print(unitCount);
+                                                        print(unitIndex);
                                                       scrollToPreviousItem();
                                                       if (unitIndex == 0) {
+                                                            unitIndex--;
+                                                              print(unitIndex);
                                                         setState(() {
                                                           isUnitAvaialble =
                                                               false;
                                                         });
-                                                      } else if (unitIndex >
-                                                          -1) {
-                                                        unitIndex--;
+                                                      } else if (unitIndex ==
+                                                          propertyUnits.length-1) {
+                                                      unitIndex--;
                                                       }
                                                     },
                                                   ),
@@ -362,24 +367,28 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                                       size: 16,
                                                     ),
                                                     onPressed: () {
-                                            
+
+     scrollToNextItem();
+                                                      if (unitIndex !=
+                                                          propertyUnits.length-1) {
+
+                                                             unitIndex++;
                                                       print(
-                                                          propertyUnits.length-1);
+                                                          "prp:${propertyUnits.length}");
                                                       print(unitIndex);
-                                                      if (unitIndex ==
-                                                          propertyUnits
-                                                              .length-1) {
-                                                                      
-                                                      } else {
-                                                   print(
+
+                                                      print(
                                                           propertyUnits.length);
                                                       print(unitIndex);
-                                                        scrollToNextItem();
-                                                        unitIndex++;
-                                                        isUnitAvaialble = true;
-                                                      }
+
+                                                      isUnitAvaialble = true;
 
                                                       setState(() {});
+                                                 
+                                                      }else{
+
+                                                      }
+                                            
                                                     },
                                                   ),
                                                 ),
@@ -396,9 +405,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                 ? FullPropertyContent(
                                     getSize: _getSize,
                                     property: property,
-                                     propertyUnits: propertyUnits,
-                                       unitCount: unitIndex,
-                                  
+                                    propertyUnits: propertyUnits,
+                                    unitCount: unitIndex,
                                     service: service)
                                 //Individual unit view
                                 : UnitContent(
@@ -406,7 +414,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                     property: property,
                                     propertyUnits: propertyUnits,
                                     unitCount: unitIndex,
-                                    )
+                                  )
                           ],
                         )
                       : Container(

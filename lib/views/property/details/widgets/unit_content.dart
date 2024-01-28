@@ -13,14 +13,12 @@ class UnitContent extends StatelessWidget {
     required this.property,
     required this.propertyUnits,
     required this.unitCount,
-  
   }) : _getSize = getSize;
 
   final Size _getSize;
   final Map property;
   final List propertyUnits;
   final int unitCount;
- 
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +84,7 @@ class UnitContent extends StatelessWidget {
                                 width: _getSize.width * 0.008,
                               ),
                               SizedBox(
-                                 width: _getSize.width * 0.55,
+                                width: _getSize.width * 0.55,
                                 child: Text(
                                   property['location'],
                                   overflow: TextOverflow.ellipsis,
@@ -389,108 +387,132 @@ class UnitContent extends StatelessWidget {
                         height: _getSize.height * 0.015,
                       ),
                       propertyUnits[unitCount]['isTaken']
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Tenant",
-                                  style: AppFonts.boldText.copyWith(
-                                      fontWeight: FontWeight.w300,
-                                      color: Pallete.text,
-                                      fontSize: 14),
-                                ),
-                                SizedBox(
-                                  height: _getSize.height * 0.005,
-                                ),
-                                Row(
-                                  children: [
-                                    ClipOval(
-                                      child: Image.network(
-                                        propertyUnits[unitCount]['tenantInfo']
-                                            ['selfie'],
-                                        width: _getSize.width * 0.14,
-                                        height: _getSize.height * 0.065,
-                                        fit: BoxFit.cover,
+                          ? GestureDetector(
+                              onTap: () {
+                                var tenantInfoData =
+                                    propertyUnits[unitCount]['tenantInfo'];
+                                tenantInfoData['lightMeter'] =
+                                    propertyUnits[unitCount]['lightMeter'];
+                                      tenantInfoData['waterMeter'] =
+                                    propertyUnits[unitCount]['waterMeter'];
+                                tenantInfoData['propertyName'] =
+                                    property['name'];
+                                tenantInfoData['propertyLocation'] =
+                                    property['location'];
+                                print(propertyUnits[unitCount]);
+                                Navigator.of(context).pushNamed(
+                                  AppRoutes.tenantsProfile,
+                                  arguments: {
+                                    'tenant': tenantInfoData,
+                                  },
+                                );
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Tenant",
+                                    style: AppFonts.boldText.copyWith(
+                                        fontWeight: FontWeight.w300,
+                                        color: Pallete.text,
+                                        fontSize: 14),
+                                  ),
+                                  SizedBox(
+                                    height: _getSize.height * 0.005,
+                                  ),
+                                  Row(
+                                    children: [
+                                      ClipOval(
+                                        child: Image.network(
+                                          propertyUnits[unitCount]['tenantInfo']
+                                              ['selfie'],
+                                          width: _getSize.width * 0.14,
+                                          height: _getSize.height * 0.065,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: _getSize.width * 0.03,
-                                    ),
-                                    Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: _getSize.width * 0.7,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  ' ${propertyUnits[unitCount]['tenantInfo']['name']} ${propertyUnits[unitCount]['tenantInfo']['surname']}',
-                                                  style: AppFonts.boldText
-                                                      .copyWith(
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.w400),
-                                                ),
-                                                Text(
-                                                  "20 June 2023",
-                                                  style:
-                                                      AppFonts.body1.copyWith(
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: _getSize.width * 0.25,
-                                          ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                              color: Color(0xFFC8DCC5),
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 4.0,
-                                                      horizontal: 8),
+                                      SizedBox(
+                                        width: _getSize.width * 0.03,
+                                      ),
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: _getSize.width * 0.7,
                                               child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Container(
-                                                    height: 5,
-                                                    width: 5,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(100),
-                                                        color:
-                                                            Color(0xFF47893F)),
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        _getSize.width * 0.025,
+                                                  Text(
+                                                    ' ${propertyUnits[unitCount]['tenantInfo']['name']} ${propertyUnits[unitCount]['tenantInfo']['surname']}',
+                                                    style: AppFonts.boldText
+                                                        .copyWith(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
                                                   ),
                                                   Text(
-                                                    "Paid",
-                                                    style: AppFonts
-                                                        .smallWhiteBold
-                                                        .copyWith(
-                                                            color: Color(
-                                                                0xFF47893F)),
-                                                  ),
+                                                    "20 June 2023",
+                                                    style:
+                                                        AppFonts.body1.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  )
                                                 ],
                                               ),
                                             ),
-                                          )
-                                        ]),
-                                  ],
-                                ),
-                              ],
+                                            SizedBox(
+                                              width: _getSize.width * 0.25,
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                                color: Color(0xFFC8DCC5),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 4.0,
+                                                        horizontal: 8),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 5,
+                                                      width: 5,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100),
+                                                          color: Color(
+                                                              0xFF47893F)),
+                                                    ),
+                                                    SizedBox(
+                                                      width: _getSize.width *
+                                                          0.025,
+                                                    ),
+                                                    Text(
+                                                      "Paid",
+                                                      style: AppFonts
+                                                          .smallWhiteBold
+                                                          .copyWith(
+                                                              color: Color(
+                                                                  0xFF47893F)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ]),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             )
                           : Container(),
                     ],
@@ -548,4 +570,3 @@ class UnitContent extends StatelessWidget {
     );
   }
 }
-

@@ -77,7 +77,7 @@ class SideBar extends StatelessWidget {
                     height: _getSize.height * 0.02,
                   ),
                   Column(
-                    children: [
+                    children: const [
                       items(
                         text: "Profile",
                         img: AppImages.profile,
@@ -104,6 +104,7 @@ class SideBar extends StatelessWidget {
                       ),
                       items(
                         text: "Requests",
+                         route: AppRoutes.requestScreen,
                         img: AppImages.request,
                       ),
                       SizedBox(

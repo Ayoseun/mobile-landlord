@@ -73,7 +73,7 @@ class _WelcomeState extends State<Welcome> {
                       focusNode: focusNode,
                       onChanged: (ph) {
                         print(ph.completeNumber);
-                          phone = ph.completeNumber;
+                          phone = ph.completeNumber.trim().split(' ').join('');
                       },
                     ),
                     // CustomInput2(

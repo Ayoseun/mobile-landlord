@@ -10,7 +10,7 @@ saveAbout(about) async {
 }
 
 savePropertyItem(cartItems) async {
-  print(cartItems);
+
   s_prefs = await SharedPreferences.getInstance();
   String jsonString = jsonEncode(cartItems);
   s_prefs.setString("propItem", jsonString);

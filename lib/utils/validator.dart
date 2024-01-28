@@ -19,7 +19,7 @@ static String? passwordValidator(value) {
   }
 
   if (!passValid) {
-    return 'At least one capital letter (A-Z), one lowercase letter (a-z), and one number (0-9) required';
+    return ' At least one capital letter (A-Z),\n one lowercase letter (a-z),\n one number (0-9) and a \n symbol (@#\$*!) is required';
   }
       return null;
 }

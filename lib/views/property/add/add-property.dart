@@ -570,10 +570,7 @@ class _AddPropertyState extends State<AddProperty> {
                                     Text(""),
                                     () => Navigator.of(context).pop());
                               } else {
-                                isStandalone
-                                    ? AddPropertyUtil.add(
-                                        context, _propertyData)
-                                    : Navigator.of(context).pushNamed(
+                                Navigator.of(context).pushNamed(
                                         AppRoutes.addUnit,
                                         arguments: {
                                           'data': _propertyData,
@@ -591,7 +588,7 @@ class _AddPropertyState extends State<AddProperty> {
                                   borderRadius: BorderRadius.circular(10)),
                               child: Center(
                                 child: Text(
-                                  !isStandalone ? "Add Unit" : "submit",
+                                "Add Unit",
                                   style: AppFonts.smallWhiteBold,
                                 ),
                               ),
@@ -610,9 +607,8 @@ class _AddPropertyState extends State<AddProperty> {
                               AppUtils.singleDialog(
                                   context,
                                   'Empty Property',
-                                  !isStandalone
-                                      ? 'You have to provide all property \n information to add unit.'
-                                      : 'You have to provide all property \n information to a single property',
+                                  'You have to provide all property \n information to add unit.'
+                                      ,
                                   'close',
                                   const Icon(
                                     Icons.error,
@@ -634,7 +630,7 @@ class _AddPropertyState extends State<AddProperty> {
                                   borderRadius: BorderRadius.circular(10)),
                               child: Center(
                                 child: Text(
-                                  !isStandalone ? "Add Unit" : "Submit",
+                                  "Add Unit",
                                   style: AppFonts.body1.copyWith(
                                       color: Pallete.whiteColor, fontSize: 14),
                                 ),

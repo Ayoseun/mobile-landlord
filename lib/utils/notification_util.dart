@@ -7,7 +7,7 @@ notify(header,text) async {
     AwesomeNotifications().createNotification(
         content: NotificationContent(
       //simgple notification
-      id: 123,
+      id: 1234,
       channelKey: 'basic', //set configuration wuth key "basic"
       title: header,
       body: text,

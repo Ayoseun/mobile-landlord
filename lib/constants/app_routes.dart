@@ -10,6 +10,7 @@ import 'package:abjalandlord/views/profile/profile.dart';
 import 'package:abjalandlord/views/property/add/add-property.dart';
 import 'package:abjalandlord/views/property/add/add-unit-more.dart';
 import 'package:abjalandlord/views/property/details/property-details.dart';
+import 'package:abjalandlord/views/request/request.dart';
 import 'package:abjalandlord/views/settings/content/content.dart';
 import 'package:abjalandlord/views/settings/settings.dart';
 import 'package:abjalandlord/views/tenant/add_tenant.dart';
@@ -50,12 +51,13 @@ class AppRoutes {
   static const drugOrdersScreen = '/drugOrdersScreen';
   static const diag = '/diag';
   static const package = '/package';
-  static const navbar = '/navbar';
+
   static const loadHome = '/loadHome';
   static const privacy = '/privacy';
   static const terms = '/terms';
     static const requestDetails = './requestDetails';
   static const createRequest = './createRequest';
+   static const requestScreen = './requestScreen';
   static const registerOTPScreen = '/registerOTPScreen';
   static const changePassword = '/changePassword';
   static const registerScreen = '/registerScreen';
@@ -72,6 +74,7 @@ class AppRoutes {
   static Map<String, WidgetBuilder> routes() {
     return <String, WidgetBuilder>{
           AppRoutes.createRequest: (context) => CreateRequest(),
+           AppRoutes.requestScreen: (context) => RequestScreen(),
         AppRoutes.requestDetails: (context) => RequestDetails(),
       AppRoutes.welcomeScreen: ((context) => Welcome()),
       AppRoutes.onboarding: (context) =>  OnboardingScreen(),
@@ -91,7 +94,7 @@ class AppRoutes {
       AppRoutes.package: (context) => Package(),
       AppRoutes.profile: (context) => Profile(),
       AppRoutes.dashboardScreen: (context) => Dashboard(),
-      AppRoutes.navbar: (context) => NavBar(),
+  
       AppRoutes.addTenant: (context) => AddTenant(),
        AppRoutes.addMoreUnit: (context) => AddMoreUnit(),
       AppRoutes.tenants: (context) => Tenants(),

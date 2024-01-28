@@ -182,7 +182,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                       label: 'Confirm Password',
                       hint: 'Confirm Password',
                       onSaved: (value) {
-                        cPassword = value!;
+                        cPassword = value!.trim().split(' ').join('');
                       },
                     ),
                     const SizedBox(
@@ -206,7 +206,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                       onPressed: () {
                         ResetPasswordUtil.resetPassword(
                             _resetFormKey, context, password, cPassword);
-                        // Navigator.of(context).pushNamed(AppRoutes.loginScreen);
+                       
                       }),
                 ),
               ],

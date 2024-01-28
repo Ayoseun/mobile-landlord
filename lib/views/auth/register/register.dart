@@ -79,6 +79,25 @@ class _SignUpState extends State<SignUp> {
     'phone': '',
     'password': ''
   };
+
+ processMapValues(Map<String, dynamic> registerMap,ctx,key) {
+    Map<String, dynamic> processedMap = {};
+
+    registerMap.forEach((key, value) {
+      if (value is String) {
+        processedMap[key] = value.trim().split(' ').join('');
+      } else {
+        processedMap[key] = value;
+      }
+    });
+    print(processedMap);
+ setState(() {
+   
+ });
+      RegisterUtil.register(
+                           key, ctx, _registerData);
+  }
+
   void _checkPasswordStrength(String value) {
     dynamic password = value.trim();
     setState(() {
@@ -200,11 +219,15 @@ class _SignUpState extends State<SignUp> {
                       child: Column(
                         children: [
                           CustomInput3(
-                            validator: Validators.nameValidator,
+                            validator: Validators.emailValidator,
                             label: 'Email',
                             hint: 'Enter your Email',
+                            onChanged: (value) {
+                              _registerData['email'] = value!;
+                              setState(() {});
+                            },
                             onSaved: (value) {
-                              _registerData['email'] = value;
+                              _registerData['email'] = value!;
                             },
                           ),
                           SizedBox(
@@ -215,7 +238,7 @@ class _SignUpState extends State<SignUp> {
                             label: 'First Name',
                             hint: 'First Name',
                             onSaved: (value) {
-                              _registerData['firstName'] = value;
+                              _registerData['firstName'] = value!.trim();
                             },
                           ),
                           SizedBox(
@@ -226,7 +249,7 @@ class _SignUpState extends State<SignUp> {
                             label: 'Last Name',
                             hint: 'Last Name',
                             onSaved: (value) {
-                              _registerData['lastName'] = value;
+                              _registerData['lastName'] = value!.trim();
                             },
                           ),
                           SizedBox(
@@ -254,9 +277,10 @@ class _SignUpState extends State<SignUp> {
                             hint: 'Password',
                             onChanged: (String? value) {
                               confirmPassword = value!;
+                                 _registerData['password'] = value;
                             },
                             onSaved: (value) {
-                              _registerData['password'] = value;
+                              _registerData['password'] = value!;
                             },
                           ),
                           SizedBox(
@@ -373,10 +397,11 @@ class _SignUpState extends State<SignUp> {
                     child: ButtonWithFuction(
                         text: 'Sign Up',
                         onPressed: () {
-                          RegisterUtil.register(
-                              _registerFormKey, context, _registerData);
-                          // Navigator.of(context)
-                          //     .pushNamed(AppRoutes.registerOTPScreen);
+                          
+                          processMapValues(_registerData,context,_registerFormKey);
+                     
+                         
+                 
                         }),
                   ),
                   SizedBox(height: _getSize.height * 0.01),

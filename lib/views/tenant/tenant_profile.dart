@@ -18,30 +18,11 @@ class TenantProfile extends StatefulWidget {
 }
 
 class _TenantProfileState extends State<TenantProfile> {
-  int _tabIndex = 0;
-  var name = '';
-  var surname = '';
-  var photo = 'https://picsum.photos/200';
-  var about =
-      "Hi, I’m Tony Ukachukwu. A landlord and property owner within Kampala and it’s districts. I offer premium and the best qualities of luxury living spaces  within affordable rent fees.";
-  imgpika.XFile? image; //this is the state variable
-  getPhoto() async {
-    photo = await showSelfie();
-    about = await showRef();
-    name = await showName();
-    surname = await showSurname();
-    setState(() {
-      photo;
-      name;
-      surname;
-      about;
-    });
-  }
 
   var tenant = {};
   @override
   void initState() {
-    getPhoto();
+
     super.initState();
   }
 
@@ -50,6 +31,7 @@ class _TenantProfileState extends State<TenantProfile> {
     final dataFromRoute = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     tenant = dataFromRoute["tenant"];
+    print(tenant);
     final _getSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Pallete.whiteColor,
@@ -87,29 +69,19 @@ class _TenantProfileState extends State<TenantProfile> {
                     height: _getSize.height * 0.0007,
                     color: Pallete.primaryColor,
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      final imgpika.ImagePicker _picker = imgpika.ImagePicker();
-                      final img = await _picker.pickImage(
-                          source: imgpika.ImageSource.gallery);
-                      setState(() {
-                        image = img;
-                      });
-                    },
-                    child: DottedBorder(
-                      borderType: BorderType.Circle,
-                      strokeWidth: 2,
-                      color: Color(0xFF47893F),
-                      dashPattern: [10, 16],
-                      child: Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: ClipOval(
-                          child: Image.network(
-                            tenant['selfie'],
-                            fit: BoxFit.cover,
-                            width: _getSize.width * 0.22,
-                            height: _getSize.height * 0.10,
-                          ),
+                  DottedBorder(
+                    borderType: BorderType.Circle,
+                    strokeWidth: 2,
+                    color: Color(0xFF47893F),
+                    dashPattern: [10, 16],
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: ClipOval(
+                        child: Image.network(
+                          tenant['selfie'],
+                          fit: BoxFit.cover,
+                          width: _getSize.width * 0.22,
+                          height: _getSize.height * 0.10,
                         ),
                       ),
                     ),
@@ -217,7 +189,7 @@ class _TenantProfileState extends State<TenantProfile> {
               ProfileData(
                 getSize: _getSize,
                 header: "Light Meter",
-                content: tenant['lightMeter'],
+                content: tenant['lightMeter']??"",
               ),
               SizedBox(
                 height: _getSize.height * 0.02,
@@ -225,7 +197,7 @@ class _TenantProfileState extends State<TenantProfile> {
               ProfileData(
                 getSize: _getSize,
                 header: "Water Meter",
-                content: tenant['waterMeter'],
+                content: tenant['waterMeter']??"",
               ),
               SizedBox(
                 height: _getSize.height * 0.02,
@@ -294,7 +266,7 @@ class middle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var week2mnth = tenantData['remainingWeeks'] / 4;
+    var week2mnth = tenantData['remainingWeeks']??0 / 4;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -443,231 +415,6 @@ class middle extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class bottom extends StatelessWidget {
-  const bottom({super.key, required Size getSize}) : _getSize = getSize;
-
-  final Size _getSize;
-
-  @override
-  Widget build(BuildContext context) {
-    List<Map> services = [
-      {
-        'img': AppImages.fby,
-        'icon': AppImages.electrician,
-        'color': Color(0xFFFCEADA),
-        'color2': Color(0xFFEF9645),
-        'text': 'Bryan Umar',
-        'job': 'Electrician',
-        'desc':
-            'I was very impressed with Bryan’s work. He was prompt, professional, and did a great job fixing the electrical problem in my tenant\'s apartment. I would highly recommend him to anyone who needs an electrician.'
-      },
-      {
-        'img': AppImages.agb,
-        'icon': AppImages.plumber,
-        'color': Color(0xFFEADAFF),
-        'color2': Color(0xFF9747FF),
-        'text': 'Bryan Umar',
-        'job': 'Plumber',
-        'desc':
-            'I was very impressed with Bryan’s work. He was prompt, professional, and did a great job fixing the electrical problem in my tenant\'s apartment. I would highly recommend him to anyone who needs an electrician.'
-      },
-    ];
-    return SizedBox(
-        width: _getSize.width * 0.9,
-        height: _getSize.height * 0.2,
-        child: ListView.builder(
-            itemCount: services.length,
-            physics: BouncingScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(
-                    top: 8.0, bottom: 8, right: 8, left: 4),
-                child: Container(
-                  height: _getSize.height * 0.11,
-                  width: _getSize.width,
-                  decoration: BoxDecoration(
-                      color: services[index]['color'],
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromARGB(44, 85, 80, 80),
-                          blurRadius: 11,
-                          spreadRadius: 1,
-                          offset: Offset(0, 5),
-                        )
-                      ],
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          services[index]['img'],
-                          width: _getSize.width * 0.15,
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  services[index]['text'],
-                                  style: AppFonts.body1.copyWith(
-                                      color: Pallete.text,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                SizedBox(
-                                  width: _getSize.width * 0.42,
-                                ),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.star_rate,
-                                      size: 18,
-                                      color: Color.fromARGB(255, 255, 203, 17),
-                                    ),
-                                    SizedBox(
-                                      width: 2,
-                                    ),
-                                    Text(
-                                      "4/5",
-                                      style: AppFonts.body1.copyWith(
-                                          color: Pallete.fade,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: _getSize.height * 0.007,
-                            ),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  services[index]['icon'],
-                                  color: services[index]['color2'],
-                                  width: 24,
-                                ),
-                                SizedBox(
-                                  width: 2,
-                                ),
-                                Text(
-                                  services[index]['job'],
-                                  style: AppFonts.body1.copyWith(
-                                    color: Pallete.text,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: _getSize.height * 0.005,
-                            ),
-                            SizedBox(
-                              width: _getSize.width * 0.6,
-                              child: Text(
-                                services[index]['desc'],
-                                style: AppFonts.body1.copyWith(
-                                  color: Pallete.text,
-                                  fontSize: 12,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }));
-  }
-}
-
-class TabNavBar extends StatefulWidget {
-  const TabNavBar({
-    Key? key,
-    required this.tabIndex,
-    required this.tabTextList,
-    required this.onTap,
-  }) : super(key: key);
-
-  final int tabIndex;
-  final List<String> tabTextList;
-  final Function(int)? onTap;
-
-  @override
-  _TabNavBarState createState() => _TabNavBarState();
-}
-
-class _TabNavBarState extends State<TabNavBar> {
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Container(
-      height: 40,
-      margin: EdgeInsets.only(bottom: size.height * 0.02),
-      decoration: BoxDecoration(
-        color: Pallete.backgroundColor,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: TabBar(
-        physics: BouncingScrollPhysics(),
-        onTap: widget.onTap,
-        indicatorColor: Pallete.primaryColor,
-        indicatorSize: TabBarIndicatorSize.label,
-        labelColor: Pallete.text,
-        labelStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-        unselectedLabelColor: Pallete.fade,
-        indicatorWeight: 1,
-        tabs: widget.tabTextList
-            .map((tabText) => TabBarItem(
-                  text: tabText,
-                  count: widget.tabTextList.length,
-                ))
-            .toList(),
-      ),
-    );
-  }
-}
-
-class TabBarItem extends StatelessWidget {
-  const TabBarItem({
-    Key? key,
-    required this.count,
-    required this.text,
-  }) : super(key: key);
-
-  final String text;
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    return Tab(
-      child: Text(
-        text,
-        style: GoogleFonts.montserrat(
-          textStyle: TextStyle(
-            fontSize: count == 5 ? 9 : 16,
-          ),
-        ),
-      ),
     );
   }
 }

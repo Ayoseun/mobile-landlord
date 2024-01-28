@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
                       case 2:
                         return LoginScreen();
                          case 3:
-                        return NavBar();
+                        return NavBar(initialScreen: Dashboard(),initialTab: 0,);
                     }
                     // if we got our data
                   }

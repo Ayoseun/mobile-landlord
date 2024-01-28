@@ -75,7 +75,7 @@ class AuthAPI {
     return parsedResponse;
   }
 
-  static Future resetPassword(id, token, cpassword, password) async {
+  static Future resetPassword(id,  password, cpassword) async {
     var response = await http.post(
       Uri.parse('$BaseURL/auth/landlord/reset_password'),
       headers: <String, String>{
@@ -84,7 +84,6 @@ class AuthAPI {
       },
       body: jsonEncode(<String, String>{
         "id": id,
-        "token": token,
         "password": password,
         "confirmPassword": cpassword
       }),

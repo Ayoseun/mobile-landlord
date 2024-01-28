@@ -1,15 +1,9 @@
 import 'dart:convert';
 import 'package:abjalandlord/constants/resources.dart';
 import 'package:abjalandlord/network/property.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:location/location.dart';
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
@@ -23,8 +17,6 @@ import '../../utils/app_utils.dart';
 import '../../utils/local_storage.dart';
 import '../../utils/location.dart';
 import '../../utils/permissions.dart';
-
-import '../../utils/property_util/add_property_utils.dart';
 import '../drawer_menu/sidebar.dart';
 
 class Dashboard extends StatefulWidget {
@@ -35,12 +27,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  CarouselController carouselController = CarouselController();
-  int _sliderIndex = 0;
 
-  final _sliderItemLength = DashItems.loadItems().length;
-  final _sliderItem = DashItems.loadItems();
-  // final Size = MediaQuery.of(context).size;
   var photo = photoHolder;
 
   bool loaded = false;
@@ -54,7 +41,7 @@ class _DashboardState extends State<Dashboard> {
     email = await showEmail();
     var mlocate =
         await getAddress(getUserLocation(_serviceEnabled, _permissionGranted));
-    print(mlocate['fullAddress'].toString());
+ 
     fullAddress = mlocate['fullAddress'].toString();
     await saveUserState(mlocate['state']);
     await saveCity(mlocate['city']);
@@ -85,7 +72,7 @@ class _DashboardState extends State<Dashboard> {
   List property = [];
   var allPropertiesInfo;
   getAllProperties() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     var res = await PropertyAPI.getAllProperty();
 
     var gotproperties = res['data'];
@@ -106,7 +93,7 @@ class _DashboardState extends State<Dashboard> {
   getPropertiesName() async {
     var res = await PropertyAPI.getPropertyName();
     var gotproperties = res['data'];
-    print(gotproperties);
+
     await savePropertyName(gotproperties);
   }
 
@@ -176,14 +163,9 @@ class _DashboardState extends State<Dashboard> {
         statusBarColor: Colors.transparent, // transparent status bar
         statusBarIconBrightness: Brightness.dark // dark text for status bar
         ));
-    final dataFromRoute = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
+
     final _getSize = MediaQuery.of(context).size;
-    final _sliderItemLength = DashItems.loadItems().length;
-    final _sliderItem = DashItems.loadItems();
-    final Size = MediaQuery.of(context).size;
-    final walkThroughItem = PharmItems.loadItems();
-    List<Widget> items = [];
+
     webSocketProvider = Provider.of<WebSocketProvider>(context, listen: false);
     return Scaffold(
       key: _scaffoldKey,
@@ -215,22 +197,9 @@ class _DashboardState extends State<Dashboard> {
                                     onTap: () {
                                       toggleDrawer();
                                     },
-                                    child: ClipOval(
-                                      child: Container(
-                                          decoration: const BoxDecoration(
-                                              color: Pallete.primaryColor,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: Pallete.black,
-                                                    blurRadius: 15,
-                                                    spreadRadius: 7,
-                                                    offset: Offset(11, 3))
-                                              ]),
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Icon(Icons.menu_sharp,
-                                                color: Pallete.whiteColor),
-                                          )),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Image.asset("assets/icons/ham.png",width: 36,)
                                     ),
                                   ),
                                   Padding(
@@ -284,10 +253,10 @@ class _DashboardState extends State<Dashboard> {
                               ),
                               GestureDetector(
                                   onTap: () {
-                                    print(photo);
+                                
                                   },
                                   child: Padding(
-                                    padding: EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8.0),
                                     child: ClipOval(
                                       child: Image.network(
                                         photo,
@@ -307,10 +276,10 @@ class _DashboardState extends State<Dashboard> {
                             decoration: BoxDecoration(
                               border: Border.all(
                                 width: 0.5,
-                                color: Color(0xFF949494),
+                                color: const Color(0xFF949494),
                               ),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
+                                  const BorderRadius.all(Radius.circular(10)),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -347,7 +316,7 @@ class _DashboardState extends State<Dashboard> {
                                     }
                                   },
                                   child: Padding(
-                                    padding: EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8.0),
                                     child: Image.asset(
                                       AppImages.search,
                                       width: 24,
@@ -390,7 +359,7 @@ class _DashboardState extends State<Dashboard> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    SpinKitRing(
+                                    const SpinKitRing(
                                       size: 30,
                                       color: Pallete.primaryColor,
                                       lineWidth: 2.0,
@@ -512,7 +481,7 @@ class properties extends StatelessWidget {
         height: _getSize.height * 0.40,
         child: ListView.builder(
             itemCount: howMany.length,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return GestureDetector(
@@ -542,7 +511,7 @@ class properties extends StatelessWidget {
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Color.fromARGB(137, 246, 249, 245),
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                       color: Color.fromARGB(113, 246, 249, 245),
                                       blurRadius: 11,
@@ -561,7 +530,7 @@ class properties extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Text(
-                                      howMany[index]['unitData']
+                                  howMany[index]['structure']=="Standalone"?  "Standalone":  howMany[index]['unitData']
                                           .length
                                           .toString(),
                                       style: AppFonts.body1.copyWith(
@@ -571,7 +540,7 @@ class properties extends StatelessWidget {
                                       ),
                                     ),
                                     SizedBox(width: _getSize.width * 0.01),
-                                    Text("Unit",
+                                    Text(howMany[index]['structure']=="Standalone"?"":"Unit",
                                         style: AppFonts.body1.copyWith(
                                             fontWeight: FontWeight.w600,
                                             color: Pallete.primaryColor,
@@ -694,7 +663,7 @@ class middle extends StatelessWidget {
           child: Container(
             height: _getSize.height * 0.073,
             width: _getSize.width * 0.28,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Color.fromARGB(97, 29, 89, 103),
                 boxShadow: [
                   BoxShadow(
@@ -718,13 +687,13 @@ class middle extends StatelessWidget {
                       Text(propertyData['totalProperties'].toString(),
                           style: AppFonts.boldText.copyWith(
                             fontSize: _getSize.height * 0.02,
-                            color: Color(0xFF1D5A67),
+                            color: const Color(0xFF1D5A67),
                           )),
                       Image.asset(
                         AppImages.estate,
                         width: 24,
                         height: _getSize.height * 0.02,
-                        color: Color(0xFF1D5A67),
+                        color: const Color(0xFF1D5A67),
                       ),
                     ],
                   ),
@@ -738,14 +707,14 @@ class middle extends StatelessWidget {
                       Text(
                         "Total",
                         style: AppFonts.body1.copyWith(
-                            color: Color(0xFF1D5A67),
+                            color: const Color(0xFF1D5A67),
                             fontSize: _getSize.height * 0.015,
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
                         "Property",
                         style: AppFonts.body1.copyWith(
-                            color: Color(
+                            color: const Color(
                               0xFF1D5A67,
                             ),
                             fontSize: _getSize.height * 0.015,
@@ -765,7 +734,7 @@ class middle extends StatelessWidget {
           child: Container(
             height: _getSize.height * 0.073,
             width: _getSize.width * 0.28,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Color(0xFFFCDBB5),
                 boxShadow: [
                   BoxShadow(
@@ -834,7 +803,7 @@ class middle extends StatelessWidget {
             child: Container(
               height: _getSize.height * 0.073,
               width: _getSize.width * 0.28,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: Color(0xFFD6B5DE),
                   boxShadow: [
                     BoxShadow(
@@ -915,7 +884,7 @@ class bottom extends StatelessWidget {
       child: Container(
         height: _getSize.height * 0.25,
         width: _getSize.width,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Pallete.whiteColor,
             boxShadow: [
               BoxShadow(

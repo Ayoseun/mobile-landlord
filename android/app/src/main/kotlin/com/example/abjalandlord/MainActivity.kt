@@ -1,4 +1,4 @@
-package com.abja.abjalandlord
+package com.abja.landlord
 
 import io.flutter.embedding.android.FlutterActivity
 

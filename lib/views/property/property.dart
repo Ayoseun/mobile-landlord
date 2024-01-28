@@ -25,20 +25,20 @@ class _PropertyState extends State<Property> {
   List property = [];
   getPropertyItems() async {
     var propertyString = await showPropertyItem();
-    print(propertyString);
+   
     var getproperty =
         List<Map<String, dynamic>>.from(jsonDecode(propertyString));
     if (getproperty.isEmpty) {
       setState(() {
         property = [];
-        print(property);
+    
 
         loaded = true;
       });
     } else {
       setState(() {
         property = getproperty;
-        print(property);
+     
         loaded = true;
       });
     }

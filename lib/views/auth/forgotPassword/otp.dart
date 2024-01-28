@@ -22,18 +22,20 @@ class ResetOTPScreen extends StatefulWidget {
 }
 
 class _ResetOTPScreenState extends State<ResetOTPScreen> {
-
   // ..text = "123456";
 
   bool hasError = false;
+  bool timeOver = false;
   String currentText = "";
 
   String otp = '';
- 
-   Duration _duration = Duration(minutes: 4);
-  Timer? _timer;
 
-  void startTimer() {
+  Timer? _timer;
+  Duration timeDuration = const Duration();
+  startTimer() {
+    Duration _duration = const Duration(minutes: 3);
+    timeOver = false;
+    setState(() {});
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (_duration.inSeconds == 0) {
         timer.cancel();
@@ -41,6 +43,8 @@ class _ResetOTPScreenState extends State<ResetOTPScreen> {
       } else {
         setState(() {
           _duration -= Duration(seconds: 1);
+
+          timeDuration = _duration;
         });
       }
     });
@@ -48,7 +52,8 @@ class _ResetOTPScreenState extends State<ResetOTPScreen> {
 
   void onTimerComplete() {
     // Function to handle logic when timer completes
-   Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.loginScreen, (Route<dynamic> route) => false);
+    timeOver = true;
+    setState(() {});
   }
 
   @override
@@ -57,16 +62,14 @@ class _ResetOTPScreenState extends State<ResetOTPScreen> {
     super.dispose();
   }
 
-
   @override
   void initState() {
-     startTimer();
+    startTimer();
     super.initState();
-    
   }
+
   bool value = false;
   bool passwordVisible = false;
-
 
   final focusNode = FocusNode();
   @override
@@ -141,7 +144,6 @@ class _ResetOTPScreenState extends State<ResetOTPScreen> {
                   ],
                 ),
                 OTPTextField(
-               
                     length: 5,
                     width: MediaQuery.of(context).size.width,
                     textFieldAlignment: MainAxisAlignment.spaceAround,
@@ -153,14 +155,11 @@ class _ResetOTPScreenState extends State<ResetOTPScreen> {
                       print("Changed: " + pin);
                       setState(() {
                         otp = pin;
-                       
                       });
                     },
                     onCompleted: (pin) {
                       print("Completed: " + pin);
-                      setState(() {
-                       
-                      });
+                      setState(() {});
                     }),
                 SizedBox(
                   height: _getSize.height * 0.025,
@@ -171,33 +170,35 @@ class _ResetOTPScreenState extends State<ResetOTPScreen> {
                     children: [
                       Column(
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              RetryOTPUtil.retry(context);
-                               startTimer();
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Didn't get a code? ",
-                                  style: AppFonts.body1.copyWith(
-                                      color: Pallete.text,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  "Click to resend",
-                                  style: AppFonts.body1
-                                      .copyWith(color: Pallete.secondaryColor),
+                          timeOver
+                              ? GestureDetector(
+                                  onTap: () {
+                                    startTimer();
+                                    RetryOTPUtil.retry(context);
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Didn't get a code? ",
+                                        style: AppFonts.body1.copyWith(
+                                            color: Pallete.text,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      Text(
+                                        "Click to resend",
+                                        style: AppFonts.body1.copyWith(
+                                            color: Pallete.secondaryColor),
+                                      )
+                                    ],
+                                  ),
                                 )
-                              ],
-                            ),
-                          ),
+                              : SizedBox(),
                           SizedBox(
                             height: _getSize.height * 0.005,
                           ),
                           Text(
-                         formatDuration(_duration),
+                            formatDuration(timeDuration),
                             style: AppFonts.body1,
                           )
                         ],
@@ -207,10 +208,12 @@ class _ResetOTPScreenState extends State<ResetOTPScreen> {
                       ),
                       ButtonWithFuction(
                           text: "Continue",
+                          disabled: timeOver,
                           onPressed: () {
-                
-                            ResetOTPUtil.reset(context, otp);
-                           
+                            if (otp == '') {
+                            } else {
+                              ResetOTPUtil.reset(context, otp);
+                            }
                           }),
                     ],
                   ),

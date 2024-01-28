@@ -1,15 +1,19 @@
-import 'package:abjalandlord/views/dashboard/dashboard.dart';
-import 'package:abjalandlord/views/notification/notification.dart';
-import 'package:abjalandlord/views/property/property.dart';
-import 'package:abjalandlord/views/search/search.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/app_images.dart';
 import '../../constants/app_routes.dart';
+import '../dashboard/dashboard.dart';
+import '../notification/notification.dart';
+import '../property/property.dart';
+import '../search/search.dart';
 
 class NavBar extends StatefulWidget {
-  NavBar({Key? key}) : super(key: key);
+  final Widget initialScreen;
+  final int initialTab;
+  NavBar({Key? key, required this.initialScreen, required this.initialTab})
+      : super(key: key);
 
   @override
   State<NavBar> createState() => _NavBarState();
@@ -20,12 +24,26 @@ class _NavBarState extends State<NavBar> {
   int currentTab = 0;
 
   //this is a list of all screents passed into a list that takes widget
-  final List<Widget> screens = [Dashboard(), Property()];
+  final List<Widget> screens = [
+    Dashboard(),
+  
+  ];
 
 //declaring pagestorage state
-  final PageStorageBucket Bucket = PageStorageBucket();
+  final PageStorageBucket _bucket = PageStorageBucket();
 
-  Widget currentScreen = Dashboard();
+  //Widget currentScreen = Dashboard();
+
+  late Widget currentScreen;
+
+  @override
+  void initState() {
+    super.initState();
+    // Set the initial screen provided through the parameter
+    currentScreen = widget.initialScreen;
+    currentTab = widget.initialTab;
+  }
+
   @override
   Widget build(BuildContext context) {
     final _getSize = MediaQuery.of(context).size;
@@ -33,7 +51,7 @@ class _NavBarState extends State<NavBar> {
         backgroundColor: Pallete.backgroundColor,
         body:
             //this page storage bucket helps to store each page state in memory
-            PageStorage(bucket: Bucket, child: currentScreen),
+            PageStorage(bucket: _bucket, child: currentScreen),
         //set bottomnavbar
         bottomNavigationBar: BottomAppBar(
             //asign shape to navabr

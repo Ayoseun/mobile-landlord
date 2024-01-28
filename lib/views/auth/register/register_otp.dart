@@ -31,13 +31,16 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
 
   bool value = false;
   bool passwordVisible = false;
-
+  bool timeOver = false;
   final focusNode = FocusNode();
 
-  Duration _duration = Duration(minutes: 4);
-  Timer? _timer;
 
-  void startTimer() {
+  Timer? _timer;
+  Duration timeDuration = const Duration();
+  startTimer() {
+    Duration _duration = const Duration(minutes: 3);
+    timeOver = false;
+    setState(() {});
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (_duration.inSeconds == 0) {
         timer.cancel();
@@ -45,6 +48,8 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
       } else {
         setState(() {
           _duration -= Duration(seconds: 1);
+
+          timeDuration = _duration;
         });
       }
     });
@@ -170,11 +175,10 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
                         children: [
                           isCountdownCompleted? InkWell(
                             onTap: () {
-                              RetryOTPUtil.retry(context);
                                startTimer();
-                               setState(() {
-                                 
-                               });
+                              RetryOTPUtil.retry(context);
+                              
+                               
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -197,7 +201,7 @@ class _RegisterOTPScreenState extends State<RegisterOTPScreen> {
                             height: _getSize.height * 0.005,
                           ),
                           Text(
-                            formatDuration(_duration),
+                            formatDuration(timeDuration),
                             style: AppFonts.body1.copyWith(color: Pallete.black,fontSize: 14,fontWeight: FontWeight.w600),
                           )
                         ],

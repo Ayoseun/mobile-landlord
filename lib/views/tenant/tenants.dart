@@ -10,6 +10,8 @@ import '../../constants/app_fonts.dart';
 import '../../constants/app_images.dart';
 import '../../constants/app_routes.dart';
 import '../../network/property.dart';
+import '../navbar/nav.dart';
+import '../property/property.dart';
 
 class Tenants extends StatefulWidget {
   const Tenants({Key? key}) : super(key: key);
@@ -111,8 +113,13 @@ class _TenantsState extends State<Tenants> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            AppRoutes.navbar, (route) => false);
+                        Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            NavBar(initialScreen: Property(),initialTab: 2)),
+                                    (route) => false,
+                                  );
                       },
                       child: Image.asset(
                         AppImages.back,

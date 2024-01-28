@@ -109,8 +109,9 @@ class _RequestScreenState extends State<RequestScreen> {
                         TabNavBar(
                           tabIndex: _tabIndex,
                           tabTextList: [
-                            'Pending (${request.length})',
-                            'Active (${request.length})',
+                            'My request (${request.length})',
+                            'Recieved (${request.length})',
+                             'Pending (${request.length})',
                           ],
                           onTap: (index) {
                             setState(() {

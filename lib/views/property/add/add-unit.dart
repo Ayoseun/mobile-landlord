@@ -19,7 +19,9 @@ import '../../../constants/app_images.dart';
 import '../../../network/property.dart';
 import '../../../utils/local_storage.dart';
 import '../../../utils/property_util/add_property_utils.dart';
+import '../../navbar/nav.dart';
 import '../../tenant/tenant_profile.dart';
+import '../property.dart';
 import 'add-property.dart';
 
 class AddUnit extends StatefulWidget {
@@ -74,11 +76,12 @@ class _AddUnitState extends State<AddUnit> {
 
   void addUnit() {
     setState(() {
-      moreUnits.add(UnitItem(false, false, "", ",", "", "", "", imgHolder, "", ""));
+      moreUnits
+          .add(UnitItem(false, false, "", ",", "", "", "", imgHolder, "", ""));
     });
   }
 
-  collectUnitData() {
+  collectUnitData(single) {
     List<Map<String, dynamic>> dataList =
         moreUnits.asMap().entries.map((entry) {
       int index = entry.key; // This is the index
@@ -96,6 +99,7 @@ class _AddUnitState extends State<AddUnit> {
         "power": item.isPowerChecked,
         "store": item.store,
         "isTaken": false,
+        "isInUse": false,
         "monthlyCost": "",
         "extraWages": "",
         "tax": "",
@@ -104,7 +108,11 @@ class _AddUnitState extends State<AddUnit> {
     }).toList();
     // Now dataList contains all items as map objects
     // You can use this dataList as needed
-    _propertyData['unitData'] = dataList;
+    if (single) {
+      _propertyData['unitData'] = dataList.sublist(0, 1);
+    } else {
+      _propertyData['unitData'] = dataList;
+    }
 
     AddPropertyUtil.add(context, _propertyData);
   }
@@ -134,10 +142,13 @@ class _AddUnitState extends State<AddUnit> {
     final _getSize = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          AppRoutes.navbar,
-          (route) => false,
-        );
+      Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            NavBar(initialScreen: Property(),initialTab: 2)),
+                                    (route) => false,
+                                  );
         return true;
       },
       child: Scaffold(
@@ -233,7 +244,7 @@ class _AddUnitState extends State<AddUnit> {
                                 label: "Bedroom",
                                 hint: "ex: 3 Bedrooms",
                                 label2: "store",
-                               type: "number",
+                                type: "number",
                                 type2: "number",
                                 hint2: "ex: 1",
                               ),
@@ -268,7 +279,7 @@ class _AddUnitState extends State<AddUnit> {
                                 getSize: _getSize,
                                 label: "Light Meter",
                                 hint: "ex: 4543433324",
-                                 type: "number",
+                                type: "number",
                                 type2: "number",
                                 label2: "Water meter",
                                 hint2: "ex: 344444333",
@@ -557,8 +568,7 @@ class _AddUnitState extends State<AddUnit> {
                                                             Pallete.whiteColor,
                                                       ),
                                                 !isuploaded
-                                                    ? Text(
-                                                        "Upload Property Image")
+                                                    ? Text("Upload Unit Image")
                                                     : Text("Uploaded")
                                               ],
                                             )
@@ -576,36 +586,50 @@ class _AddUnitState extends State<AddUnit> {
                         }),
                   ),
                   SizedBox(
-                    height: _getSize.height * 0.03,
+                    height: _getSize.height * 0.01,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 8),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment:
+                          _propertyData["structure"] == "Standalone"
+                              ? MainAxisAlignment.center
+                              : MainAxisAlignment.spaceBetween,
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            addUnit();
-                            AppUtils.showSnackBarMessage(
-                                'Scroll down to fill unit information',
-                                context);
-                          },
-                          child: Container(
-                            width: _getSize.width * 0.4,
-                            height: _getSize.height * 0.045,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 0.5, color: Pallete.primaryColor),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Center(
-                              child: Text("Add Unit"),
+                        Visibility(
+                          visible: _propertyData["structure"] == "Standalone"
+                              ? false
+                              : true,
+                          child: GestureDetector(
+                            onTap: () {
+                              addUnit();
+                              AppUtils.showSnackBarMessage(
+                                  'Scroll down to fill unit information',
+                                  context);
+                            },
+                            child: Container(
+                              width: _getSize.width * 0.4,
+                              height: _getSize.height * 0.045,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.5, color: Pallete.primaryColor),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                child: Text("Add Unit"),
+                              ),
                             ),
                           ),
                         ),
                         GestureDetector(
                           onTap: () {
-                            collectUnitData();
+                            if (_propertyData["structure"] == "Standalone") {
+                              addUnit();
+                              collectUnitData(true);
+                            } else {
+                              collectUnitData(false);
+                            }
+
                             setState(() {
                               _propertyData["landlordID"] = landlordid;
                               _propertyData["propertyID"] = pID;

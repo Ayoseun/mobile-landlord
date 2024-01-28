@@ -20,7 +20,9 @@ import '../../../constants/app_images.dart';
 import '../../../network/property.dart';
 import '../../../utils/local_storage.dart';
 import '../../../utils/property_util/add_property_utils.dart';
+import '../../navbar/nav.dart';
 import '../../tenant/tenant_profile.dart';
+import '../property.dart';
 import 'add-property.dart';
 
 class AddMoreUnit extends StatefulWidget {
@@ -98,6 +100,7 @@ class _AddMoreUnitState extends State<AddMoreUnit> {
         "power": item.isPowerChecked,
         "store": item.store,
         "isTaken": false,
+         "isInUse": false,
         "monthlyCost": "",
         "extraWages": "",
         "tax": "",
@@ -137,10 +140,13 @@ class _AddMoreUnitState extends State<AddMoreUnit> {
     final _getSize = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          AppRoutes.navbar,
-          (route) => false,
-        );
+        Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            NavBar(initialScreen: Property(),initialTab: 2)),
+                                    (route) => false,
+                                  );
         return true;
       },
       child: Scaffold(

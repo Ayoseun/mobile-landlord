@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:abjalandlord/components/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +6,8 @@ import '../../constants/app_colors.dart';
 import '../../constants/app_fonts.dart';
 import '../../constants/app_images.dart';
 import '../../constants/app_routes.dart';
+import '../dashboard/dashboard.dart';
+import '../navbar/nav.dart';
 
 class Package extends StatefulWidget {
   const Package({Key? key}) : super(key: key);
@@ -36,7 +36,10 @@ class _PackageState extends State<Package> {
                   Positioned(
                       left: _getSize.width * 0.05,
                       bottom: _getSize.height * 0.15,
-                      child: Image.asset(AppImages.back,width: 36,)),
+                      child: Image.asset(
+                        AppImages.back,
+                        width: 36,
+                      )),
                 ],
               ),
               SizedBox(
@@ -188,8 +191,13 @@ class _PackageState extends State<Package> {
                     ButtonWithFuction(
                         text: 'Go Platinum',
                         onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(AppRoutes.navbar);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NavBar(
+                                    initialScreen: Dashboard(), initialTab: 0)),
+                            (route) => false,
+                          );
                         }),
                   ],
                 ),
