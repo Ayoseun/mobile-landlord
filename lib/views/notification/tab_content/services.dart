@@ -13,7 +13,7 @@ class ServicesNotifications extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Map> services = [
       {
-        'icon': AppImages.funmigate,
+        'icon': AppImages.fumigator,
         'color': Color(0xFFEADAFF),
         'text': 'Rent Paid',
         "date": "Today",
@@ -36,7 +36,7 @@ class ServicesNotifications extends StatelessWidget {
         ]
       },
       {
-        'icon': AppImages.funmigate,
+        'icon': AppImages.fumigator,
         'color': Color(0xFFEADAFF),
         'text': 'Rent Paid',
         "date": "Today",

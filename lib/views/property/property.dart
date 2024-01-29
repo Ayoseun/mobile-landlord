@@ -316,7 +316,7 @@ class tabContent extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Text(
-                                          propertyData[index]['unitData']
+                                      propertyData[index]['structure']=="Standalone"?  "Standalone":    propertyData[index]['unitData']
                                               .length
                                               .toString(),
                                           style: AppFonts.body1.copyWith(
@@ -326,7 +326,7 @@ class tabContent extends StatelessWidget {
                                           ),
                                         ),
                                         SizedBox(width: _getSize.width * 0.01),
-                                        Text("Unit",
+                                        Text(      propertyData[index]['structure']=="Standalone"?  "": "Unit",
                                             style: AppFonts.body1.copyWith(
                                               fontWeight: FontWeight.w600,
                                               color: Pallete.primaryColor,

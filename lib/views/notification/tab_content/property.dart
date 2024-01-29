@@ -19,14 +19,14 @@ class PropertyNotifications extends StatelessWidget {
         'text2': "Painting of Apartment 004",
         'data': [
           {
-            'icon': AppImages.alert,
+            'icon': AppImages.agent,
             'color': Color(0xFFFCEADA),
             'text': 'New Successfully Added Property',
             'text2':
                 "Agent Emmanuel has received rent payment from Miss Susan for June 2023."
           },
          {
-            'icon': AppImages.alert,
+            'icon': AppImages.agent,
             'color': Color(0xFFFCEADA),
             'text': 'New Successfully Added Tenant (Unit 005)',
             'text2':
@@ -139,7 +139,7 @@ Widget buildListItem(BuildContext context, List<Map<String, dynamic>> service,
                           ? TextSpan(
                               text: service[index]['text3'],
                               style: TextStyle(
-                                color: service[index]['text3'] != 'Alert!'
+                                color: service[index]['text3'] != 'agent!'
                                     ? Colors.black
                                     : Color.fromARGB(255, 224, 10,
                                         10), // Replace with Pallete.black if defined

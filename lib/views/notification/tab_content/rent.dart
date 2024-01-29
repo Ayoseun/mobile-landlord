@@ -13,7 +13,7 @@ class RentNotifications extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Map> services = [
       {
-        'icon': AppImages.funmigate,
+        'icon': AppImages.fumigator,
         'color': Color(0xFFEADAFF),
         'text': 'Rent Paid',
         "date": "Today",
@@ -21,7 +21,7 @@ class RentNotifications extends StatelessWidget {
             "Agent Emmanuel has received rent payment from Miss Susan for June 2023.",
         'data': [
           {
-            'icon': AppImages.alert,
+            'icon': AppImages.agent,
             'color': Color(0xFFEADAFF),
             'text': 'Rent Paid',
             'text2':
@@ -37,10 +37,10 @@ class RentNotifications extends StatelessWidget {
             "Agent Emmanuel has received rent payment from Miss Susan for June 2023.",
         'data': [
           {
-            'icon': AppImages.alert,
+            'icon': AppImages.agent,
             'color': Color(0xFFEADAFF),
             'text': ' Apartment 006 is due for rent payment -',
-            'text3': "Alert!",
+            'text3': "agent!",
             'text2':
                 " Agent Emmanuel has received rent payment from Miss Susan for June 2023."
           },
@@ -54,7 +54,7 @@ class RentNotifications extends StatelessWidget {
         'text2': "Mr. Eric is in need of house cleaning.",
         "data": [
           {
-            'icon': AppImages.alert,
+            'icon': AppImages.agent,
             'color': Color(0xFFEADAFF),
             'text': '6 Apartments Available for Rent',
             'text2':
@@ -166,7 +166,7 @@ Widget buildListItem(BuildContext context, List<Map<String, dynamic>> service,
                           ? TextSpan(
                               text: service[index]['text3'],
                               style: TextStyle(
-                                color: service[index]['text3'] != 'Alert!'
+                                color: service[index]['text3'] != 'agent!'
                                     ? Colors.black
                                     : Color.fromARGB(255, 224, 10,
                                         10), // Replace with Pallete.black if defined

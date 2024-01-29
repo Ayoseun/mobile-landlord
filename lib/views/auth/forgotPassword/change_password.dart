@@ -181,6 +181,9 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                       },
                       label: 'Confirm Password',
                       hint: 'Confirm Password',
+                      onChanged: (v){
+
+  cPassword = v!.trim().split(' ').join('');                      },
                       onSaved: (value) {
                         cPassword = value!.trim().split(' ').join('');
                       },

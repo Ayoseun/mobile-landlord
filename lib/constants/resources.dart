@@ -65,7 +65,7 @@ const imgHolder =
         'text': 'Plumber'
       },
       {
-        'icon': AppImages.funmigate,
+        'icon': AppImages.fumigator,
         'color': Color(0xFFFFE4E9),
        'color2': Color(0xFFFF7892),
         'text': 'Fumigator'
@@ -100,4 +100,25 @@ const imgHolder =
         'text': 'Carpenter'
       },
     ];
-   
+   List<Map<String, dynamic>> priority = [
+  {
+    "type": "High Priority",
+    'color': Color(0xFFEB5757),
+    'color2': Color(0xFFFCE6E6)
+  },
+  {
+    "type": "Medium Priority",
+    'color': Color(0xFFF2994A),
+    'color2': Color.fromARGB(255, 255, 242, 231),
+  },
+  {
+    "type": "Low Priority",
+    'color': Color(0xFFF2C94C),
+    'color2': Color.fromARGB(255, 255, 247, 222),
+  },
+  {
+    "type": "None",
+    'color': Color(0xFF2D9CDB),
+    'color2': Color.fromARGB(255, 228, 245, 255),
+  },
+];

@@ -26,7 +26,7 @@ class FullPropertyContent extends StatelessWidget {
   final List<Map> service;
   int getTenantCount(List<dynamic> unitData) {
     int tenantCount = 0;
-
+    print(property);
     for (var unit in unitData) {
       if (unit.containsKey('tenantInfo')) {
         tenantCount++;
@@ -142,6 +142,7 @@ class FullPropertyContent extends StatelessWidget {
                             )
                           ],
                         ),
+                         property['unit'] == property["unitTaken"] ? SizedBox():
                         GestureDetector(
                           onTap: () {
                             var tenantInfo = {
@@ -579,7 +580,13 @@ class FullPropertyContent extends StatelessWidget {
                         height: _getSize.height * 0.015,
                       ),
                       ButtonWithFuction(
-                          text: "Request Service Provider", onPressed: () {}),
+                          text: "Request Service Provider",
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(AppRoutes.createRequest, arguments: {
+                                  "property":property
+                                });
+                          }),
                       SizedBox(
                         height: _getSize.height * 0.045,
                       ),

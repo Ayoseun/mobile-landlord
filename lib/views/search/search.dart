@@ -107,7 +107,7 @@ class _SearchState extends State<Search> {
                         height: _getSize.height * 0.01,
                       ),
                       Image.asset(
-                        AppImages.fby,
+                        AppImages.agent,
                         width: 56,
                       ),
                       SizedBox(
@@ -136,7 +136,7 @@ class _SearchState extends State<Search> {
                         height: _getSize.height * 0.01,
                       ),
                       Image.asset(
-                        AppImages.fby,
+                        AppImages.agent,
                         width: 56,
                       ),
                       SizedBox(
@@ -165,7 +165,7 @@ class _SearchState extends State<Search> {
                         height: _getSize.height * 0.01,
                       ),
                       Image.asset(
-                        AppImages.fby,
+                        AppImages.agent,
                         width: 56,
                       ),
                       SizedBox(

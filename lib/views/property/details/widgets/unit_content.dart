@@ -393,7 +393,7 @@ class UnitContent extends StatelessWidget {
                                     propertyUnits[unitCount]['tenantInfo'];
                                 tenantInfoData['lightMeter'] =
                                     propertyUnits[unitCount]['lightMeter'];
-                                      tenantInfoData['waterMeter'] =
+                                tenantInfoData['waterMeter'] =
                                     propertyUnits[unitCount]['waterMeter'];
                                 tenantInfoData['propertyName'] =
                                     property['name'];
@@ -529,37 +529,14 @@ class UnitContent extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: [
-              Container(
-                height: _getSize.height * 0.05,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 0.5, color: Pallete.primaryColor),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      AppImages.dustbin,
-                      width: 18,
-                    ),
-                    SizedBox(
-                      width: _getSize.width * 0.03,
-                    ),
-                    Text(
-                      "Delete Property",
-                      style: AppFonts.bodyText.copyWith(
-                          color: Pallete.primaryColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
-                    )
-                  ],
-                ),
-              ),
               SizedBox(
                 height: _getSize.height * 0.015,
               ),
               ButtonWithFuction(
-                  text: "Request Service Provider", onPressed: () {}),
+                  text: "Request Service Provider",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(AppRoutes.createRequest);
+                  }),
               SizedBox(
                 height: _getSize.height * 0.05,
               ),

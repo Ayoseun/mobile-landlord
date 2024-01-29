@@ -139,7 +139,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
       onWillPop: () => onBackPressed(context),
       child: Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
+          child: 
+          SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
@@ -149,13 +150,13 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                         Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            NavBar(initialScreen: Property(),initialTab: 2)),
-                                    (route) => false,
-                                  );
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NavBar(
+                                    initialScreen: Property(), initialTab: 2)),
+                            (route) => false,
+                          );
                         },
                         child: Image.asset(
                           AppImages.back,
@@ -330,18 +331,19 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                                       size: 16,
                                                     ),
                                                     onPressed: () {
-                                                        print(unitIndex);
+                                                      print(unitIndex);
                                                       scrollToPreviousItem();
                                                       if (unitIndex == 0) {
-                                                            unitIndex--;
-                                                              print(unitIndex);
+                                                        unitIndex--;
+                                                        print(unitIndex);
                                                         setState(() {
                                                           isUnitAvaialble =
                                                               false;
                                                         });
                                                       } else if (unitIndex ==
-                                                          propertyUnits.length-1) {
-                                                      unitIndex--;
+                                                          propertyUnits.length -
+                                                              1) {
+                                                        unitIndex--;
                                                       }
                                                     },
                                                   ),
@@ -367,28 +369,23 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                                                       size: 16,
                                                     ),
                                                     onPressed: () {
-
-     scrollToNextItem();
+                                                      scrollToNextItem();
                                                       if (unitIndex !=
-                                                          propertyUnits.length-1) {
+                                                          propertyUnits.length -
+                                                              1) {
+                                                        unitIndex++;
+                                                        print(
+                                                            "prp:${propertyUnits.length}");
+                                                        print(unitIndex);
 
-                                                             unitIndex++;
-                                                      print(
-                                                          "prp:${propertyUnits.length}");
-                                                      print(unitIndex);
+                                                        print(propertyUnits
+                                                            .length);
+                                                        print(unitIndex);
 
-                                                      print(
-                                                          propertyUnits.length);
-                                                      print(unitIndex);
+                                                        isUnitAvaialble = true;
 
-                                                      isUnitAvaialble = true;
-
-                                                      setState(() {});
-                                                 
-                                                      }else{
-
-                                                      }
-                                            
+                                                        setState(() {});
+                                                      } else {}
                                                     },
                                                   ),
                                                 ),

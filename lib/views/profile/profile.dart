@@ -494,7 +494,7 @@ class bottom extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Map> services = [
       {
-        'img': AppImages.fby,
+        'img': AppImages.agent,
         'icon': AppImages.electrician,
         'color': Color(0xFFFCEADA),
         'color2': Color(0xFFEF9645),
@@ -504,7 +504,7 @@ class bottom extends StatelessWidget {
             'I was very impressed with Bryan’s work. He was prompt, professional, and did a great job fixing the electrical problem in my tenant\'s apartment. I would highly recommend him to anyone who needs an electrician.'
       },
       {
-        'img': AppImages.agb,
+        'img': AppImages.agent,
         'icon': AppImages.plumber,
         'color': Color(0xFFEADAFF),
         'color2': Color(0xFF9747FF),

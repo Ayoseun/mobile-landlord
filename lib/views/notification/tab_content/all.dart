@@ -20,7 +20,7 @@ class AllNotifications extends StatelessWidget {
         'text2': "Painting of Apartment 004",
         'data': [
           {
-            'icon': AppImages.alert,
+            'icon': AppImages.agent,
             'color': Color(0xFFFCEADA),
             'text': 'Painter',
             'text2':
@@ -42,15 +42,15 @@ class AllNotifications extends StatelessWidget {
             'text2': "Painting of Apartment 004"
           },
           {
-            'icon': AppImages.alert,
+            'icon': AppImages.agent,
             'color': Color(0xFFEADAFF),
             'text': ' Apartment 006 is due for rent payment -',
-            'text3': "Alert!",
+            'text3': "agent!",
             'text2':
                 " Agent Emmanuel has received rent payment from Miss Susan for June 2023."
           },
           {
-            'icon': AppImages.funmigate,
+            'icon': AppImages.fumigator,
             'color': Color(0xFFFFE4E9),
             'text': 'New Successfully Added Tenant (Unit 005)-',
             'text2':
@@ -59,7 +59,7 @@ class AllNotifications extends StatelessWidget {
         ]
       },
       {
-        'icon': AppImages.funmigate,
+        'icon': AppImages.fumigator,
         'color': Color(0xFFEADAFF),
         'text': 'Rent Paid',
         "date": "Last Week",
@@ -73,7 +73,7 @@ class AllNotifications extends StatelessWidget {
             'text2': "Repair of leaking pipes in Apartment 007"
           },
           {
-            'icon': AppImages.alert,
+            'icon': AppImages.agent,
             'color': Color(0xFFEADAFF),
             'text': 'Rent Paid',
             'text2':
@@ -97,7 +97,7 @@ class AllNotifications extends StatelessWidget {
         ]
       },
       {
-        'icon': AppImages.funmigate,
+        'icon': AppImages.fumigator,
         'color': Color(0xFFFFE4E9),
         'text': 'Successfully',
         "date": "Last 2 Week",
@@ -111,10 +111,10 @@ class AllNotifications extends StatelessWidget {
             'text2': "Painting of Apartment 004"
           },
           {
-            'icon': AppImages.funmigate,
+            'icon': AppImages.fumigator,
             'color': Color(0xFFEADAFF),
             'text': 'Rent Paid',
-            'text3': "Alert!",
+            'text3': "agent!",
             'text2':
                 "Agent Emmanuel has received rent payment from Miss Susan for June 2023."
           },
@@ -134,7 +134,7 @@ class AllNotifications extends StatelessWidget {
             'text2': "Painting of Apartment 004"
           },
           {
-            'icon': AppImages.funmigate,
+            'icon': AppImages.fumigator,
             'color': Color(0xFFEADAFF),
             'text': 'Rent Paid',
             'text2':
@@ -246,7 +246,7 @@ Widget buildListItem(BuildContext context, List<Map<String, dynamic>> service,
                           ? TextSpan(
                               text: service[index]['text3'],
                               style: TextStyle(
-                                color: service[index]['text3'] != 'Alert!'
+                                color: service[index]['text3'] != 'agent!'
                                     ? Colors.black
                                     : Color.fromARGB(255, 224, 10,
                                         10), // Replace with Pallete.black if defined
