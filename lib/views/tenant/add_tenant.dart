@@ -483,6 +483,7 @@ class _AddTenantState extends State<AddTenant> {
                           vertical: 16.0, horizontal: _getSize.width * 0.15),
                       child: Text(
                         "Save Changes",
+                        
                         style: AppFonts.bodyText.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Pallete.whiteColor,
