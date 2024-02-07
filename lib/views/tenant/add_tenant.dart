@@ -482,7 +482,7 @@ class _AddTenantState extends State<AddTenant> {
                       padding: EdgeInsets.symmetric(
                           vertical: 16.0, horizontal: _getSize.width * 0.15),
                       child: Text(
-                        "Save Changes",
+                        "Save Changes.",
 
                         style: AppFonts.bodyText.copyWith(
                             fontWeight: FontWeight.bold,
