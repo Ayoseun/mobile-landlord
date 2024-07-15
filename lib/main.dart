@@ -19,6 +19,7 @@ import 'constants/app_routes.dart';
 import 'utils/local_storage.dart';
 import 'views/auth/login/login.dart';
 import 'views/auth/register/register.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'views/dashboard/dashboard.dart';
 
 void main() async {
@@ -29,7 +30,7 @@ void main() async {
 
   //check
   WidgetsFlutterBinding.ensureInitialized();
-
+ await dotenv.load(fileName: ".env");
   AwesomeNotifications().initialize('resource://drawable/logo', [
     // notification icon
     NotificationChannel(

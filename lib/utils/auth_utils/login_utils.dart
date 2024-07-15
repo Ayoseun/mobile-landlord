@@ -23,7 +23,7 @@ class LoginUtil {
         loginData['password'].trim(),
       )
           .then((value) async {
-        print(value);
+      
         Navigator.of(context).pop();
 
         if (value['statusCode'] == 200) {
@@ -35,7 +35,8 @@ class LoginUtil {
           await saveSurname(value['data']['surname']);
           await saveSelfie(value['data']['selfie'] ??
               "https://i.ibb.co/txwfp3w/37f70b1b79e6.jpg");
-          await saveToken(value['data']['accessTken'] ?? "");
+          await saveCreatedAt(value['data']['created']);
+          await saveAPIAccessCode(value['data']['accessToken']);
           await saveAbout(value['data']['about'] ?? "");
           await saveOnce(3);
 
@@ -74,6 +75,9 @@ class LoginUtil {
           }
 
           if (value['statusCode'] == 403) {
+            if (value["error"] == "Expired Bearer token") {
+              Navigator.of(context).pushNamed(AppRoutes.registerScreen);
+            } else {}
             AppUtils.showAlertDialog(
                 context,
                 'Oops, something isn\'t right!',

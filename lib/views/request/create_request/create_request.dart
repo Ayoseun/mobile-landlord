@@ -1,3 +1,4 @@
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,7 @@ import '../../../constants/app_images.dart';
 import '../../../constants/app_routes.dart';
 import '../../../constants/resources.dart';
 import '../../../provider/websocket_provider.dart';
+import '../../../utils/local_storage.dart';
 
 class CreateRequest extends StatefulWidget {
   const CreateRequest({Key? key}) : super(key: key);
@@ -24,17 +26,30 @@ class _CreateRequestState extends State<CreateRequest> {
 
   List job = [];
 
+  var getUserData;
+  getUser() async {
+    var userString = await showUser();
+
+    getUserData = Map<String, dynamic>.from(jsonDecode(userString));
+  }
+
   bool enabled = false;
   @override
   void initState() {
-    enabled=true;
+    enabled = true;
     isNotSelected;
+    getUser();
     super.initState();
   }
 
+  var data;
   @override
   Widget build(BuildContext context) {
     final _getSize = MediaQuery.of(context).size;
+    final dataFromRoute = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    data = dataFromRoute['property'];
+
     return Scaffold(
       backgroundColor: const Color(0xFFF6F9F5),
       body: SafeArea(
@@ -88,10 +103,7 @@ class _CreateRequestState extends State<CreateRequest> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 4.0, vertical: 8),
                                 child: GestureDetector(
-                                  onTap: () {
-
-                                    
-                                  },
+                                  onTap: () {},
                                   child: Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(5),
@@ -132,7 +144,18 @@ class _CreateRequestState extends State<CreateRequest> {
                                               print(selectedIndex);
                                               agent = services[index]['text'];
                                               job = services[index]['job'];
+                                              if (data['fullName'] == "" ||
+                                                  data['email'] == "" ||
+                                                  data['phone'] == "") {
+                                                data['fullName'] =
+                                                    "${getUserData['name']} ${getUserData['surname']}";
+                                                data['email'] =
+                                                    getUserData['email'];
+                                                data['phone'] =
+                                                    getUserData['phone'];
+                                              }
 
+                                              print(data);
                                               if (selectedIndex == -1) {
                                                 enabled = true;
                                               } else {
@@ -177,7 +200,7 @@ class _CreateRequestState extends State<CreateRequest> {
                     onPressed: () {
                       Navigator.of(context).pushNamed(
                         AppRoutes.requestDetails,
-                        arguments: {'agent': agent, 'job': job},
+                        arguments: {'agent': agent, 'job': job, 'data': data},
                       );
                     }),
               ),
