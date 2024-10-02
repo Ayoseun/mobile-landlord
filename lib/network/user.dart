@@ -6,7 +6,7 @@ import '../utils/local_storage.dart';
 class UserAPI {
   static Future history() async {
     var id = await showId();
-    var accessToken = await showAPIAccessCode();
+    var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/service/landlord/all_history'),
       headers: <String, String>{

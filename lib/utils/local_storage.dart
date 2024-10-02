@@ -85,9 +85,9 @@ saveEmail(email) async {
   s_prefs.setString("email", email);
 }
 
-saveAPIAccessCode(accessCode) async {
+saveWSSVerify(status) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setString("apiToken", accessCode);
+  s_prefs.setBool("verify", status);
 }
 
 saveToken(tk) async {
@@ -122,10 +122,10 @@ showRef() async {
   return temp;
 }
 
-showAPIAccessCode() async {
+showWSSVerify() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("apiToken");
+  bool? temp = s_prefs.getBool("verify");
 
   return temp;
 }

@@ -4,7 +4,7 @@ import 'local_storage.dart';
 
 notify(header,text,status) async {
 
-  await saveToken(status);
+  await saveWSSVerify(status);
     //show notification
     AwesomeNotifications().createNotification(
         content: NotificationContent(

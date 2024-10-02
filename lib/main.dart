@@ -97,14 +97,14 @@ class MyApp extends StatelessWidget {
 
                     switch (data) {
                       case 0:
-                        return Entrance();
+                        return const Entrance();
                    
                       case 1:
                         return const Welcome();
                       case 2:
                         return LoginScreen();
                          case 3:
-                        return NavBar(initialScreen: Dashboard(),initialTab: 0,);
+                        return NavBar(initialScreen: const Dashboard(),initialTab: 0,);
                     }
                     // if we got our data
                   }

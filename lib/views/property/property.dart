@@ -59,7 +59,7 @@ class _PropertyState extends State<Property> {
   var propertyData = [];
   @override
   Widget build(BuildContext context) {
-    Provider.of<PropertyProvider>(context, listen: false).init();
+    Provider.of<PropertyProvider>(context, listen: false);
     final _getSize = MediaQuery.of(context).size;
     return Scaffold(
         body: SafeArea(
@@ -152,8 +152,9 @@ class _PropertyState extends State<Property> {
                         children: <Widget>[
                           ButtonsTabBar(
                             height: _getSize.height * 0.03,
+
                             buttonMargin: EdgeInsets.symmetric(
-                                horizontal: _getSize.height * 0.025),
+                                horizontal: _getSize.height * 0.005),
                             borderWidth: 0.5,
                             borderColor: Pallete.primaryColor,
                             backgroundColor: Pallete.primaryColor,
@@ -168,7 +169,7 @@ class _PropertyState extends State<Property> {
                               return Tab(
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 2.0, horizontal: 12),
+                                      vertical: 2.0, horizontal: 8),
                                   child: Text(
                                     category,
                                     style: AppFonts.bodyText.copyWith(),

@@ -6,7 +6,7 @@ import '../constants/resources.dart';
 class PropertyAPI {
   static Future addProperty(data) async {
     var id = await showId();
-    var accessToken = await showAPIAccessCode();
+    var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/service/landlord/add_property'),
       headers: <String, String>{
@@ -43,7 +43,7 @@ class PropertyAPI {
 
   static Future deleteProperty(propid) async {
     var id = await showId();
- var accessToken = await showAPIAccessCode();
+ var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/service/landlord/delete_property'),
       headers: <String, String>{
@@ -62,7 +62,7 @@ class PropertyAPI {
 
   static Future getAllProperty() async {
     var id = await showId();
-     var accessToken = await showAPIAccessCode();
+     var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/service/landlord/properties'),
       headers: <String, String>{
@@ -80,7 +80,7 @@ class PropertyAPI {
 
   static Future tenantSelfies() async {
     var id = await showId();
-     var accessToken = await showAPIAccessCode();
+     var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/service/landlord/all_tenant_selfie'),
       headers: <String, String>{
@@ -98,7 +98,7 @@ class PropertyAPI {
 
   static Future getAllPropertiesData() async {
     var id = await showId();
-     var accessToken = await showAPIAccessCode();
+     var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/service/landlord/propertiesdata'),
       headers: <String, String>{
@@ -115,7 +115,7 @@ class PropertyAPI {
   }
 
   static Future getProperty(propid) async {
- var accessToken = await showAPIAccessCode();
+ var accessToken = await showToken();
     var id = await showId();
     var response = await http.post(
       Uri.parse('$BaseURL/service/landlord/propertybyid'),
@@ -135,7 +135,7 @@ class PropertyAPI {
 
   static Future getPropertyName() async {
     var id = await showId();
-     var accessToken = await showAPIAccessCode();
+     var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/service/landlord/propertiesbyname'),
       headers: <String, String>{
@@ -153,7 +153,7 @@ class PropertyAPI {
 
   static Future getPropertyTenants(propID) async {
     var id = await showId();
-     var accessToken = await showAPIAccessCode();
+     var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/service/landlord/all_property_tenants'),
       headers: <String, String>{
@@ -171,7 +171,7 @@ class PropertyAPI {
   }
 
   static Future uploadImage(selfie) async {
-     var accessToken = await showAPIAccessCode();
+     var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/service/landlord/upload'),
       headers: <String, String>{
@@ -188,7 +188,7 @@ class PropertyAPI {
   }
 
   static Future refresh(email) async {
-  var accessToken = await showAPIAccessCode();
+  var accessToken = await showToken();
     var response = await http.put(
       Uri.parse('$BaseURL/auth/landlord/refresh_token'),
       headers: <String, String>{
@@ -204,7 +204,7 @@ class PropertyAPI {
 
   static Future addTenant(data) async {
     var id = await showId();
- var accessToken = await showAPIAccessCode();
+ var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/service/landlord/add_tenant_unit'),
       headers: <String, String>{
@@ -234,7 +234,7 @@ class PropertyAPI {
 
   static Future addUnit(data) async {
     var id = await showId();
-   var accessToken = await showAPIAccessCode();
+   var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/service/landlord/add_unit'),
       headers: <String, String>{

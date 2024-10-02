@@ -75,16 +75,33 @@ class _DashboardState extends State<Dashboard> {
     photo = await showSelfie();
   }
 
+  exp()async {
+    var isExpired =
+        Provider.of<PropertyProvider>(context, listen: false).isExpired;
+    if (isExpired) {
+     await saveToken("");
+     await savePropertyItem("");
+     await saveId("");
+     setState(() {
+        Navigator.of(context).pushNamed(AppRoutes.loginScreen);
+     });
+      
+    }
+  }
+
   Map<String, dynamic> userData = {};
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
+     
       Provider.of<UserProvider>(context, listen: false).initUserData();
       Provider.of<PropertyProvider>(context, listen: false).init();
       propertyData = allproperties;
+
       Provider.of<RequestProvider>(context, listen: false).getAllRequest();
 
       Provider.of<WebSocketProvider>(context, listen: false).init();
+       exp();
       delayedOperation();
     });
 
@@ -92,8 +109,6 @@ class _DashboardState extends State<Dashboard> {
   }
 
   delayedOperation() async {
-
-
     // Delay for 3 seconds
     await Future.delayed(Duration(seconds: 2));
 
@@ -278,7 +293,7 @@ class _DashboardState extends State<Dashboard> {
                                   child) {
                             allproperties = propertyProvider.property;
 
-                            print(allproperties);
+                            
 
                             return Column(
                               children: [

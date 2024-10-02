@@ -225,8 +225,9 @@ class SideBar extends StatelessWidget {
                     height: _getSize.height * 0.02,
                   ),
                   InkWell(
-                    onTap: () {
-                      clear();
+                    onTap: ()async {
+                     await clear();
+                      
                       Navigator.of(context)
                           .popAndPushNamed(AppRoutes.loginScreen);
                     },

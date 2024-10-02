@@ -89,7 +89,7 @@ List<Map> services = [
     'job': ['Painting']
   },
   {
-    'icon': AppImages.gardener,
+    'icon':AppImages.agent,
     'color2': Color(0xFFFF5F00),
     'color': Color(0xFFFFDFCC),
     'text': 'Gardener',
@@ -103,7 +103,7 @@ List<Map> services = [
     'job': ["Request mover"]
   },
   {
-    'icon': AppImages.carpenter,
+    'icon': AppImages.agent,
     'color2': Color(0xFF5DADEC),
     'color': Color(0xFFDFEFFB),
     'text': 'Carpenter',

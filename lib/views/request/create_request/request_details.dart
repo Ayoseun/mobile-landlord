@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import '../../../components/buttons.dart';
 import '../../../components/input_field.dart';
@@ -708,7 +707,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                     //requestData['email'] = p;
                   },
                   hint: requestData['email'],
-                  label:  requestData['email'],
+                  label: requestData['email'],
                 ),
                 SizedBox(
                   height: _getSize.height * 0.08,
@@ -718,7 +717,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                   child: ButtonWithFuction(
                       text: 'Submit',
                       onPressed: () async {
-                        await saveToken(false);
+                        await saveWSSVerify(false);
                         var dt = DateTime.now();
                         requestData['agent'] = agent;
                         requestData['problems'] = problemsArray;
@@ -729,7 +728,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                         requestData["from"] = "landlord";
                         requestData["propertyLocation"] = property["location"];
                         requestData["propertyName"] = property["propertyName"];
-                        requestData["landlordID"] = landlordID;
+                        requestData["ownerID"] = landlordID;
                         requestData["propertyStructure"] =
                             property["propertyStructure"];
                         requestData["period"] = "$periodA - $periodB";
@@ -759,7 +758,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                           AppUtils.showLoader(context);
                           webSocketProvider.sendMessage(jsonEncode(data));
                           await Future.delayed(Duration(seconds: 2));
-                          var m = await showToken();
+                          var m = await showWSSVerify();
                           setState(() {});
                           print(m);
                           Navigator.of(context).pop();

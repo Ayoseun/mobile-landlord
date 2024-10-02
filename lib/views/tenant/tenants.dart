@@ -49,6 +49,7 @@ class _TenantsState extends State<Tenants> {
 
     List gotTenants = res['data'];
     print(gotTenants);
+    print("here");
     if (gotTenants.isNotEmpty) {
       setState(() {
         pid = propID;

@@ -9,7 +9,6 @@ import '../../constants/app_fonts.dart';
 import '../../constants/app_images.dart';
 import '../../constants/app_routes.dart';
 import '../../provider/request_provider.dart';
-import '../../utils/app_utils.dart';
 import 'widget/requestitems.dart';
 
 class RequestScreen extends StatefulWidget {
@@ -40,7 +39,7 @@ class _RequestScreenState extends State<RequestScreen> {
     Provider.of<RequestProvider>(context, listen: false).getAllRequest();
   }
 
-  var photo = 'https://picsum.photos/200';
+  var photo = 'https://i.pravatar.cc/300';
   @override
   Widget build(BuildContext context) {
     final _getSize = MediaQuery.of(context).size;
@@ -57,9 +56,9 @@ class _RequestScreenState extends State<RequestScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 children: [
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(""),
                       Text("Request"),
                       Icon(Icons.filter_list)
@@ -92,7 +91,7 @@ class _RequestScreenState extends State<RequestScreen> {
                             ButtonsTabBar(
                               height: _getSize.height * 0.03,
                               buttonMargin: EdgeInsets.symmetric(
-                                  horizontal: _getSize.height * 0.025),
+                                  horizontal: _getSize.height * 0.012),
                               borderWidth: 0.5,
                               borderColor: Pallete.primaryColor,
                               backgroundColor: Pallete.primaryColor,
@@ -107,9 +106,10 @@ class _RequestScreenState extends State<RequestScreen> {
                                 return Tab(
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 2.0, horizontal: 12),
+                                        vertical: 2.0, horizontal: 9),
                                     child: Text(
                                       category,
+                                      textAlign: TextAlign.center,
                                       style: AppFonts.bodyText.copyWith(),
                                     ),
                                   ),
@@ -683,7 +683,7 @@ class TabBarItem extends StatelessWidget {
 filterPendingRequest(data) {
   List filteredData = data
       .where((obj) =>
-          obj['isLandlordApproved'] == true && obj['status'] == "Pending")
+          obj['isOwnerApproved'] == true && obj['status'] == "Pending")
       .toList();
   List<Map<String, dynamic>> sortedData =
       List.from(filteredData); // Copy the list
@@ -714,7 +714,7 @@ filterCompletedRequest(data) {
 filterSenderRequest(data) {
   List filteredData = data
       .where((obj) =>
-          obj['from'] == "tenant" && obj['isLandlordApproved'] == false)
+          obj['from'] == "tenant" && obj['isOwnerApproved'] == false)
       .toList();
   List<Map<String, dynamic>> sortedData =
       List.from(filteredData); // Copy the list

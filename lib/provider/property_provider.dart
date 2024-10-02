@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:abjalandlord/constants/app_routes.dart';
 import 'package:abjalandlord/views/dashboard/dashboard.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -13,10 +14,13 @@ class PropertyProvider extends ChangeNotifier {
   List _property = [];
   List<String> _tenantSelfies = [];
   bool _isLoadingPropertyData = false;
+   bool _isExpired = false;
   bool _isLoadingShowProperty = false;
   bool _isLoadingProperty = false;
   dynamic _propertiesInfo;
-  init() {
+
+   init(){
+  
     getAllProperties();
     getPropertiesName();
     getPropertyItems();
@@ -29,6 +33,7 @@ class PropertyProvider extends ChangeNotifier {
   bool get isLoadingProperty => _isLoadingProperty;
   bool get isLoadingShowProperty => _isLoadingShowProperty;
   bool get isLoadingPropertyData => _isLoadingPropertyData;
+  bool get isExpired => _isExpired;
   dynamic get propertiesInfo => _propertiesInfo;
 
   Future<Map<String, dynamic>> createProperty(dataobj) async {
@@ -158,17 +163,20 @@ class PropertyProvider extends ChangeNotifier {
     var gotproperties = res['data'];
 
     if (res['statusCode'] != 200) {
+       if (res['statusCode'] == 403) {
+            if (res["error"] == "Expired Bearer token") {
+                 notifyListeners();
+                 _isExpired=true;
+             
+            }
+       }
     } else {
-      // if (kDebugMode) {
-      //   print("empty $gotproperties");
-      // }
       savePropertyItem(gotproperties);
       Future.delayed(const Duration(milliseconds: 500), () {
         getPropertyItems();
       });
     }
   }
-
   getPropertiesName() async {
     var res = await PropertyAPI.getPropertyName();
 

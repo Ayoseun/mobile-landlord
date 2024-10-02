@@ -27,7 +27,7 @@ class WebSocketProvider extends ChangeNotifier {
 
   init() async {
     var id = await showId();
-    var accessToken = await showAPIAccessCode();
+    var accessToken = await showToken();
     var wsUrl = '$WebsocketURL?id=$id';
     var headers = {
       'x-api-key': WebsocketAPIKEY,
@@ -38,11 +38,11 @@ class WebSocketProvider extends ChangeNotifier {
       print(message);
       if (message == "Connected") {
         notifyListeners();
-      } else if (message == "Delivered.✔️") {
+      } else if (message == "Sent.✔️") {
         _result = true;
         notifyListeners();
         notify("Request", "Request is being $message", true);
-      } else if (message == "Delivered.✔️✔️") {
+      } else if (message == "Seen.✔️✔️") {
         _result = true;
         notifyListeners();
         notify("Request", "Request is being $message", true);

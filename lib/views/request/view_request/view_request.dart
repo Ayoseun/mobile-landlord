@@ -27,7 +27,7 @@ class ViewRequest extends StatefulWidget {
 
 class _ViewRequestState extends State<ViewRequest> {
   var requestData;
-  var photo = 'https://picsum.photos/200';
+  var photo = 'https://i.pravatar.cc/300';
   late WebSocketProvider webSocketProvider;
   var landlordID = '';
   getData() async {
@@ -102,7 +102,7 @@ class _ViewRequestState extends State<ViewRequest> {
                     width: _getSize.width,
                     decoration: BoxDecoration(
                         color: getIconAssetColor(requestData['agent']),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Color.fromARGB(44, 85, 80, 80),
                             blurRadius: 11,
@@ -126,7 +126,7 @@ class _ViewRequestState extends State<ViewRequest> {
                               height: 52,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 12,
                           ),
                           SizedBox(
@@ -263,7 +263,7 @@ class _ViewRequestState extends State<ViewRequest> {
                                             style: AppFonts.smallWhiteBold,
                                           ),
                                           Text(
-                                            requestData['servicePersonnelName'],
+                                            requestData['servicePersonnelName']??"",
                                             style: AppFonts.smallWhiteBold
                                                 .copyWith(
                                                     color: Pallete.whiteColor,

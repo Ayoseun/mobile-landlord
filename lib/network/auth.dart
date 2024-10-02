@@ -5,7 +5,7 @@ import '../utils/local_storage.dart';
 
 class AuthAPI {
   static Future OTPVerfication(email, token, otp) async {
-    var accessToken = await showAPIAccessCode();
+    var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/auth/landlord/verify_otp'),
       headers: <String, String>{
@@ -76,7 +76,7 @@ class AuthAPI {
   }
 
   static Future resetPassword(id, password, cpassword) async {
-    var accessToken = await showAPIAccessCode();
+    var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/auth/landlord/reset_password'),
       headers: <String, String>{
@@ -98,7 +98,7 @@ class AuthAPI {
 
   static Future selfie(selfie) async {
     var email = await showEmail();
-    var accessToken = await showAPIAccessCode();
+    var accessToken = await showToken();
     var response = await http.put(
       Uri.parse('$BaseURL/auth/landlord/selfie'),
       headers: <String, String>{
@@ -129,7 +129,7 @@ class AuthAPI {
 
   static Future updateData(email, phone, password, confirmPassword, name,
       surname, about, token) async {
-    var accessToken = await showAPIAccessCode();
+    var accessToken = await showToken();
     var response = await http.put(
       Uri.parse('$BaseURL/auth/landlord/update_landlord'),
       headers: <String, String>{

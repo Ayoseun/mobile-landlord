@@ -36,7 +36,7 @@ class LoginUtil {
           await saveSelfie(value['data']['selfie'] ??
               "https://i.ibb.co/txwfp3w/37f70b1b79e6.jpg");
           await saveCreatedAt(value['data']['created']);
-          await saveAPIAccessCode(value['data']['accessToken']);
+          await saveToken(value['data']['accessToken']);
           await saveAbout(value['data']['about'] ?? "");
           await saveOnce(3);
 
@@ -50,7 +50,7 @@ class LoginUtil {
                 'Sign Up',
                 'Try again',
                 () =>
-                    Navigator.of(context).pushNamed(AppRoutes.registerScreen));
+                    Navigator.of(context).pushNamed(AppRoutes.welcomeScreen));
           }
           if (value['statusCode'] == 400) {
             AppUtils.showAlertDialog(
@@ -60,7 +60,7 @@ class LoginUtil {
                 'Sign Up',
                 'Try again',
                 () =>
-                    Navigator.of(context).pushNamed(AppRoutes.registerScreen));
+                    Navigator.of(context).pushNamed(AppRoutes.welcomeScreen));
           }
 
           if (value['statusCode'] == 500) {
@@ -76,7 +76,7 @@ class LoginUtil {
 
           if (value['statusCode'] == 403) {
             if (value["error"] == "Expired Bearer token") {
-              Navigator.of(context).pushNamed(AppRoutes.registerScreen);
+              Navigator.of(context).pushNamed(AppRoutes.loginScreen);
             } else {}
             AppUtils.showAlertDialog(
                 context,

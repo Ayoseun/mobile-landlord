@@ -6,7 +6,7 @@ import '../utils/local_storage.dart';
 class RequestAPI {
   static Future updateRequest(ticket) async {
     var id = await showId();
-    var accessToken = await showAPIAccessCode();
+    var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/request/landlord/update_request'),
       headers: <String, String>{
@@ -27,7 +27,7 @@ class RequestAPI {
 
   static Future getAllRequest() async {
     var id = await showId();
-    var accessToken = await showAPIAccessCode();
+    var accessToken = await showToken();
     var response = await http.post(
       Uri.parse('$BaseURL/request/landlord/all_tenant_request'),
       headers: <String, String>{
@@ -39,6 +39,7 @@ class RequestAPI {
     );
 
     var parsedResponse = jsonDecode(response.body);
+    print(parsedResponse);
     return parsedResponse;
   }
 }

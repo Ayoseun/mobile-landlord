@@ -57,7 +57,7 @@ class AppImages {
   static const greenMark = 'assets/images/icons/green_mark.png';
   static const estate = 'assets/icons/estate.png';
   static const estatefilled = 'assets/icons/estatef.png';
-  static const call = 'assets/images/icons/call.png';
+  static const call = 'assets/icons/call.png';
   static const tag = 'assets/icons/tag.png';
   static const joined = 'assets/icons/join.png';
   static const bags = 'assets/icons/bags.png';

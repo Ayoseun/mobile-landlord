@@ -1,7 +1,5 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../components/buttons.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_fonts.dart';
@@ -26,11 +24,15 @@ class _CreateRequestState extends State<CreateRequest> {
 
   List job = [];
 
-  var getUserData;
+  var fullName="";
+  var email="";
+    var phone="";
   getUser() async {
-    var userString = await showUser();
-
-    getUserData = Map<String, dynamic>.from(jsonDecode(userString));
+    var name = await showName();
+        var surname = await showSurname();
+ fullName="$name $surname";
+  email=await showEmail();
+  phone=await showPhone();
   }
 
   bool enabled = false;
@@ -148,11 +150,11 @@ class _CreateRequestState extends State<CreateRequest> {
                                                   data['email'] == "" ||
                                                   data['phone'] == "") {
                                                 data['fullName'] =
-                                                    "${getUserData['name']} ${getUserData['surname']}";
+                                                    fullName;
                                                 data['email'] =
-                                                    getUserData['email'];
+                                                    email;
                                                 data['phone'] =
-                                                    getUserData['phone'];
+                                                    phone;
                                               }
 
                                               print(data);
