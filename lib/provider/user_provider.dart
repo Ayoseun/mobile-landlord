@@ -31,7 +31,7 @@ class UserProvider extends ChangeNotifier {
   bool get fetchingHistory => _fetchingHistory;
 
   initUserData() {
-    getUserData();
+
     getAllHistory();
     //notifyListeners();
   }
@@ -62,25 +62,5 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  getUserData() async {
-    _isLoadingUser = true;
-    notifyListeners();
-    var userString = await showUser();
 
-    var getUser = Map<String, dynamic>.from(jsonDecode(userString));
-    Future.delayed(Duration(milliseconds: 200), () {
-      if (getUser.isEmpty) {
-        _user = {};
-        _isLoadingUser = false;
-
-        notifyListeners();
-      } else {
-        _user = getUser;
-        _isLoadingUser = false;
-        print(_user);
-        notifyListeners();
-      }
-      // Do something
-    });
-  }
 }

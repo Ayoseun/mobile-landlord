@@ -71,21 +71,25 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
-  getphoto() async {
+  getUserData() async {
     photo = await showSelfie();
+    email = await showEmail();
+    name = await showName();
+    surname = await showSurname();
+    fullname = "$name $surname";
+    setState(() {});
   }
 
-  exp()async {
+  exp() async {
     var isExpired =
         Provider.of<PropertyProvider>(context, listen: false).isExpired;
     if (isExpired) {
-     await saveToken("");
-     await savePropertyItem("");
-     await saveId("");
-     setState(() {
+      await saveToken("");
+      await savePropertyItem("");
+      await saveId("");
+      setState(() {
         Navigator.of(context).pushNamed(AppRoutes.loginScreen);
-     });
-      
+      });
     }
   }
 
@@ -93,7 +97,6 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-     
       Provider.of<UserProvider>(context, listen: false).initUserData();
       Provider.of<PropertyProvider>(context, listen: false).init();
       propertyData = allproperties;
@@ -101,10 +104,10 @@ class _DashboardState extends State<Dashboard> {
       Provider.of<RequestProvider>(context, listen: false).getAllRequest();
 
       Provider.of<WebSocketProvider>(context, listen: false).init();
-       exp();
+      exp();
       delayedOperation();
     });
-
+    getUserData();
     super.initState();
   }
 
@@ -194,7 +197,7 @@ class _DashboardState extends State<Dashboard> {
                                                         fontSize: 18),
                                               ),
                                               Text(
-                                                userData['name'] ?? "",
+                                               name,
                                                 style: AppFonts.bodyText
                                                     .copyWith(
                                                         color: Pallete
@@ -292,8 +295,6 @@ class _DashboardState extends State<Dashboard> {
                               (context, propertyProvider, requestProvider,
                                   child) {
                             allproperties = propertyProvider.property;
-
-                            
 
                             return Column(
                               children: [
