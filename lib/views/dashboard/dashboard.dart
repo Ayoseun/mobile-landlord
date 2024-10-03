@@ -77,6 +77,7 @@ class _DashboardState extends State<Dashboard> {
     name = await showName();
     surname = await showSurname();
     fullname = "$name $surname";
+    exp();
     setState(() {});
   }
 
@@ -87,15 +88,16 @@ class _DashboardState extends State<Dashboard> {
       await saveToken("");
       await savePropertyItem("");
       await saveId("");
-      setState(() {
+   
         Navigator.of(context).pushNamed(AppRoutes.loginScreen);
-      });
+      
     }
   }
 
   Map<String, dynamic> userData = {};
   @override
   void initState() {
+        getUserData();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<UserProvider>(context, listen: false).initUserData();
       Provider.of<PropertyProvider>(context, listen: false).init();
@@ -104,18 +106,19 @@ class _DashboardState extends State<Dashboard> {
       Provider.of<RequestProvider>(context, listen: false).getAllRequest();
 
       Provider.of<WebSocketProvider>(context, listen: false).init();
-      exp();
       delayedOperation();
     });
-    getUserData();
+
     super.initState();
   }
 
   delayedOperation() async {
     // Delay for 3 seconds
     await Future.delayed(Duration(seconds: 2));
+setState(() {
+      propertyData = allproperties;
+});
 
-    propertyData = allproperties;
   }
 
   var allproperties = [];

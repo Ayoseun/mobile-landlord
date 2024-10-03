@@ -5,6 +5,8 @@ import '../../constants/app_colors.dart';
 import '../../constants/app_fonts.dart';
 import '../../constants/app_images.dart';
 import '../../constants/app_routes.dart';
+import '../dashboard/dashboard.dart';
+import '../navbar/nav.dart';
 
 class LoadingHomeScreen extends StatefulWidget {
   const LoadingHomeScreen({Key? key}) : super(key: key);
@@ -31,8 +33,15 @@ class _LoadingHomeScreenState extends State<LoadingHomeScreen>
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut))
           ..addStatusListener((status) {
             if (status == AnimationStatus.completed) {
-            Navigator.of(context)
-                              .pushReplacementNamed(AppRoutes.dashboardScreen);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NavBar(
+                          initialScreen: const Dashboard(),
+                          initialTab: 0,
+                        )),
+                (route) => false,
+              );
             }
           });
 

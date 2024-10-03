@@ -10,7 +10,7 @@ import '../local_storage.dart';
 class LoginUtil {
   static Future<String> login(GlobalKey<FormState> formkey,
       BuildContext context, Map<String, dynamic> loginData) async {
-    var result;
+    var result="";
     await saveEmail(loginData['email']);
 
     if (formkey.currentState!.validate()) {

@@ -28,12 +28,28 @@ class _ProfileState extends State<Profile> {
 
   imgpika.XFile? image; //this is the state variable
   int tenantCount = 5;
+var selfie="";
+var about="";
+var fullName="";
+var createdAt="";
+  getData()async {
+  selfie= await showSelfie();
+  about= await showAbout();
+  var name = await showName();
+  createdAt= await showCreated();
+  var surname = await showSurname();
+  fullName = "$name $surname";
+  setState(() {
+    
+  });
+  }
 
-  String about = "";
   @override
   void initState() {
+   
     Provider.of<UserProvider>(context, listen: false).initUserData();
     Provider.of<PropertyProvider>(context, listen: false).allTenantSelfies();
+     getData();
     super.initState();
   }
 
@@ -44,14 +60,14 @@ class _ProfileState extends State<Profile> {
       backgroundColor: Pallete.whiteColor,
       body: SafeArea(
         child: SingleChildScrollView(child:
-            Consumer3<UserProvider, PropertyProvider, RequestProvider>(builder:
-                (context, userProvider, propertyProvider, requestProvider,
+            Consumer2< PropertyProvider, RequestProvider>(builder:
+                (context,propertyProvider, requestProvider,
                     child) {
           var totalProperty = propertyProvider.property.length;
           var totalRequest = requestProvider.request.length;
           var selfieUrls = propertyProvider.tenantSelfies;
           print(selfieUrls);
-          var userData = userProvider.user;
+       
           return Column(
             children: [
               Padding(
@@ -102,7 +118,7 @@ class _ProfileState extends State<Profile> {
                         padding: const EdgeInsets.all(2.0),
                         child: ClipOval(
                           child: Image.network(
-                            userData['selfie'],
+                            selfie,
                             fit: BoxFit.cover,
                             width: _getSize.width * 0.22,
                             height: _getSize.height * 0.1,
@@ -126,7 +142,7 @@ class _ProfileState extends State<Profile> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "${userData['name']} ${userData['surname']}",
+                   fullName,
                     style: AppFonts.boldText
                         .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
@@ -147,7 +163,7 @@ class _ProfileState extends State<Profile> {
                         width: 4,
                       ),
                       Text(
-                        formatTZDate(userData['createdAt']),
+                        formatTZDate(createdAt),
                         style: AppFonts.body1
                             .copyWith(color: Pallete.text, fontSize: 14),
                       )
@@ -226,7 +242,7 @@ class _ProfileState extends State<Profile> {
                                   child: Column(
                                     children: [
                                       Text(
-                                        userData['about'],
+                                      about,
                                         style: AppFonts.body1
                                             .copyWith(color: Pallete.text),
                                       ),

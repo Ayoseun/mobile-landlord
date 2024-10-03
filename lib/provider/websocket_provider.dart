@@ -22,12 +22,15 @@ class WebSocketProvider extends ChangeNotifier {
   WebSocketChannel get channel => _channel;
   bool get result => _result;
   void sendMessage(String message) {
+    print(message);
     _channel.sink.add(message);
   }
 
   init() async {
     var id = await showId();
     var accessToken = await showToken();
+    print(id);
+    print(accessToken);
     var wsUrl = '$WebsocketURL?id=$id';
     var headers = {
       'x-api-key': WebsocketAPIKEY,

@@ -36,6 +36,7 @@ class _ViewRequestState extends State<ViewRequest> {
 
   @override
   void initState() {
+    getData();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<WebSocketProvider>(context, listen: false).init();
       webSocketProvider =
@@ -577,14 +578,15 @@ class _ViewRequestState extends State<ViewRequest> {
                   height: _getSize.height * 0.045,
                 ),
                 requestData['from'] == "tenant" &&
-                        !requestData['isLandlordApproved']
+                        !requestData['isOwnerApproved']
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ButtonWithFuction(
                             text: 'Forward Request',
                             onPressed: () async {
-                              await saveToken(false);
+                              await saveWSSVerify(false);
                               requestData['from'] = "landlord-admin";
+                                   setState(() {});
                               Map<String, dynamic> data = {
                                 "target_id": "abja2024Admin",
                                 "message": jsonEncode(requestData),
@@ -595,7 +597,7 @@ class _ViewRequestState extends State<ViewRequest> {
                               AppUtils.showLoader(context);
                               webSocketProvider.sendMessage(jsonEncode(data));
                               await Future.delayed(Duration(seconds: 2));
-                              var m = await showToken();
+                              var m = await showWSSVerify();
                               setState(() {});
                               print(m);
                               Navigator.of(context).pop();

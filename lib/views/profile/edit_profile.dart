@@ -24,7 +24,7 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  var photo = 'https://picsum.photos/200';
+  var photo = 'https://i.pravatar.cc/300';
   final _updateFormKey = GlobalKey<FormState>();
   final Map<String, dynamic> _updateData = {
     "email": "",

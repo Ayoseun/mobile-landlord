@@ -201,7 +201,7 @@ class tabWithStatus extends StatelessWidget {
   final int items;
   final String text;
   List requestData;
-  var photo = 'https://picsum.photos/200';
+  var photo = 'https://i.pravatar.cc/300';
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -364,7 +364,7 @@ class tabTenant extends StatelessWidget {
   final Size _getSize;
   final int items;
   List requestData;
-  var photo = 'https://picsum.photos/200';
+  var photo = 'https://i.pravatar.cc/300';
   @override
   Widget build(BuildContext context) {
     return SizedBox(

@@ -6,55 +6,55 @@ late SharedPreferences s_prefs;
 
 saveAbout(about) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setString("about", about);
+  s_prefs.setString("l-about", about);
 }
 
 savePropertyItem(cartItems) async {
   s_prefs = await SharedPreferences.getInstance();
   String jsonString = jsonEncode(cartItems);
-  s_prefs.setString("propItem", jsonString);
+  s_prefs.setString("l-propItem", jsonString);
 }
 
 savePropertyName(name) async {
   s_prefs = await SharedPreferences.getInstance();
   String jsonString = jsonEncode(name);
-  s_prefs.setString("nameItem", jsonString);
+  s_prefs.setString("l-nameItem", jsonString);
 }
 
 saveName(name) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setString("name", name);
+  s_prefs.setString("l-name", name);
 }
 
 saveUserState(ustate) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setString("userstate", ustate);
+  s_prefs.setString("l-userstate", ustate);
 }
 
 saveSurname(surname) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setString("surname", surname);
+  s_prefs.setString("l-surname", surname);
 }
 
 saveCreatedAt(tm) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setString("created", tm);
+  s_prefs.setString("l-created", tm);
 }
 
 savePhone(cred) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setString("phone", cred);
+  s_prefs.setString("l-phone", cred);
 }
 
 saveUser(user) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setString("user", user);
+  s_prefs.setString("l-user", user);
 }
 
 showUser() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("user");
+  String? temp = s_prefs.getString("l-user");
 
   return temp;
 }
@@ -62,7 +62,7 @@ showUser() async {
 showSelfie() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("selfie");
+  String? temp = s_prefs.getString("l-selfie");
 
   return temp;
 }
@@ -70,46 +70,46 @@ showSelfie() async {
 showCreated() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("created");
+  String? temp = s_prefs.getString("l-created");
 
   return temp;
 }
 
 saveSelfie(ustate) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setString("selfie", ustate);
+  s_prefs.setString("l-selfie", ustate);
 }
 
 saveEmail(email) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setString("email", email);
+  s_prefs.setString("l-email", email);
 }
 
 saveWSSVerify(status) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setBool("verify", status);
+  s_prefs.setBool("l-verify", status);
 }
 
 saveToken(tk) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setString("token", tk);
+  s_prefs.setString("l-token", tk);
 }
 
 setSecured(secured) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setBool("secured", secured);
+  s_prefs.setBool("l-secured", secured);
 }
 
 saveId(id) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setString("id", id);
+  s_prefs.setString("l-id", id);
 }
 
 //SHOW SAVE DATA
 showUsername() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("username");
+  String? temp = s_prefs.getString("l-username");
 
   return temp;
 }
@@ -117,7 +117,7 @@ showUsername() async {
 showRef() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("token");
+  String? temp = s_prefs.getString("l-oken");
 
   return temp;
 }
@@ -125,7 +125,7 @@ showRef() async {
 showWSSVerify() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  bool? temp = s_prefs.getBool("verify");
+  bool? temp = s_prefs.getBool("l-verify");
 
   return temp;
 }
@@ -133,7 +133,7 @@ showWSSVerify() async {
 showEmail() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("email");
+  String? temp = s_prefs.getString("l-email");
 
   return temp;
 }
@@ -141,7 +141,7 @@ showEmail() async {
 showId() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("id");
+  String? temp = s_prefs.getString("l-id");
 
   return temp;
 }
@@ -149,7 +149,7 @@ showId() async {
 showPropertyItem() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("propItem");
+  String? temp = s_prefs.getString("l-propItem");
 
   return temp;
 }
@@ -157,7 +157,7 @@ showPropertyItem() async {
 showPropertyNameItem() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("nameItem");
+  String? temp = s_prefs.getString("l-nameItem");
 
   return temp;
 }
@@ -165,7 +165,7 @@ showPropertyNameItem() async {
 showToken() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("token");
+  String? temp = s_prefs.getString("l-token");
 
   return temp;
 }
@@ -173,7 +173,7 @@ showToken() async {
 showName() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("name");
+  String? temp = s_prefs.getString("l-name");
 
   return temp;
 }
@@ -181,7 +181,7 @@ showName() async {
 showAbout() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("about");
+  String? temp = s_prefs.getString("l-about");
 
   return temp;
 }
@@ -189,7 +189,7 @@ showAbout() async {
 showPhone() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("phone");
+  String? temp = s_prefs.getString("l-phone");
 
   return temp;
 }
@@ -197,7 +197,7 @@ showPhone() async {
 showState() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("userstate");
+  String? temp = s_prefs.getString("l-userstate");
 
   return temp;
 }
@@ -205,7 +205,7 @@ showState() async {
 showCity() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("city");
+  String? temp = s_prefs.getString("l-city");
 
   return temp;
 }
@@ -213,7 +213,7 @@ showCity() async {
 showSurname() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  String? temp = s_prefs.getString("surname");
+  String? temp = s_prefs.getString("l-surname");
 
   return temp;
 }
@@ -221,7 +221,7 @@ showSurname() async {
 isSecured() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  bool? temp = s_prefs.getBool("secured");
+  bool? temp = s_prefs.getBool("l-secured");
 
   return temp;
 }
@@ -237,25 +237,25 @@ clear() async {
 
 saveNotify(Poly) async {
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setInt("Poly", Poly);
+  s_prefs.setInt("l-Poly", Poly);
 }
 
 saveOnce(once) async {
   print(once);
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setInt("Once", once);
+  s_prefs.setInt("l-Once", once);
 }
 
 saveWssConnect(once) async {
   print(once);
   s_prefs = await SharedPreferences.getInstance();
-  s_prefs.setBool("active", once);
+  s_prefs.setBool("l-active", once);
 }
 
 showOnce() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  int? temp = s_prefs.getInt("Once");
+  int? temp = s_prefs.getInt("l-Once");
 
   temp ??= 0;
   print(temp);
@@ -265,7 +265,7 @@ showOnce() async {
 showWssConnect() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  bool? temp = s_prefs.getBool("active");
+  bool? temp = s_prefs.getBool("l-active");
 
   temp ??= false;
   print(temp);
@@ -275,21 +275,17 @@ showWssConnect() async {
 showNotify() async {
   s_prefs = await SharedPreferences.getInstance();
 
-  int? temp = s_prefs.getInt("Poly");
+  int? temp = s_prefs.getInt("l-Poly");
 
   return temp;
 }
 
 class Storage {
-  static Future balance(String Save) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('balance', Save);
-    // print('object');
-  }
+
 
   static Future<dynamic> getAlreadyAUser() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? value = prefs.getBool('alreadyAUser');
+    bool? value = prefs.getBool('l-alreadyAUser');
     return value;
   }
 
@@ -301,69 +297,13 @@ class Storage {
   static Future oneTime<int>() async {
     var once = 0;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('intValue', once);
+    prefs.setInt('l-intValue', once);
     if (once == 0) {
-      prefs.setInt('intValue', once);
+      prefs.setInt('l-intValue', once);
     } else {
       return once;
     }
   }
 
-  addDoubleToSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setDouble('doubleValue', 115.0);
-  }
 
-  static Future<dynamic> getToken() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token');
-    dynamic tokenMap = token == null ? 'null' : jsonDecode(token) as dynamic;
-    return tokenMap;
-  }
-
-  static Future<bool> setToken(dynamic token) async {
-    var commit = false;
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('token', jsonEncode(token));
-    commit = true;
-    return commit;
-  }
-
-  static void removeToken() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('token');
-  }
-
-  addBoolToSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('boolValue', true);
-  }
-
-  static getBalance() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return String
-    String? stringValue = prefs.getString('balance');
-    return stringValue!;
-  }
-
-  getBoolValuesSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return bool
-    bool? boolValue = prefs.getBool('boolValue');
-    return boolValue;
-  }
-
-  getIntValuesSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return int
-    int? intValue = prefs.getInt('intValue');
-    return intValue;
-  }
-
-  getDoubleValuesSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return double
-    double? doubleValue = prefs.getDouble('doubleValue');
-    return doubleValue;
-  }
 }

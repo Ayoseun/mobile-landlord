@@ -9,7 +9,7 @@ String BaseURL = dotenv.env['PROD_URL']!;
 String getCurrency() {
   return '₦'; // Unicode character for Naira symbol
 }
- var photoHolder = 'https://picsum.photos/200';
+ var photoHolder = 'https://i.pravatar.cc/300';
 String WebsocketURL=dotenv.env['WSS_URL']!;
 String APIKEY = dotenv.env['API_KEY']!; 
 String WebsocketAPIKEY =dotenv.env["WEBSOCKET_API_KEY"]!;

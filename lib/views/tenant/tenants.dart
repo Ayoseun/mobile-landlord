@@ -48,8 +48,7 @@ class _TenantsState extends State<Tenants> {
     var res = await PropertyAPI.getPropertyTenants(propID);
 
     List gotTenants = res['data'];
-    print(gotTenants);
-    print("here");
+
     if (gotTenants.isNotEmpty) {
       setState(() {
         pid = propID;
@@ -151,7 +150,7 @@ class _TenantsState extends State<Tenants> {
                         },
                         height: _getSize.height * 0.03,
                         buttonMargin: EdgeInsets.symmetric(
-                            horizontal: _getSize.height * 0.025),
+                            horizontal: _getSize.height * 0.006),
                         borderWidth: 0.5,
                         borderColor: Pallete.primaryColor,
                         backgroundColor: Pallete.primaryColor,
@@ -160,6 +159,7 @@ class _TenantsState extends State<Tenants> {
                         unselectedLabelStyle:
                             const TextStyle(color: Colors.black),
                         labelStyle: const TextStyle(
+                          overflow: TextOverflow.clip,
                             color: Colors.white, fontWeight: FontWeight.bold),
                         tabs: buildTabs(),
                       ),
