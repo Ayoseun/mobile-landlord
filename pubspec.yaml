@@ -64,6 +64,7 @@ dependencies:
   intl_phone_field: ^3.2.0
   web_socket_channel: ^2.4.0
   flutter_phone_direct_caller: ^2.1.1
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:

@@ -13,8 +13,10 @@ import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_fonts.dart';
 import '../../constants/app_routes.dart';
+import '../../network/auth.dart';
 import '../../provider/request_provider.dart';
 import '../../utils/app_utils.dart';
+import '../../utils/auth_utils/token_util.dart';
 import '../../utils/local_storage.dart';
 import 'tab_contents/content.dart';
 import 'utils/filter_properties.dart';
@@ -28,9 +30,14 @@ class Property extends StatefulWidget {
 
 class _PropertyState extends State<Property> {
   int _tabIndex = 0;
-
+  validateToken() async {
+    await UserUtil().validateToken(context);
+    setState(() {});
+    
+  }
   @override
   void initState() {
+    validateToken();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<PropertyProvider>(context, listen: false).init();
       Provider.of<RequestProvider>(context, listen: false).getAllRequest();

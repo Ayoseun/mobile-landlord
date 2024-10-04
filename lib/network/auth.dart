@@ -154,4 +154,25 @@ class AuthAPI {
 
     return parsedResponse;
   }
+
+     Future<bool> checkToken() async {
+    var accessToken = await showToken();
+    var response = await http.get(
+      Uri.parse('$BaseURL/validate/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'x-api-key': APIKEY,
+        'authorization': 'Bearer $accessToken'
+      },
+    );
+
+    var parsedResponse = jsonDecode(response.body);
+    if (parsedResponse["statusCode"] == 200) {
+      print(parsedResponse);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

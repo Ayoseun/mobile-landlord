@@ -16,8 +16,10 @@ import '../../constants/app_fonts.dart';
 import '../../constants/app_images.dart';
 import '../../constants/app_routes.dart';
 
+import '../../network/auth.dart';
 import '../../provider/websocket_provider.dart';
 import '../../utils/app_utils.dart';
+import '../../utils/auth_utils/token_util.dart';
 import '../../utils/local_storage.dart';
 import '../../utils/location.dart';
 import '../../utils/permissions.dart';
@@ -77,27 +79,19 @@ class _DashboardState extends State<Dashboard> {
     name = await showName();
     surname = await showSurname();
     fullname = "$name $surname";
-    exp();
+
     setState(() {});
   }
 
-  exp() async {
-    var isExpired =
-        Provider.of<PropertyProvider>(context, listen: false).isExpired;
-    if (isExpired) {
-      await saveToken("");
-      await savePropertyItem("");
-      await saveId("");
-   
-        Navigator.of(context).pushNamed(AppRoutes.loginScreen);
-      
-    }
+  validateToken() async {
+    await UserUtil().validateToken(context);
+    setState(() {});
   }
 
   Map<String, dynamic> userData = {};
   @override
   void initState() {
-        getUserData();
+    getUserData();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<UserProvider>(context, listen: false).initUserData();
       Provider.of<PropertyProvider>(context, listen: false).init();
@@ -115,10 +109,10 @@ class _DashboardState extends State<Dashboard> {
   delayedOperation() async {
     // Delay for 3 seconds
     await Future.delayed(Duration(seconds: 2));
-setState(() {
+    setState(() {
       propertyData = allproperties;
-});
-
+      validateToken();
+    });
   }
 
   var allproperties = [];
@@ -200,7 +194,7 @@ setState(() {
                                                         fontSize: 18),
                                               ),
                                               Text(
-                                               name,
+                                                name,
                                                 style: AppFonts.bodyText
                                                     .copyWith(
                                                         color: Pallete

@@ -8,7 +8,9 @@ import '../../constants/app_colors.dart';
 import '../../constants/app_fonts.dart';
 import '../../constants/app_images.dart';
 import '../../constants/app_routes.dart';
+import '../../network/auth.dart';
 import '../../provider/request_provider.dart';
+import '../../utils/auth_utils/token_util.dart';
 import 'widget/requestitems.dart';
 
 class RequestScreen extends StatefulWidget {
@@ -23,11 +25,16 @@ class _RequestScreenState extends State<RequestScreen> {
   int _tabIndex = 0;
   bool loaded = false;
   List request = [];
+  validateToken() async {
+    await UserUtil().validateToken(context);
 
+    
+  }
   @override
   void initState() {
     loaded = true;
     request;
+    validateToken();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<RequestProvider>(context, listen: false).getAllRequest();
     });
@@ -364,6 +371,7 @@ class tabTenant extends StatelessWidget {
   final Size _getSize;
   final int items;
   List requestData;
+  
   var photo = 'https://i.pravatar.cc/300';
   @override
   Widget build(BuildContext context) {

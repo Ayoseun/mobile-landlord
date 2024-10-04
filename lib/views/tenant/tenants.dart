@@ -10,6 +10,7 @@ import '../../constants/app_fonts.dart';
 import '../../constants/app_images.dart';
 import '../../constants/app_routes.dart';
 import '../../network/property.dart';
+import '../../utils/auth_utils/token_util.dart';
 import '../navbar/nav.dart';
 import '../property/property.dart';
 
@@ -63,10 +64,15 @@ class _TenantsState extends State<Tenants> {
       });
     }
   }
-
+  validateToken() async {
+    await UserUtil().validateToken(context);
+    setState(() {});
+    
+  }
   @override
   void initState() {
     super.initState();
+    validateToken();
     getPropertyNameItems();
   }
 

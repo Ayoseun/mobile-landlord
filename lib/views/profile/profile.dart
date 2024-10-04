@@ -14,6 +14,7 @@ import '../../constants/app_colors.dart';
 import '../../constants/app_fonts.dart';
 import '../../constants/app_images.dart';
 import '../../constants/app_routes.dart';
+import '../../utils/auth_utils/token_util.dart';
 import '../request/time_formatter.dart';
 
 class Profile extends StatefulWidget {
@@ -28,28 +29,30 @@ class _ProfileState extends State<Profile> {
 
   imgpika.XFile? image; //this is the state variable
   int tenantCount = 5;
-var selfie="";
-var about="";
-var fullName="";
-var createdAt="";
-  getData()async {
-  selfie= await showSelfie();
-  about= await showAbout();
-  var name = await showName();
-  createdAt= await showCreated();
-  var surname = await showSurname();
-  fullName = "$name $surname";
-  setState(() {
-    
-  });
+  var selfie = "";
+  var about = "";
+  var fullName = "";
+  var createdAt = "";
+  getData() async {
+    selfie = await showSelfie();
+    about = await showAbout();
+    var name = await showName();
+    createdAt = await showCreated();
+    var surname = await showSurname();
+    fullName = "$name $surname";
+    setState(() {});
   }
-
+  validateToken() async {
+    await UserUtil().validateToken(context);
+    setState(() {});
+    
+  }
   @override
   void initState() {
-   
+    validateToken();
     Provider.of<UserProvider>(context, listen: false).initUserData();
     Provider.of<PropertyProvider>(context, listen: false).allTenantSelfies();
-     getData();
+    getData();
     super.initState();
   }
 
@@ -60,14 +63,13 @@ var createdAt="";
       backgroundColor: Pallete.whiteColor,
       body: SafeArea(
         child: SingleChildScrollView(child:
-            Consumer2< PropertyProvider, RequestProvider>(builder:
-                (context,propertyProvider, requestProvider,
-                    child) {
+            Consumer2<PropertyProvider, RequestProvider>(
+                builder: (context, propertyProvider, requestProvider, child) {
           var totalProperty = propertyProvider.property.length;
           var totalRequest = requestProvider.request.length;
           var selfieUrls = propertyProvider.tenantSelfies;
           print(selfieUrls);
-       
+
           return Column(
             children: [
               Padding(
@@ -142,7 +144,7 @@ var createdAt="";
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                   fullName,
+                    fullName,
                     style: AppFonts.boldText
                         .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
@@ -242,7 +244,7 @@ var createdAt="";
                                   child: Column(
                                     children: [
                                       Text(
-                                      about,
+                                        about,
                                         style: AppFonts.body1
                                             .copyWith(color: Pallete.text),
                                       ),
@@ -275,11 +277,12 @@ var createdAt="";
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600),
-                                                        totalCount:
-                                                            selfieUrls.length, // If larger than images.length, will show extra empty circle
+                                                        totalCount: selfieUrls
+                                                            .length, // If larger than images.length, will show extra empty circle
                                                         imageRadius:
                                                             45, // Radius of each images
-                                                        imageCount: selfieUrls.length >
+                                                        imageCount: selfieUrls
+                                                                    .length >
                                                                 3
                                                             ? 3
                                                             : tenantCount, // Maximum number of images to be shown in stack

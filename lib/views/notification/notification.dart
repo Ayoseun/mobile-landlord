@@ -10,6 +10,7 @@ import '../../constants/app_colors.dart';
 import '../../constants/app_fonts.dart';
 import '../../constants/app_images.dart';
 import '../../provider/user_provider.dart';
+import '../../utils/auth_utils/token_util.dart';
 import '../request/widget/requestitems.dart';
 import 'tab_content/property.dart';
 
@@ -23,9 +24,14 @@ class NotificationScreen extends StatefulWidget {
 class _NotificationScreenState extends State<NotificationScreen> {
   bool isLoaded = false;
   late UserProvider userProvider;
-
+  validateToken() async {
+    await UserUtil().validateToken(context);
+    setState(() {});
+    
+  }
   @override
   void initState() {
+    validateToken();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<UserProvider>(context, listen: false).getAllHistory();
     });
